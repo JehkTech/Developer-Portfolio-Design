@@ -2,7 +2,7 @@ import { Card } from "./ui/card";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
-import { Mail, MapPin, Phone, Github, Linkedin, Twitter } from "lucide-react";
+import { Mail, MapPin, Phone, Github, Linkedin, Twitter, Instagram } from "lucide-react";
 import { toast } from "sonner@2.0.3";
 
 export function ContactSection() {
@@ -12,8 +12,8 @@ export function ContactSection() {
   };
 
   const copyEmail = () => {
-    navigator.clipboard.writeText("your.email@example.com");
-    toast.success("Email copied to clipboard!");
+    navigator.clipboard.writeText("jeh@jetech.dev");
+    toast.success("Email copied to clipboard! ⚡");
   };
 
   return (
@@ -22,10 +22,10 @@ export function ContactSection() {
       
       <div className="relative z-10 max-w-6xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-white text-4xl md:text-5xl mb-4">Let's Work Together</h2>
-          <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-            Ready to bring your ideas to life? Let's discuss your next project 
-            and create something amazing together.
+          <h2 className="text-white text-4xl md:text-5xl mb-4">Let's Manifest Something Amazing</h2>
+          <p className="text-gray-400 text-lg max-w-3xl mx-auto">
+            Ready to merge technology with spiritual wisdom? Whether it's Lightning Network integration, 
+            DeFi protocols, or trading systems - let's focus our energy and create abundance together! ⚡✨
           </p>
         </div>
         
@@ -46,7 +46,7 @@ export function ContactSection() {
                       onClick={copyEmail}
                       className="text-white hover:text-purple-400 transition-colors"
                     >
-                      your.email@example.com
+                      jeh@jetech.dev
                     </button>
                   </div>
                 </div>
@@ -76,16 +76,41 @@ export function ContactSection() {
             {/* Social Links */}
             <Card className="bg-gradient-to-br from-slate-800/50 to-gray-900/50 backdrop-blur-sm border border-gray-700/50 p-6">
               <h3 className="text-white text-xl mb-4">Connect with me</h3>
-              <div className="flex gap-4">
-                <button className="w-12 h-12 bg-gray-800/50 hover:bg-purple-600/20 rounded-full flex items-center justify-center transition-colors">
+              <div className="grid grid-cols-2 gap-4">
+                <a 
+                  href="https://github.com/JehkTech" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="w-12 h-12 bg-gray-800/50 hover:bg-purple-600/20 rounded-full flex items-center justify-center transition-colors mx-auto"
+                >
                   <Github className="h-6 w-6 text-gray-400 hover:text-white" />
-                </button>
-                <button className="w-12 h-12 bg-gray-800/50 hover:bg-blue-600/20 rounded-full flex items-center justify-center transition-colors">
+                </a>
+                <a 
+                  href="https://linkedin.com/in/jeh" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="w-12 h-12 bg-gray-800/50 hover:bg-blue-600/20 rounded-full flex items-center justify-center transition-colors mx-auto"
+                >
                   <Linkedin className="h-6 w-6 text-gray-400 hover:text-white" />
-                </button>
-                <button className="w-12 h-12 bg-gray-800/50 hover:bg-blue-400/20 rounded-full flex items-center justify-center transition-colors">
-                  <Twitter className="h-6 w-6 text-gray-400 hover:text-white" />
-                </button>
+                </a>
+                <a 
+                  href="https://instagram.com/jeh.tech" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="w-12 h-12 bg-gray-800/50 hover:bg-pink-600/20 rounded-full flex items-center justify-center transition-colors mx-auto"
+                >
+                  <Instagram className="h-6 w-6 text-gray-400 hover:text-white" />
+                </a>
+                <a 
+                  href="https://reddit.com/u/JehTech" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="w-12 h-12 bg-gray-800/50 hover:bg-orange-600/20 rounded-full flex items-center justify-center transition-colors mx-auto"
+                >
+                  <div className="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center">
+                    <span className="text-white text-xs font-bold">R</span>
+                  </div>
+                </a>
               </div>
             </Card>
           </div>

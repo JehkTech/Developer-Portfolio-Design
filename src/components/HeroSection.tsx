@@ -27,10 +27,16 @@ export function HeroSection() {
           </span>
         </h1>
         
-        <p className="text-gray-300 text-lg md:text-xl mb-8 max-w-2xl mx-auto">
-          Hi! I'm a Full-Stack Developer with expertise in Python, JavaScript, and UI/UX Design, 
-          passionate about creating efficient and user-friendly applications.
+        <p className="text-gray-300 text-lg md:text-xl mb-6 max-w-2xl mx-auto">
+          Hi! I'm Jeh, a Full-Stack Developer with expertise in Python, JavaScript, UI/UX Design, 
+          Lightning & Bitcoin Development using Rust and Solidity. 
         </p>
+        
+        <div className="bg-gradient-to-r from-amber-500/20 to-orange-500/20 backdrop-blur-sm border border-amber-500/30 rounded-full px-6 py-3 mb-8 inline-block">
+          <p className="text-amber-300 text-sm">
+            ⚡ Trader with 2 years of experience • Request appointment for more!
+          </p>
+        </div>
         
         <Button 
           className="bg-transparent border border-gray-600 text-white hover:bg-white/10 px-8 py-6 rounded-full"
@@ -40,11 +46,22 @@ export function HeroSection() {
         </Button>
       </div>
       
-      {/* Floating elements */}
-      <div className="absolute bottom-20 left-20 hidden lg:block">
+      {/* Floating elements with Tesla numbers */}
+      <div className="absolute bottom-20 left-20 hidden lg:block animate-pulse">
         <div className="bg-gradient-to-br from-purple-600/20 to-pink-600/20 backdrop-blur-sm border border-purple-500/30 rounded-2xl p-6 max-w-sm">
-          <h3 className="text-white text-lg mb-2">I'm very flexible with time</h3>
-          <p className="text-gray-300 text-sm">zone communications & work with teams all around the world.</p>
+          <div className="flex items-center gap-2 mb-2">
+            <span className="text-blue-400 font-bold">3</span>
+            <span className="text-purple-400 font-bold">6</span>
+            <span className="text-pink-400 font-bold">9</span>
+            <span className="text-white text-lg">Tesla's Sacred Numbers</span>
+          </div>
+          <p className="text-gray-300 text-sm">Integrating universal frequencies into modern technology solutions.</p>
+        </div>
+      </div>
+      
+      <div className="absolute bottom-32 right-16 hidden lg:block animate-bounce">
+        <div className="bg-gradient-to-br from-amber-600/20 to-yellow-600/20 backdrop-blur-sm border border-amber-500/30 rounded-2xl p-4 max-w-xs">
+          <p className="text-amber-300 text-sm">✨ Quantum manifestation through code</p>
         </div>
       </div>
     </section>

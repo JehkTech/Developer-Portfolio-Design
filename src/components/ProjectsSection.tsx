@@ -4,32 +4,58 @@ import { ExternalLink, Github } from "lucide-react";
 
 const projects = [
   {
-    title: "Mamastops Cargo-Truck Marketplace",
-    description: "Complete UI/UX design for a cargo-truck marketplace platform including user journey design, administrative dashboard, and service integrations.",
-    tech: ["Figma", "UI/UX Design", "User Research", "Prototyping"],
-    image: "figma design project",
-    type: "Design Project"
+    title: "Trading Journal & Analytics Platform",
+    description: "Full-stack trading journal with real-time portfolio tracking, performance analytics, and risk management tools. Features Tesla's 3-6-9 sacred geometry in chart patterns.",
+    tech: ["React", "Node.js", "PostgreSQL", "Chart.js", "WebSocket"],
+    image: "trading dashboard",
+    type: "Full-Stack • Trading",
+    github: "https://github.com/JehkTech/trading-journal",
+    live: "#"
   },
   {
-    title: "Financial Platform Integration",
-    description: "Contributed to critical business applications interfacing with government revenue collection systems at Probase Ltd.",
-    tech: ["Python", "System Integration", "API Development", "Testing"],
-    image: "financial system",
-    type: "Full-Stack Development"
+    title: "Lightning Network Payment Gateway",
+    description: "High-performance Lightning Network payment processor built with Rust. Enables instant Bitcoin microtransactions with minimal fees for web applications.",
+    tech: ["Rust", "Lightning", "Bitcoin", "WebAssembly", "gRPC"],
+    image: "lightning network",
+    type: "Blockchain • Lightning",
+    github: "https://github.com/JehkTech/lightning-gateway",
+    live: "#"
   },
   {
-    title: "Python Education Platform",
-    description: "Developed curriculum and taught Python programming bootcamp for junior developers, focusing on practical application and best practices.",
-    tech: ["Python", "Education", "Curriculum Design", "Mentoring"],
-    image: "education coding",
-    type: "Education & Training"
+    title: "DeFi Smart Contracts Suite",
+    description: "Comprehensive DeFi protocol with yield farming, staking, and governance features. Implements quantum healing frequencies in tokenomics design.",
+    tech: ["Solidity", "Hardhat", "OpenZeppelin", "Chainlink", "IPFS"],
+    image: "defi protocol",
+    type: "Smart Contracts • DeFi",
+    github: "https://github.com/JehkTech/defi-suite",
+    live: "#"
   },
   {
-    title: "Responsive Web Applications",
-    description: "Built and enhanced multiple web applications with focus on responsive design, user experience, and cross-browser compatibility.",
-    tech: ["JavaScript", "HTML/CSS", "Responsive Design", "Testing"],
-    image: "web development",
-    type: "Frontend Development"
+    title: "Quantum Manifestation App",
+    description: "Mobile app combining Grabovoi codes, Tesla frequencies, and meditation timers. Built with Elixir backend for real-time synchronization.",
+    tech: ["React Native", "Elixir", "Phoenix", "PostgreSQL", "WebRTC"],
+    image: "manifestation app",
+    type: "Mobile • Spiritual Tech",
+    github: "https://github.com/JehkTech/quantum-manifest",
+    live: "#"
+  },
+  {
+    title: "Cargo-Truck Marketplace UI/UX",
+    description: "Complete design system for logistics platform with driver matching, route optimization, and real-time tracking. Incorporates sacred geometry in interface design.",
+    tech: ["Figma", "Design System", "Prototyping", "User Research"],
+    image: "logistics design",
+    type: "UI/UX Design",
+    github: "https://github.com/JehkTech/cargo-marketplace-ui",
+    live: "#"
+  },
+  {
+    title: "Frequency Healing Web App",
+    description: "Web application for sound therapy using specific frequencies for chakra alignment and manifestation. Features binaural beats generator.",
+    tech: ["TypeScript", "Web Audio API", "React", "Tailwind CSS"],
+    image: "sound therapy",
+    type: "Web App • Healing",
+    github: "https://github.com/JehkTech/frequency-healer",
+    live: "#"
   }
 ];
 
@@ -41,13 +67,14 @@ export function ProjectsSection() {
       <div className="relative z-10 max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-white text-4xl md:text-5xl mb-4">Featured Projects</h2>
-          <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-            A showcase of my work spanning full-stack development, UI/UX design, 
-            and technical education across various industries.
+          <p className="text-gray-400 text-lg max-w-3xl mx-auto">
+            A showcase of my work spanning Lightning & Bitcoin development, DeFi protocols, 
+            trading systems, and spiritual technology applications. Each project integrates 
+            sacred geometry and quantum principles.
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {projects.map((project, index) => (
             <Card key={index} className="bg-gradient-to-br from-slate-800/50 to-gray-900/50 backdrop-blur-sm border border-gray-700/50 overflow-hidden hover:scale-105 transition-transform duration-300">
               <div className="h-48 bg-gradient-to-br from-purple-600/20 to-blue-600/20 flex items-center justify-center">
@@ -63,12 +90,12 @@ export function ProjectsSection() {
                     {project.type}
                   </Badge>
                   <div className="flex gap-2">
-                    <button className="text-gray-400 hover:text-white transition-colors">
+                    <a href={project.live} className="text-gray-400 hover:text-white transition-colors">
                       <ExternalLink className="h-5 w-5" />
-                    </button>
-                    <button className="text-gray-400 hover:text-white transition-colors">
+                    </a>
+                    <a href={project.github} className="text-gray-400 hover:text-white transition-colors">
                       <Github className="h-5 w-5" />
-                    </button>
+                    </a>
                   </div>
                 </div>
                 

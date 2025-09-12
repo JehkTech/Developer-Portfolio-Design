@@ -47,10 +47,10 @@ export function ExperienceSection() {
       
       <div className="relative z-10 max-w-6xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-white text-4xl md:text-5xl mb-4">My work experience</h2>
-          <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-            Building innovative solutions and growing expertise across full-stack development, 
-            UI/UX design, and technical leadership.
+          <h2 className="text-white text-4xl md:text-5xl mb-4">Professional Journey</h2>
+          <p className="text-gray-400 text-lg max-w-3xl mx-auto">
+            My path through the tech industry, from early web development to blockchain innovation, 
+            while integrating spiritual principles and sacred geometry into technical solutions.
           </p>
         </div>
         

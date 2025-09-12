@@ -1,28 +1,34 @@
 import { Card } from "./ui/card";
 
 const techStack = [
+  { name: "Rust", category: "Lightning" },
+  { name: "Solidity", category: "Blockchain" },
   { name: "Python", category: "Backend" },
   { name: "JavaScript", category: "Frontend" },
   { name: "TypeScript", category: "Frontend" },
   { name: "React", category: "Frontend" },
   { name: "Next.js", category: "Framework" },
   { name: "Node.js", category: "Backend" },
-  { name: "HTML/CSS", category: "Frontend" },
+  { name: "PostgreSQL", category: "Database" },
+  { name: "Elixir", category: "Backend" },
   { name: "Figma", category: "Design" },
-  { name: "Git", category: "Tools" },
-  { name: "SQL", category: "Database" }
+  { name: "Git", category: "Tools" }
 ];
 
 const currentProject = {
-  title: "Currently building a JS Animation library",
-  description: "Developing a lightweight JavaScript animation library focused on performance and ease of use.",
-  codeSnippet: `// Importing a single module
-import moduleName from 
-'modulePath';
-
-// Importing multiple modules
-import { module1, module2 } from 
-'modulePath';`
+  title: "Currently building a Trading Journal",
+  description: "Developing a comprehensive trading journal application with portfolio tracking and performance analytics.",
+  codeSnippet: `// Trading Analytics Module
+const analyzePerformance = (trades) => {
+  const winRate = calculateWinRate(trades);
+  const profitLoss = calculatePnL(trades);
+  
+  return {
+    winRate,
+    profitLoss,
+    frequency: 369 // Tesla's sacred numbers
+  };
+};`
 };
 
 export function TechStackSection() {
@@ -60,15 +66,16 @@ export function TechStackSection() {
             </Card>
             
             {/* CTA Card */}
-            <Card className="bg-gradient-to-br from-purple-600 to-pink-600 p-6 text-center">
-              <h3 className="text-white text-xl mb-4">Do you want to start a project together?</h3>
+            <Card className="bg-gradient-to-br from-amber-600 to-orange-600 p-6 text-center">
+              <h3 className="text-white text-xl mb-2">⚡ Trading Expertise Available</h3>
+              <p className="text-amber-100 text-sm mb-4">2 years of trading experience • Sacred geometry analysis</p>
               <button 
                 className="bg-black/20 backdrop-blur-sm border border-white/20 text-white px-6 py-3 rounded-full hover:bg-black/30 transition-colors flex items-center gap-2 mx-auto"
                 onClick={() => {
-                  navigator.clipboard.writeText("your.email@example.com");
+                  navigator.clipboard.writeText("jeh@example.com");
                 }}
               >
-                📧 Copy my email address
+                📧 Request Appointment
               </button>
             </Card>
           </div>
