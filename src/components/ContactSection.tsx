@@ -12,7 +12,7 @@ export function ContactSection() {
   };
 
   const copyEmail = () => {
-    navigator.clipboard.writeText("jeh@jetech.dev");
+    navigator.clipboard.writeText("jeh@jehktech.dev");
     toast.success("Email copied to clipboard! ⚡");
   };
 
@@ -46,7 +46,7 @@ export function ContactSection() {
                       onClick={copyEmail}
                       className="text-white hover:text-purple-400 transition-colors"
                     >
-                      jeh@jetech.dev
+                      jeh@jehktech.dev
                     </button>
                   </div>
                 </div>
@@ -86,7 +86,7 @@ export function ContactSection() {
                   <Github className="h-6 w-6 text-gray-400 hover:text-white" />
                 </a>
                 <a 
-                  href="https://linkedin.com/in/jeh" 
+                  href="https://www.linkedin.com/in/jkatemangwe/" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="w-12 h-12 bg-gray-800/50 hover:bg-blue-600/20 rounded-full flex items-center justify-center transition-colors mx-auto"
@@ -94,7 +94,7 @@ export function ContactSection() {
                   <Linkedin className="h-6 w-6 text-gray-400 hover:text-white" />
                 </a>
                 <a 
-                  href="https://instagram.com/jeh.tech" 
+                  href="https://instagram.com/_jeh.k" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="w-12 h-12 bg-gray-800/50 hover:bg-pink-600/20 rounded-full flex items-center justify-center transition-colors mx-auto"
@@ -102,7 +102,7 @@ export function ContactSection() {
                   <Instagram className="h-6 w-6 text-gray-400 hover:text-white" />
                 </a>
                 <a 
-                  href="https://reddit.com/u/JehTech" 
+                  href="https://reddit.com/u/JehkTech" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="w-12 h-12 bg-gray-800/50 hover:bg-orange-600/20 rounded-full flex items-center justify-center transition-colors mx-auto"
