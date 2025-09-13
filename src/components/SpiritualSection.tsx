@@ -17,7 +17,11 @@ const spiritualInsights = [
   "Frequency: Align your frequency with your DR (Aim for Love - Peace - Joy)",
   "Act as if you're that person • Speak as if you're that person • Walk as if you're that person",
   "When you want to create something just do one thing and that's focus on it everyday",
-  "Whatever you focus on, you energize into existence"
+  "Whatever you focus on, you energize into existence",
+  "Circumstances dont matter (The 3D Ain't Shit)",
+  "Take Accountability and Responsibility",
+  "You always, always! Have the choice of what to think",
+  
 ];
 
 export function SpiritualSection() {
@@ -87,6 +91,18 @@ export function SpiritualSection() {
                   "If you want to find the secrets of the universe, think in terms of energy, frequency and vibration." - Tesla
                 </p>
               </div>
+
+              <div className="border-t border-blue-500/30 pt-4">
+                <p className="text-gray-300 italic text-sm">
+                  "Whatever the mind of man can imagine, man can realise." - Neville Goddard
+                </p>
+              </div>
+
+              <div className="border-t border-blue-500/30 pt-4 ">
+                <p className="text-gray-300 italic text-xl">
+                  Quid Est Veritas?
+                </p>
+              </div>
             </div>
           </Card>
           
@@ -118,7 +134,7 @@ export function SpiritualSection() {
         </div>
         
         {/* Spiritual Insights */}
-        <Card className="bg-gradient-to-br from-purple-900/50 to-pink-900/50 backdrop-blur-sm border border-purple-500/30 p-8">
+        <Card className="bg-gradient-to-br from-purple-900/50 to-blue-900/50 backdrop-blur-sm border border-purple-500/30 p-8">
           <div className="flex items-center gap-3 mb-8 justify-center">
             <Heart className="h-8 w-8 text-pink-400" />
             <h3 className="text-white text-2xl text-center">Manifestation Principles</h3>
