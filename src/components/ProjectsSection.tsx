@@ -9,7 +9,7 @@ const projects = [
     tech: ["React", "Node.js", "PostgreSQL", "Chart.js", "WebSocket"],
     image: "trading dashboard",
     type: "Full-Stack • Trading",
-    github: "https://github.com/JehkTech/trading-journal",
+    github: "https://github.com/JehkTech/r0tk_journal",
     live: "#"
   },
   {
@@ -30,22 +30,22 @@ const projects = [
     github: "https://github.com/JehkTech/defi-suite",
     live: "#"
   },
-  {
-    title: "Quantum Manifestation App",
-    description: "Mobile app combining Grabovoi codes, Tesla frequencies, and meditation timers. Built with Elixir backend for real-time synchronization.",
-    tech: ["React Native", "Elixir", "Phoenix", "PostgreSQL", "WebRTC"],
-    image: "manifestation app",
-    type: "Mobile • Spiritual Tech",
-    github: "https://github.com/JehkTech/quantum-manifest",
-    live: "#"
-  },
+  // {
+  //   title: "Quantum Manifestation App",
+  //   description: "Mobile app combining Grabovoi codes, Tesla frequencies, and meditation timers. Built with Elixir backend for real-time synchronization.",
+  //   tech: ["React Native", "Elixir", "Phoenix", "PostgreSQL", "WebRTC"],
+  //   image: "manifestation app",
+  //   type: "Mobile • Spiritual Tech",
+  //   github: "https://github.com/JehkTech/quantum-manifest",
+  //   live: "#"
+  // },
   {
     title: "Cargo-Truck Marketplace UI/UX",
     description: "Complete design system for logistics platform with driver matching, route optimization, and real-time tracking. Incorporates sacred geometry in interface design.",
     tech: ["Figma", "Design System", "Prototyping", "User Research"],
     image: "logistics design",
     type: "UI/UX Design",
-    github: "https://github.com/JehkTech/cargo-marketplace-ui",
+    github: "https://github.com/JehkTech/Mamastops-Cargo-Truck-Marketplace",
     live: "#"
   },
   {
