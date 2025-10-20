@@ -46,7 +46,7 @@ export function ContactSection() {
                       onClick={copyEmail}
                       className="text-white hover:text-purple-400 transition-colors"
                     >
-                      jeh@jehktech.dev
+                      jehoiachinkatemangwe1@gmail.com
                     </button>
                   </div>
                 </div>
