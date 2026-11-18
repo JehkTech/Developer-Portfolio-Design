@@ -1,168 +1,305 @@
-import { Card } from "./ui/card";
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
-import { Textarea } from "./ui/textarea";
-import { Mail, MapPin, Phone, Github, Linkedin, Twitter, Instagram } from "lucide-react";
-import { toast } from "sonner@2.0.3";
+import { useState } from "react";
+import {
+  CheckCircle2,
+  Copy,
+  Github,
+  Instagram,
+  Linkedin,
+  Mail,
+  MapPin,
+  Phone,
+} from "lucide-react";
+import { toast } from "sonner";
+import { PORTFOLIO_EMAIL } from "../data/portfolioData";
+import {
+  validateContactForm,
+  type ContactFormErrors,
+} from "../three/portfolioGraph";
 
 export function ContactSection() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [subject, setSubject] = useState("");
+  const [message, setMessage] = useState("");
+  const [errors, setErrors] = useState<ContactFormErrors>({});
+  const [submitted, setSubmitted] = useState(false);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    toast.success("Message sent successfully! I'll get back to you soon.");
+    const result = validateContactForm({ name, email, subject, message });
+    setErrors(result.errors);
+    if (!result.valid) {
+      toast.error("Please review the highlighted fields before sending.");
+      return;
+    }
+
+    setSubmitted(true);
+    toast.success("Message recorded! I will respond via email shortly.");
+    setName("");
+    setEmail("");
+    setSubject("");
+    setMessage("");
   };
 
   const copyEmail = () => {
-    navigator.clipboard.writeText("jeh@jehktech.dev");
-    toast.success("Email copied to clipboard! ⚡");
+    navigator.clipboard?.writeText(PORTFOLIO_EMAIL);
+    toast.success("Email copied to clipboard");
   };
 
   return (
-    <section id="contact" className="py-20 px-6 relative">
-      <div className="absolute inset-0 bg-gradient-to-b from-slate-900 via-purple-950 to-slate-900"></div>
-      
-      <div className="relative z-10 max-w-6xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-white text-4xl md:text-5xl mb-4">Let's Manifest Something Amazing</h2>
-          <p className="text-gray-400 text-lg max-w-3xl mx-auto">
-            Ready to merge technology with spiritual wisdom? Whether it's Lightning Network integration, 
-            DeFi protocols, or trading systems - let's focus our energy and create abundance together! ⚡✨
+    <section
+      id="contact"
+      className="py-24 pb-32 px-6 relative pointer-events-none"
+    >
+      <div className="max-w-7xl mx-auto pointer-events-auto bg-[#090d16]/88 border border-white/10 rounded-2xl p-6 md:p-10">
+        <div className="mb-10 pb-8 border-b border-white/10 max-w-2xl">
+          <p className="text-xs font-mono text-amber-400 mb-2">
+            Direct Collaboration
+          </p>
+          <h2 className="font-display text-3xl md:text-4xl font-semibold text-white tracking-tight text-balance mb-3">
+            Let&apos;s Build &amp; Manifest Together
+          </h2>
+          <p className="text-slate-300 text-sm md:text-base leading-relaxed">
+            Open for Bitcoin Lightning integrations, DeFi smart contract
+            engineering, full-stack product builds, and trading analytics
+            consulting.
           </p>
         </div>
-        
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Contact Info */}
-          <div className="space-y-8">
-            <Card className="bg-gradient-to-br from-slate-800/50 to-gray-900/50 backdrop-blur-sm border border-gray-700/50 p-6">
-              <h3 className="text-white text-2xl mb-6">Get in Touch</h3>
-              
-              <div className="space-y-4">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-purple-600/20 rounded-full flex items-center justify-center">
-                    <Mail className="h-6 w-6 text-purple-400" />
-                  </div>
-                  <div>
-                    <p className="text-gray-400 text-sm">Email</p>
-                    <button 
-                      onClick={copyEmail}
-                      className="text-white hover:text-purple-400 transition-colors"
-                    >
-                      jehoiachinkatemangwe1@gmail.com
-                    </button>
-                  </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          {/* Left Column: Direct Details & Social Links */}
+          <div className="lg:col-span-5 space-y-6">
+            <div className="bg-[#0f1522] border border-white/10 rounded-xl p-6 space-y-5">
+              <h3 className="font-display text-xl font-semibold text-white">
+                Contact Channels
+              </h3>
+
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-lg bg-[#141c2c] border border-white/10 flex items-center justify-center shrink-0">
+                  <Mail className="w-4 h-4 text-amber-400" />
                 </div>
-                
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-blue-600/20 rounded-full flex items-center justify-center">
-                    <MapPin className="h-6 w-6 text-blue-400" />
-                  </div>
-                  <div>
-                    <p className="text-gray-400 text-sm">Location</p>
-                    <p className="text-white">Zambia</p>
-                  </div>
-                </div>
-                
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-green-600/20 rounded-full flex items-center justify-center">
-                    <Phone className="h-6 w-6 text-green-400" />
-                  </div>
-                  <div>
-                    <p className="text-gray-400 text-sm">Available for</p>
-                    <p className="text-white">Remote work & collaboration</p>
-                  </div>
+                <div className="min-w-0">
+                  <p className="text-xs text-slate-400 mb-0.5">Email</p>
+                  <button
+                    type="button"
+                    onClick={copyEmail}
+                    className="text-sm text-white hover:text-amber-300 transition-colors inline-flex items-center gap-2 break-all text-left cursor-pointer"
+                  >
+                    <span>{PORTFOLIO_EMAIL}</span>
+                    <Copy className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                  </button>
                 </div>
               </div>
-            </Card>
-            
-            {/* Social Links */}
-            <Card className="bg-gradient-to-br from-slate-800/50 to-gray-900/50 backdrop-blur-sm border border-gray-700/50 p-6">
-              <h3 className="text-white text-xl mb-4">Connect with me</h3>
-              <div className="grid grid-cols-2 gap-4">
-                <a 
-                  href="https://github.com/JehkTech" 
-                  target="_blank" 
+
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-lg bg-[#141c2c] border border-white/10 flex items-center justify-center shrink-0">
+                  <MapPin className="w-4 h-4 text-sky-400" />
+                </div>
+                <div>
+                  <p className="text-xs text-slate-400 mb-0.5">Location</p>
+                  <p className="text-sm text-white">Zambia</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-lg bg-[#141c2c] border border-white/10 flex items-center justify-center shrink-0">
+                  <Phone className="w-4 h-4 text-emerald-400" />
+                </div>
+                <div>
+                  <p className="text-xs text-slate-400 mb-0.5">Availability</p>
+                  <p className="text-sm text-white">
+                    Remote work &amp; global collaboration
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-[#0f1522] border border-white/10 rounded-xl p-6">
+              <h3 className="font-display text-lg font-semibold text-white mb-4">
+                Profiles
+              </h3>
+              <div className="grid grid-cols-2 gap-3">
+                <a
+                  href="https://github.com/JehkTech"
+                  target="_blank"
                   rel="noopener noreferrer"
-                  className="w-12 h-12 bg-gray-800/50 hover:bg-purple-600/20 rounded-full flex items-center justify-center transition-colors mx-auto"
+                  className="px-4 py-3 bg-[#141c2c] border border-white/10 rounded-lg text-sm text-slate-200 hover:border-amber-400/50 hover:text-white transition-colors inline-flex items-center gap-2.5"
                 >
-                  <Github className="h-6 w-6 text-gray-400 hover:text-white" />
+                  <Github className="w-4 h-4 text-amber-400 shrink-0" />
+                  <span>GitHub</span>
                 </a>
-                <a 
-                  href="https://www.linkedin.com/in/jkatemangwe/" 
-                  target="_blank" 
+                <a
+                  href="https://www.linkedin.com/in/jkatemangwe/"
+                  target="_blank"
                   rel="noopener noreferrer"
-                  className="w-12 h-12 bg-gray-800/50 hover:bg-blue-600/20 rounded-full flex items-center justify-center transition-colors mx-auto"
+                  className="px-4 py-3 bg-[#141c2c] border border-white/10 rounded-lg text-sm text-slate-200 hover:border-amber-400/50 hover:text-white transition-colors inline-flex items-center gap-2.5"
                 >
-                  <Linkedin className="h-6 w-6 text-gray-400 hover:text-white" />
+                  <Linkedin className="w-4 h-4 text-sky-400 shrink-0" />
+                  <span>LinkedIn</span>
                 </a>
-                <a 
-                  href="https://instagram.com/_jeh.k" 
-                  target="_blank" 
+                <a
+                  href="https://instagram.com/_jeh.k"
+                  target="_blank"
                   rel="noopener noreferrer"
-                  className="w-12 h-12 bg-gray-800/50 hover:bg-pink-600/20 rounded-full flex items-center justify-center transition-colors mx-auto"
+                  className="px-4 py-3 bg-[#141c2c] border border-white/10 rounded-lg text-sm text-slate-200 hover:border-amber-400/50 hover:text-white transition-colors inline-flex items-center gap-2.5"
                 >
-                  <Instagram className="h-6 w-6 text-gray-400 hover:text-white" />
+                  <Instagram className="w-4 h-4 text-amber-300 shrink-0" />
+                  <span>Instagram</span>
                 </a>
-                <a 
-                  href="https://reddit.com/u/JehkTech" 
-                  target="_blank" 
+                <a
+                  href="https://reddit.com/u/JehkTech"
+                  target="_blank"
                   rel="noopener noreferrer"
-                  className="w-12 h-12 bg-gray-800/50 hover:bg-orange-600/20 rounded-full flex items-center justify-center transition-colors mx-auto"
+                  className="px-4 py-3 bg-[#141c2c] border border-white/10 rounded-lg text-sm text-slate-200 hover:border-amber-400/50 hover:text-white transition-colors inline-flex items-center gap-2.5"
                 >
-                  <div className="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center">
-                    <span className="text-white text-xs font-bold">R</span>
-                  </div>
+                  <span className="w-4 h-4 rounded-full bg-amber-500 text-slate-950 font-bold text-[10px] flex items-center justify-center shrink-0">
+                    R
+                  </span>
+                  <span>Reddit</span>
                 </a>
               </div>
-            </Card>
+            </div>
           </div>
-          
-          {/* Contact Form */}
-          <Card className="bg-gradient-to-br from-slate-800/50 to-gray-900/50 backdrop-blur-sm border border-gray-700/50 p-6">
-            <h3 className="text-white text-2xl mb-6">Send a Message</h3>
-            
-            <form onSubmit={handleSubmit} className="space-y-6">
+
+          {/* Right Column: Validated Contact Form */}
+          <div className="lg:col-span-7 bg-[#0f1522] border border-white/10 rounded-xl p-6 md:p-8">
+            <h3 className="font-display text-xl font-semibold text-white mb-6">
+              Send a Message
+            </h3>
+
+            {submitted && (
+              <div
+                role="status"
+                className="mb-6 p-4 bg-emerald-500/10 border border-emerald-500/30 rounded-lg flex items-start gap-3"
+              >
+                <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
+                <div className="text-sm text-emerald-100">
+                  <p className="font-medium">Message queued for Jeh</p>
+                  <p className="text-emerald-200/80 text-xs mt-0.5">
+                    Thank you for reaching out. For urgent inquiries, copy{" "}
+                    {PORTFOLIO_EMAIL}.
+                  </p>
+                </div>
+              </div>
+            )}
+
+            <form onSubmit={handleSubmit} noValidate className="space-y-5">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="text-gray-300 text-sm mb-2 block">Name</label>
-                  <Input 
+                  <label
+                    htmlFor="contact-name"
+                    className="block text-xs font-medium text-slate-300 mb-1.5"
+                  >
+                    Name
+                  </label>
+                  <input
+                    id="contact-name"
+                    type="text"
+                    value={name}
+                    onChange={(e) => {
+                      setName(e.target.value);
+                      if (errors.name) setErrors((p) => ({ ...p, name: undefined }));
+                    }}
+                    aria-invalid={Boolean(errors.name)}
                     placeholder="Your name"
-                    className="bg-gray-800/50 border-gray-600 text-white placeholder:text-gray-400"
+                    className="w-full px-3.5 py-2.5 text-sm bg-[#07090e] border border-white/15 rounded-lg text-white placeholder:text-slate-500 focus:outline-none focus:border-amber-400"
                   />
+                  {errors.name && (
+                    <p role="alert" className="text-xs text-rose-400 mt-1.5">
+                      {errors.name}
+                    </p>
+                  )}
                 </div>
+
                 <div>
-                  <label className="text-gray-300 text-sm mb-2 block">Email</label>
-                  <Input 
+                  <label
+                    htmlFor="contact-email"
+                    className="block text-xs font-medium text-slate-300 mb-1.5"
+                  >
+                    Email
+                  </label>
+                  <input
+                    id="contact-email"
                     type="email"
-                    placeholder="your.email@example.com"
-                    className="bg-gray-800/50 border-gray-600 text-white placeholder:text-gray-400"
+                    value={email}
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                      if (errors.email) setErrors((p) => ({ ...p, email: undefined }));
+                    }}
+                    aria-invalid={Boolean(errors.email)}
+                    placeholder="you@domain.com"
+                    className="w-full px-3.5 py-2.5 text-sm bg-[#07090e] border border-white/15 rounded-lg text-white placeholder:text-slate-500 focus:outline-none focus:border-amber-400"
                   />
+                  {errors.email && (
+                    <p role="alert" className="text-xs text-rose-400 mt-1.5">
+                      {errors.email}
+                    </p>
+                  )}
                 </div>
               </div>
-              
+
               <div>
-                <label className="text-gray-300 text-sm mb-2 block">Subject</label>
-                <Input 
-                  placeholder="Project collaboration"
-                  className="bg-gray-800/50 border-gray-600 text-white placeholder:text-gray-400"
+                <label
+                  htmlFor="contact-subject"
+                  className="block text-xs font-medium text-slate-300 mb-1.5"
+                >
+                  Subject
+                </label>
+                <input
+                  id="contact-subject"
+                  type="text"
+                  value={subject}
+                  onChange={(e) => {
+                    setSubject(e.target.value);
+                    if (errors.subject)
+                      setErrors((p) => ({ ...p, subject: undefined }));
+                  }}
+                  aria-invalid={Boolean(errors.subject)}
+                  placeholder="Project collaboration or advisory"
+                  className="w-full px-3.5 py-2.5 text-sm bg-[#07090e] border border-white/15 rounded-lg text-white placeholder:text-slate-500 focus:outline-none focus:border-amber-400"
                 />
+                {errors.subject && (
+                  <p role="alert" className="text-xs text-rose-400 mt-1.5">
+                    {errors.subject}
+                  </p>
+                )}
               </div>
-              
+
               <div>
-                <label className="text-gray-300 text-sm mb-2 block">Message</label>
-                <Textarea 
-                  placeholder="Tell me about your project..."
-                  rows={5}
-                  className="bg-gray-800/50 border-gray-600 text-white placeholder:text-gray-400 resize-none"
+                <label
+                  htmlFor="contact-message"
+                  className="block text-xs font-medium text-slate-300 mb-1.5"
+                >
+                  Message
+                </label>
+                <textarea
+                  id="contact-message"
+                  rows={4}
+                  value={message}
+                  onChange={(e) => {
+                    setMessage(e.target.value);
+                    if (errors.message)
+                      setErrors((p) => ({ ...p, message: undefined }));
+                  }}
+                  aria-invalid={Boolean(errors.message)}
+                  placeholder="Share details about your system, timeline, or idea..."
+                  className="w-full px-3.5 py-2.5 text-sm bg-[#07090e] border border-white/15 rounded-lg text-white placeholder:text-slate-500 focus:outline-none focus:border-amber-400 resize-none"
                 />
+                {errors.message && (
+                  <p role="alert" className="text-xs text-rose-400 mt-1.5">
+                    {errors.message}
+                  </p>
+                )}
               </div>
-              
-              <Button 
+
+              <button
                 type="submit"
-                className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white py-3"
+                className="w-full py-3 px-6 bg-amber-500 text-slate-950 text-sm font-semibold rounded-lg hover:bg-amber-400 transition-colors duration-150 cursor-pointer"
               >
                 Send Message
-              </Button>
+              </button>
             </form>
-          </Card>
+          </div>
         </div>
       </div>
     </section>

@@ -1,117 +1,176 @@
-import { Card } from "./ui/card";
-import { Badge } from "./ui/badge";
-import { ExternalLink, Github } from "lucide-react";
+import { useState } from "react";
+import { Compass, Github, Layers } from "lucide-react";
+import { PROJECTS, type PortfolioProject } from "../data/portfolioData";
+import { filterProjects, type ProjectCategory } from "../three/portfolioGraph";
 
-const projects = [
-  {
-    title: "Trading Journal & Analytics Platform",
-    description: "Full-stack trading journal with real-time portfolio tracking, performance analytics, and risk management tools. Features Tesla's 3-6-9 sacred geometry in chart patterns.",
-    tech: ["React", "Node.js", "PostgreSQL", "Chart.js", "WebSocket"],
-    image: "trading dashboard",
-    type: "Full-Stack • Trading",
-    github: "https://github.com/JehkTech/r0tk_journal",
-    live: "#"
-  },
-  {
-    title: "Lightning Network Payment Gateway",
-    description: "High-performance Lightning Network payment processor built with Rust. Enables instant Bitcoin microtransactions with minimal fees for web applications.",
-    tech: ["Rust", "Lightning", "Bitcoin", "WebAssembly", "gRPC"],
-    image: "lightning network",
-    type: "Blockchain • Lightning",
-    github: "https://github.com/JehkTech/lightning-gateway",
-    live: "#"
-  },
-  {
-    title: "DeFi Smart Contracts Suite",
-    description: "Comprehensive DeFi protocol with yield farming, staking, and governance features. Implements quantum healing frequencies in tokenomics design.",
-    tech: ["Solidity", "Hardhat", "OpenZeppelin", "Chainlink", "IPFS"],
-    image: "defi protocol",
-    type: "Smart Contracts • DeFi",
-    github: "https://github.com/JehkTech/defi-suite",
-    live: "#"
-  },
-  // {
-  //   title: "Quantum Manifestation App",
-  //   description: "Mobile app combining Grabovoi codes, Tesla frequencies, and meditation timers. Built with Elixir backend for real-time synchronization.",
-  //   tech: ["React Native", "Elixir", "Phoenix", "PostgreSQL", "WebRTC"],
-  //   image: "manifestation app",
-  //   type: "Mobile • Spiritual Tech",
-  //   github: "https://github.com/JehkTech/quantum-manifest",
-  //   live: "#"
-  // },
-  {
-    title: "Cargo-Truck Marketplace UI/UX",
-    description: "Complete design system for logistics platform with driver matching, route optimization, and real-time tracking. Incorporates sacred geometry in interface design.",
-    tech: ["Figma", "Design System", "Prototyping", "User Research"],
-    image: "logistics design",
-    type: "UI/UX Design",
-    github: "https://github.com/JehkTech/Mamastops-Cargo-Truck-Marketplace",
-    live: "#"
-  },
-  {
-    title: "Frequency Healing Web App",
-    description: "Web application for sound therapy using specific frequencies for chakra alignment and manifestation. Features binaural beats generator.",
-    tech: ["TypeScript", "Web Audio API", "React", "Tailwind CSS"],
-    image: "sound therapy",
-    type: "Web App • Healing",
-    github: "https://github.com/JehkTech/frequency-healer",
-    live: "#"
-  }
+interface ProjectsSectionProps {
+  activeFilter: ProjectCategory;
+  focusedProjectId: string | null;
+  onFilterChange: (category: ProjectCategory) => void;
+  onFocusProject: (projectId: string) => void;
+  onHoverProject: (projectId: string | null) => void;
+}
+
+const FILTER_OPTIONS: { id: ProjectCategory; label: string }[] = [
+  { id: "all", label: "All Works" },
+  { id: "blockchain", label: "Blockchain" },
+  { id: "fullstack", label: "Full-Stack" },
+  { id: "design", label: "Design & Audio" },
 ];
 
-export function ProjectsSection() {
+function ProjectImageFrame({ project }: { project: PortfolioProject }) {
+  const [imgFailed, setImgFailed] = useState(false);
+
+  if (imgFailed) {
+    return (
+      <div className="aspect-[4/3] w-full bg-[#131a29] flex flex-col items-center justify-center p-6 text-center border-b border-white/10">
+        <Layers className="w-8 h-8 text-amber-400 mb-2" />
+        <p className="text-xs font-mono text-slate-300">{project.title}</p>
+      </div>
+    );
+  }
+
   return (
-    <section id="projects" className="py-20 px-6 relative">
-      <div className="absolute inset-0 bg-gradient-to-b from-slate-900 via-indigo-950 to-slate-900"></div>
-      
-      <div className="relative z-10 max-w-6xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-white text-4xl md:text-5xl mb-4">Featured Projects</h2>
-          <p className="text-gray-400 text-lg max-w-3xl mx-auto">
-            A showcase of my work spanning Lightning & Bitcoin development, DeFi protocols, 
-            trading systems, and spiritual technology applications. Each project integrates 
-            sacred geometry and quantum principles.
-          </p>
+    <div className="aspect-[4/3] w-full overflow-hidden bg-[#131a29] border-b border-white/10 relative">
+      <img
+        src={project.image}
+        alt={project.imageAlt}
+        referrerPolicy="no-referrer"
+        onError={() => setImgFailed(true)}
+        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+      />
+    </div>
+  );
+}
+
+export function ProjectsSection({
+  activeFilter,
+  focusedProjectId,
+  onFilterChange,
+  onFocusProject,
+  onHoverProject,
+}: ProjectsSectionProps) {
+  const visibleProjects = filterProjects(PROJECTS, activeFilter);
+
+  return (
+    <section
+      id="projects"
+      className="py-24 px-6 relative pointer-events-none"
+    >
+      <div className="max-w-7xl mx-auto pointer-events-auto bg-[#090d16]/88 border border-white/10 rounded-2xl p-6 md:p-10">
+        <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-6 mb-10 pb-8 border-b border-white/10">
+          <div className="max-w-xl">
+            <p className="text-xs font-mono text-amber-400 mb-2">
+              Interconnected Portfolio Web
+            </p>
+            <h2 className="font-display text-3xl md:text-4xl font-semibold text-white tracking-tight text-balance mb-3">
+              Featured Engineering &amp; Spatial Projects
+            </h2>
+            <p className="text-slate-300 text-sm md:text-base leading-relaxed">
+              Each project forms a satellite node in the 3D hub above, linked by
+              shared technical architecture across Rust, Bitcoin Lightning, DeFi,
+              trading systems, and sacred geometry.
+            </p>
+          </div>
+
+          {/* Interactive segmented filter tabs */}
+          <div
+            className="flex flex-nowrap overflow-x-auto max-w-full items-center gap-1 bg-[#111726] p-1 rounded-xl border border-white/10 self-start xl:self-end shrink-0"
+            role="group"
+            aria-label="Filter projects by category"
+          >
+            {FILTER_OPTIONS.map((opt) => {
+              const isSelected = activeFilter === opt.id;
+              return (
+                <button
+                  key={opt.id}
+                  type="button"
+                  onClick={() => onFilterChange(opt.id)}
+                  aria-pressed={isSelected}
+                  className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors duration-150 whitespace-nowrap shrink-0 cursor-pointer ${
+                    isSelected
+                      ? "bg-amber-500 text-slate-950"
+                      : "text-slate-300 hover:text-white"
+                  }`}
+                >
+                  {opt.label}
+                </button>
+              );
+            })}
+          </div>
         </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project, index) => (
-            <Card key={index} className="bg-gradient-to-br from-slate-800/50 to-gray-900/50 backdrop-blur-sm border border-gray-700/50 overflow-hidden hover:scale-105 transition-transform duration-300">
-              <div className="h-48 bg-gradient-to-br from-purple-600/20 to-blue-600/20 flex items-center justify-center">
-                <div className="text-center">
-                  <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-blue-500 rounded-lg mx-auto mb-3"></div>
-                  <p className="text-gray-300 text-sm">{project.image}</p>
-                </div>
-              </div>
-              
-              <div className="p-6">
-                <div className="flex items-center justify-between mb-3">
-                  <Badge variant="secondary" className="bg-purple-600/20 text-purple-300 border-purple-500/30">
-                    {project.type}
-                  </Badge>
-                  <div className="flex gap-2">
-                    <a href={project.live} className="text-gray-400 hover:text-white transition-colors">
-                      <ExternalLink className="h-5 w-5" />
-                    </a>
-                    <a href={project.github} className="text-gray-400 hover:text-white transition-colors">
-                      <Github className="h-5 w-5" />
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {visibleProjects.map((project, idx) => {
+            const isFocused = focusedProjectId === project.id;
+            const linkedTitles = project.connections
+              .map((cid) => PROJECTS.find((p) => p.id === cid)?.shortLabel)
+              .filter(Boolean);
+
+            return (
+              <article
+                key={project.id}
+                onMouseEnter={() => onHoverProject(project.id)}
+                onMouseLeave={() => onHoverProject(null)}
+                className={`group flex flex-col bg-[#0f1522] border rounded-xl overflow-hidden transition-colors duration-150 ${
+                  isFocused
+                    ? "border-amber-400"
+                    : "border-white/10 hover:border-white/25"
+                }`}
+              >
+                <ProjectImageFrame project={project} />
+
+                <div className="p-6 flex flex-col flex-1">
+                  <div className="flex items-center justify-between gap-2 text-xs font-mono text-slate-400 mb-2">
+                    <span className="text-amber-400">
+                      {String(idx + 1).padStart(2, "0")} · {project.typeLabel}
+                    </span>
+                  </div>
+
+                  <h3 className="font-display text-lg font-semibold text-white mb-2.5">
+                    {project.title}
+                  </h3>
+
+                  <p className="text-sm text-slate-300 leading-relaxed mb-4 flex-1">
+                    {project.description}
+                  </p>
+
+                  <div className="space-y-2.5 pt-4 border-t border-white/10 mb-5">
+                    <p className="text-xs font-mono text-slate-300">
+                      {project.tech.join(" · ")}
+                    </p>
+                    {linkedTitles.length > 0 && (
+                      <p className="text-xs text-sky-300/90">
+                        Web links: {linkedTitles.join(", ")}
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="flex items-center justify-between gap-3">
+                    <button
+                      type="button"
+                      onClick={() => onFocusProject(project.id)}
+                      className="px-4 py-2 text-xs font-semibold bg-amber-500 text-slate-950 rounded-lg hover:bg-amber-400 transition-colors duration-150 inline-flex items-center gap-1.5 whitespace-nowrap shrink-0 cursor-pointer"
+                    >
+                      <Compass className="w-3.5 h-3.5" />
+                      <span>Focus in 3D</span>
+                    </button>
+
+                    <a
+                      href={project.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`View ${project.title} source on GitHub`}
+                      className="px-3 py-2 text-xs font-medium text-slate-300 border border-white/12 rounded-lg hover:text-white hover:border-white/30 transition-colors duration-150 inline-flex items-center gap-1.5 whitespace-nowrap shrink-0"
+                    >
+                      <Github className="w-3.5 h-3.5" />
+                      <span>GitHub</span>
                     </a>
                   </div>
                 </div>
-                
-                <h3 className="text-white text-xl mb-3">{project.title}</h3>
-                <p className="text-gray-300 mb-4 leading-relaxed">{project.description}</p>
-                
-                <div className="flex flex-wrap gap-2">
-                  {project.tech.map((tech) => (
-                    <Badge key={tech} variant="outline" className="border-gray-600 text-gray-300">
-                      {tech}
-                    </Badge>
-                  ))}
-                </div>
-              </div>
-            </Card>
-          ))}
+              </article>
+            );
+          })}
         </div>
       </div>
     </section>
