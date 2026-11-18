@@ -33,16 +33,23 @@ export function Navigation({
   return (
     <header className="fixed top-0 inset-x-0 z-50 bg-[var(--bg-canvas)]/95 border-b border-[var(--border-hairline)] transition-colors duration-200">
       <div className="max-w-7xl mx-auto px-6 h-14 flex items-center justify-between gap-8">
-        {/* Zone 1: Single-line Wordmark */}
+        {/* Zone 1: Single-line Brand Mark + Wordmark */}
         <a
           href="#about"
           onClick={(e) => {
             e.preventDefault();
             handleLinkClick("about");
           }}
-          className="font-display text-lg font-semibold tracking-tight text-[var(--text-primary)] whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--accent-gold)]"
+          className="inline-flex items-center gap-2.5 font-display text-lg font-semibold tracking-tight text-[var(--text-primary)] whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--accent-gold)]"
         >
-          Jeh<span className="text-[var(--accent-gold)]">K</span>Tech
+          <img
+            src="/assets/aistudio/20211009_235023_962a818c.png"
+            alt="JehKTech emblem"
+            className="w-6 h-6 rounded-full object-cover shrink-0"
+          />
+          <span>
+            Jeh<span className="text-[var(--accent-gold)]">K</span>Tech
+          </span>
         </a>
 
         {/* Zone 2: 5 concise single-line nav links */}

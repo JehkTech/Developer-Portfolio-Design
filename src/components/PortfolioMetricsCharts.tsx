@@ -25,19 +25,21 @@ export function PortfolioMetricsCharts({ theme }: PortfolioMetricsChartsProps) {
   const techData = computeTechDistribution(PROJECTS, 8);
 
   const isDark = theme === "dark";
-  const gridStroke = isDark ? "rgba(255,255,255,0.08)" : "rgba(20,21,24,0.08)";
-  const tickColor = isDark ? "#8b9099" : "#5d6470";
-  const goldBar = isDark ? "#c9a96a" : "#9a7532";
-  const silverBar = isDark ? "#8b9099" : "#64748b";
-  const emeraldBar = isDark ? "#6fa889" : "#3f7a5c";
+  const gridStroke = isDark
+    ? "rgba(184, 212, 255, 0.1)"
+    : "rgba(13, 21, 39, 0.08)";
+  const tickColor = isDark ? "#83a1d1" : "#4e6287";
+  const goldBar = isDark ? "#3b8eff" : "#1967dc";
+  const silverBar = isDark ? "#b8d4ff" : "#647ea8";
+  const emeraldBar = isDark ? "#38bdf8" : "#0284c7";
 
   const tooltipStyle = {
-    backgroundColor: isDark ? "#121418" : "#ffffff",
+    backgroundColor: isDark ? "#121d33" : "#ffffff",
     border: isDark
-      ? "1px solid rgba(255,255,255,0.14)"
-      : "1px solid rgba(20,21,24,0.14)",
+      ? "1px solid rgba(184, 212, 255, 0.2)"
+      : "1px solid rgba(13, 21, 39, 0.14)",
     borderRadius: "8px",
-    color: isDark ? "#ededed" : "#141518",
+    color: isDark ? "#f0f5ff" : "#0d1527",
     fontSize: "12px",
   };
 

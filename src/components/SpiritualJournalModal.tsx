@@ -281,13 +281,15 @@ export function SpiritualJournalModal({
   const isLast = pageIndex === spreads.length - 1;
   const isDark = theme === "dark";
 
-  // Archival book surface palette tailored to Light & Dark themes
-  const paperBg = isDark ? "bg-[#121419]" : "bg-[#fcfaf3]";
-  const paperRightBg = isDark ? "bg-[#151820]" : "bg-[#f7f3e8]";
-  const paperRule = isDark ? "border-white/10" : "border-[#141518]/12";
-  const paperText = isDark ? "text-[#ededed]" : "text-[#141518]";
-  const paperSecondary = isDark ? "text-[#b6bac3]" : "text-[#3d424b]";
-  const paperMuted = isDark ? "text-[#8b9099]" : "text-[#636872]";
+  // Archival book surface palette tailored to JehkTech Light & Dark themes
+  const paperBg = isDark ? "bg-[#101a2e]" : "bg-[#fcfdff]";
+  const paperRightBg = isDark ? "bg-[#142038]" : "bg-[#f3f7fe]";
+  const paperRule = isDark
+    ? "border-[#b8d4ff]/14"
+    : "border-[#0d1527]/12";
+  const paperText = isDark ? "text-[#f0f5ff]" : "text-[#0d1527]";
+  const paperSecondary = isDark ? "text-[#b8d4ff]" : "text-[#2a3b5c]";
+  const paperMuted = isDark ? "text-[#83a1d1]" : "text-[#4e6287]";
 
   const pageVariants = {
     enter: (dir: number) =>

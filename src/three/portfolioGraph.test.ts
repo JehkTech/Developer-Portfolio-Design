@@ -189,8 +189,8 @@ test("getSceneThemePalette produces distinct calibrated dark and light palettes"
   const dark = getSceneThemePalette("dark");
   const light = getSceneThemePalette("light");
 
-  assert.equal(dark.background, 0x0a0a0a);
-  assert.equal(light.background, 0xf6f5f1);
+  assert.equal(dark.background, 0x0d1527);
+  assert.equal(light.background, 0xf3f6fc);
   assert.notEqual(dark.goldWire, light.goldWire);
   assert.notEqual(dark.starPrimary, light.starPrimary);
   assert.ok(light.hemiIntensity > dark.hemiIntensity);

@@ -66,22 +66,22 @@ function WebsitePreviewFrame({
             />
           ) : (
             /* Authentic live architecture endpoint view for sites without a hydrated static frame */
-            <div className="w-full h-full p-4 flex flex-col justify-between bg-[#0f1116] text-[#ededed]">
-              <div className="flex items-center justify-between text-[11px] font-mono text-[#c9a96a]">
+            <div className="w-full h-full p-4 flex flex-col justify-between bg-[#0d1527] text-[#f0f5ff]">
+              <div className="flex items-center justify-between text-[11px] font-mono text-[#62a5ff]">
                 <span>{project.title}</span>
                 <span>{project.statusLabel}</span>
               </div>
-              <div className="space-y-1.5 font-mono text-[11px] text-[#c0c4cc] border border-white/10 rounded-md p-3 bg-[#151820]">
-                <div className="text-[#ededed] font-semibold">
+              <div className="space-y-1.5 font-mono text-[11px] text-[#b8d4ff] border border-[#b8d4ff]/15 rounded-md p-3 bg-[#121d33]">
+                <div className="text-[#f0f5ff] font-semibold">
                   api-statushub.netlify.app
                 </div>
                 <div>POST /webhooks/ingest · HMAC Verified</div>
                 <div>GET /events/stream · Server-Sent Events</div>
-                <div className="text-[#8b9099]">
+                <div className="text-[#83a1d1]">
                   PostgreSQL GIN Search · Express Workers
                 </div>
               </div>
-              <div className="text-[11px] text-[#8b9099] font-mono">
+              <div className="text-[11px] text-[#83a1d1] font-mono">
                 Click to inspect 3D node &amp; live link
               </div>
             </div>

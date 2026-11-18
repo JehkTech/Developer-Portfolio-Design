@@ -10,38 +10,38 @@
 @layer base {
   :root {
     color-scheme: light;
-    --bg-canvas: #f6f5f1;
-    --bg-surface: rgba(255, 255, 255, 0.88);
+    --bg-canvas: #f3f6fc;
+    --bg-surface: rgba(255, 255, 255, 0.9);
     --bg-surface-solid: #ffffff;
-    --bg-inset: #eceae3;
-    --text-primary: #141518;
-    --text-secondary: #3f444e;
-    --text-muted: #5d6470;
-    --accent-gold: #9a7532;
-    --accent-gold-hover: #7f5f24;
+    --bg-inset: #e6edf9;
+    --text-primary: #0d1527;
+    --text-secondary: #2a3b5c;
+    --text-muted: #4e6287;
+    --accent-gold: #1967dc;
+    --accent-gold-hover: #1355ba;
     --accent-gold-contrast: #ffffff;
-    --border-hairline: rgba(20, 21, 24, 0.12);
-    --border-strong: rgba(20, 21, 24, 0.22);
-    --hero-scrim: radial-gradient(ellipse at left, rgba(246, 245, 241, 0.92) 0%, rgba(246, 245, 241, 0.65) 58%, transparent 100%);
-    --grain-opacity: 0.025;
+    --border-hairline: rgba(13, 21, 39, 0.12);
+    --border-strong: rgba(13, 21, 39, 0.24);
+    --hero-scrim: radial-gradient(ellipse at left, rgba(243, 246, 252, 0.94) 0%, rgba(243, 246, 252, 0.68) 58%, transparent 100%);
+    --grain-opacity: 0.02;
   }
 
   html.dark {
     color-scheme: dark;
-    --bg-canvas: #0a0a0a;
-    --bg-surface: rgba(18, 18, 18, 0.86);
-    --bg-surface-solid: #121418;
-    --bg-inset: #16181c;
-    --text-primary: #ededed;
-    --text-secondary: #c0c4cc;
-    --text-muted: #8b9099;
-    --accent-gold: #c9a96a;
-    --accent-gold-hover: #d8bc82;
-    --accent-gold-contrast: #0a0a0a;
-    --border-hairline: rgba(255, 255, 255, 0.1);
-    --border-strong: rgba(255, 255, 255, 0.22);
-    --hero-scrim: radial-gradient(ellipse at left, rgba(10, 10, 10, 0.88) 0%, rgba(10, 10, 10, 0.56) 58%, transparent 100%);
-    --grain-opacity: 0.04;
+    --bg-canvas: #0d1527;
+    --bg-surface: rgba(18, 29, 51, 0.86);
+    --bg-surface-solid: #121d33;
+    --bg-inset: #16233d;
+    --text-primary: #f0f5ff;
+    --text-secondary: #b8d4ff;
+    --text-muted: #83a1d1;
+    --accent-gold: #3b8eff;
+    --accent-gold-hover: #62a5ff;
+    --accent-gold-contrast: #091224;
+    --border-hairline: rgba(184, 212, 255, 0.14);
+    --border-strong: rgba(184, 212, 255, 0.28);
+    --hero-scrim: radial-gradient(ellipse at left, rgba(13, 21, 39, 0.9) 0%, rgba(13, 21, 39, 0.58) 58%, transparent 100%);
+    --grain-opacity: 0.035;
   }
 
   html {
