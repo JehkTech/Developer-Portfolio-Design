@@ -15,9 +15,9 @@ export function SpiritualSection() {
 
   return (
     <section id="wisdom" className="py-24 px-6 relative pointer-events-none">
-      <div className="max-w-7xl mx-auto pointer-events-auto bg-[#090d16]/88 border border-white/10 rounded-2xl p-6 md:p-10">
+      <div className="max-w-7xl mx-auto pointer-events-auto bg-[#101114]/92 border border-white/10 rounded-2xl p-6 md:p-10">
         <div className="mb-10 pb-8 border-b border-white/10 max-w-2xl">
-          <p className="text-xs font-mono text-amber-400 mb-2">
+          <p className="text-xs font-mono text-[#c9a96a] mb-2">
             Harmonic Philosophy &amp; Sacred Geometry
           </p>
           <h2 className="font-display text-3xl md:text-4xl font-semibold text-white tracking-tight text-balance mb-3">
@@ -31,7 +31,7 @@ export function SpiritualSection() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
           {/* Tesla 3-6-9 Harmonic Card */}
-          <div className="bg-[#0f1522] border border-white/10 rounded-xl p-6 md:p-8 flex flex-col justify-between">
+          <div className="bg-[#14161a] border border-white/10 rounded-xl p-6 md:p-8 flex flex-col justify-between">
             <div>
               <h3 className="font-display text-xl font-semibold text-white mb-6">
                 Universe Wisdom · 3 · 6 · 9
@@ -41,9 +41,9 @@ export function SpiritualSection() {
                 {TESLA_NUMBERS.map((item) => (
                   <div
                     key={item.digit}
-                    className="bg-[#141c2c] border border-white/10 rounded-lg p-4 text-center"
+                    className="bg-[#181b20] border border-white/10 rounded-lg p-4 text-center"
                   >
-                    <div className="font-display text-2xl font-semibold text-amber-400 tabular-nums mb-1">
+                    <div className="font-display text-2xl font-semibold text-[#c9a96a] tabular-nums mb-1">
                       {item.digit}
                     </div>
                     <p className="text-xs text-slate-300">{item.role}</p>
@@ -65,14 +65,14 @@ export function SpiritualSection() {
                 &ldquo;Whatever the mind of man can imagine, man can
                 realise.&rdquo; — Neville Goddard
               </p>
-              <p className="font-display text-base font-medium text-amber-300 border-t border-white/8 pt-4">
+              <p className="font-display text-base font-medium text-[#d8bc82] border-t border-white/8 pt-4">
                 Quid Est Veritas?
               </p>
             </div>
           </div>
 
           {/* Grabovoi Quantum Healing Codes (Accessible click + hover reveal) */}
-          <div className="bg-[#0f1522] border border-white/10 rounded-xl p-6 md:p-8 flex flex-col justify-between">
+          <div className="bg-[#14161a] border border-white/10 rounded-xl p-6 md:p-8 flex flex-col justify-between">
             <div>
               <div className="flex items-baseline justify-between gap-4 mb-2">
                 <h3 className="font-display text-xl font-semibold text-white">
@@ -96,10 +96,10 @@ export function SpiritualSection() {
                       type="button"
                       onClick={() => toggleCode(item.code)}
                       aria-pressed={isRevealed}
-                      className="group w-full flex items-center justify-between gap-4 p-4 bg-[#141c2c] border border-white/10 rounded-lg hover:border-amber-400/50 transition-colors duration-150 text-left cursor-pointer"
+                      className="group w-full flex items-center justify-between gap-4 p-4 bg-[#181b20] border border-white/10 rounded-lg hover:border-amber-400/50 transition-colors duration-150 text-left cursor-pointer"
                     >
                       <span
-                        className={`font-mono text-base font-medium tabular-nums text-amber-300 transition-all duration-200 ${
+                        className={`font-mono text-base font-medium tabular-nums text-[#d8bc82] transition-all duration-200 ${
                           isRevealed
                             ? "blur-none"
                             : "blur-sm group-hover:blur-none group-focus-visible:blur-none"
@@ -119,9 +119,9 @@ export function SpiritualSection() {
                           {item.purpose}
                         </span>
                         {isRevealed ? (
-                          <Eye className="w-4 h-4 text-amber-400 shrink-0" />
+                          <Eye className="w-4 h-4 text-[#c9a96a] shrink-0" />
                         ) : (
-                          <EyeOff className="w-4 h-4 text-slate-500 group-hover:text-amber-400 shrink-0" />
+                          <EyeOff className="w-4 h-4 text-slate-500 group-hover:text-[#c9a96a] shrink-0" />
                         )}
                       </span>
                     </button>
@@ -137,12 +137,12 @@ export function SpiritualSection() {
         </div>
 
         {/* Manifestation Principles (No border-l-4 cliché) */}
-        <div className="bg-[#0f1522] border border-white/10 rounded-xl p-6 md:p-8">
+        <div className="bg-[#14161a] border border-white/10 rounded-xl p-6 md:p-8">
           <div className="flex flex-wrap items-baseline justify-between gap-4 mb-6">
             <h3 className="font-display text-xl font-semibold text-white">
               Manifestation Principles
             </h3>
-            <p className="text-xs font-mono text-amber-400">
+            <p className="text-xs font-mono text-[#c9a96a]">
               Whatever you focus on, you energize into existence.
             </p>
           </div>
@@ -151,9 +151,9 @@ export function SpiritualSection() {
             {SPIRITUAL_INSIGHTS.map((insight, index) => (
               <div
                 key={index}
-                className="bg-[#141c2c] border border-white/8 rounded-lg p-4 flex items-start gap-3.5"
+                className="bg-[#181b20] border border-white/8 rounded-lg p-4 flex items-start gap-3.5"
               >
-                <span className="font-mono text-xs text-amber-400 tabular-nums pt-0.5 shrink-0">
+                <span className="font-mono text-xs text-[#c9a96a] tabular-nums pt-0.5 shrink-0">
                   {String(index + 1).padStart(2, "0")}
                 </span>
                 <p className="text-sm text-slate-200 leading-relaxed">

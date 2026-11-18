@@ -15,52 +15,64 @@ import {
 
 const sampleNodes: ProjectNodeSpec[] = [
   {
-    id: "trading",
-    title: "Trading Journal",
-    shortLabel: "01 Trading",
-    category: "fullstack",
-    geometryStyle: "candlestick",
+    id: "ai-db-track",
+    title: "AI-DB Track",
+    shortLabel: "01 AI-DB",
+    category: "saas",
+    geometryStyle: "dbshield",
     orbitAngle: 0,
-    orbitRadius: 4.5,
-    elevation: 2.0,
-    accentHex: 0xf59e0b,
-    connections: ["defi", "cymatics"],
+    orbitRadius: 4.6,
+    elevation: 2.1,
+    accentHex: 0xc9a96a,
+    connections: ["statushub", "onboard-ai"],
   },
   {
-    id: "lightning",
-    title: "Lightning Gateway",
-    shortLabel: "02 Lightning",
-    category: "blockchain",
-    geometryStyle: "lightning",
-    orbitAngle: (Math.PI * 2) / 3,
-    orbitRadius: 4.5,
+    id: "onboard-ai",
+    title: "OnboardAI",
+    shortLabel: "02 OnboardAI",
+    category: "saas",
+    geometryStyle: "pipeline",
+    orbitAngle: (Math.PI * 2) / 4,
+    orbitRadius: 4.6,
     elevation: 2.4,
-    accentHex: 0x38bdf8,
-    connections: ["defi"],
+    accentHex: 0x60a5fa,
+    connections: ["ai-db-track"],
   },
   {
-    id: "defi",
-    title: "DeFi Suite",
-    shortLabel: "03 DeFi",
-    category: "blockchain",
-    geometryStyle: "vault",
-    orbitAngle: (Math.PI * 4) / 3,
-    orbitRadius: 4.5,
-    elevation: 1.8,
-    accentHex: 0xf59e0b,
-    connections: ["trading", "lightning"],
+    id: "join-platform",
+    title: "JOIN Digital Solutions",
+    shortLabel: "03 JOIN Ops",
+    category: "clients",
+    geometryStyle: "transit",
+    orbitAngle: Math.PI,
+    orbitRadius: 5.8,
+    elevation: 2.0,
+    accentHex: 0xc9a96a,
+    connections: ["statushub"],
   },
   {
-    id: "cymatics",
-    title: "Frequency Healer",
-    shortLabel: "04 Healing",
-    category: "design",
-    geometryStyle: "cymatics",
-    orbitAngle: Math.PI * 1.75,
-    orbitRadius: 4.5,
+    id: "statushub",
+    title: "StatusHub",
+    shortLabel: "04 StatusHub",
+    category: "saas",
+    geometryStyle: "beacon",
+    orbitAngle: Math.PI * 1.4,
+    orbitRadius: 4.6,
     elevation: 2.2,
-    accentHex: 0x38bdf8,
-    connections: ["trading"],
+    accentHex: 0x60a5fa,
+    connections: ["ai-db-track", "join-platform"],
+  },
+  {
+    id: "trading",
+    title: "R0TK Trading Journal",
+    shortLabel: "05 R0TK",
+    category: "fintech",
+    geometryStyle: "candlestick",
+    orbitAngle: Math.PI * 1.75,
+    orbitRadius: 4.8,
+    elevation: 2.0,
+    accentHex: 0xc9a96a,
+    connections: ["statushub"],
   },
 ];
 
@@ -86,13 +98,15 @@ test("buildWebEdges links every project to the hub and deduplicates cross-links"
     assert.deepEqual(link.from, HUB_CORE_POSITION);
   }
 
-  // Unique pairs: (trading, defi), (trading, cymatics), (lightning, defi) => 3 unique cross-links
-  assert.equal(crossLinks.length, 3);
+  // Unique pairs: (ai-db-track, statushub), (ai-db-track, onboard-ai), (join-platform, statushub), (statushub, trading)
+  assert.equal(crossLinks.length, 4);
   const ids = new Set(crossLinks.map((e) => e.id));
-  assert.equal(ids.size, 3);
+  assert.equal(ids.size, 4);
 });
 
-test("interpolateCameraState clamps at boundaries and transitions smoothly", () => {
+test("interpolateCameraState clamps at boundaries and includes trading waypoint", () => {
+  assert.ok(SECTION_WAYPOINTS.some((w) => w.sectionId === "trading"));
+
   const start = interpolateCameraState(-0.5, SECTION_WAYPOINTS);
   assert.deepEqual(start.position, SECTION_WAYPOINTS[0].position);
   assert.equal(start.activeSectionId, "about");
@@ -123,10 +137,10 @@ test("dampValue converges smoothly toward target without overshooting", () => {
 });
 
 test("filterProjects filters by category and preserves all on 'all'", () => {
-  assert.equal(filterProjects(sampleNodes, "all").length, 4);
-  assert.equal(filterProjects(sampleNodes, "blockchain").length, 2);
-  assert.equal(filterProjects(sampleNodes, "fullstack").length, 1);
-  assert.equal(filterProjects(sampleNodes, "design").length, 1);
+  assert.equal(filterProjects(sampleNodes, "all").length, 5);
+  assert.equal(filterProjects(sampleNodes, "saas").length, 3);
+  assert.equal(filterProjects(sampleNodes, "clients").length, 1);
+  assert.equal(filterProjects(sampleNodes, "fintech").length, 1);
 });
 
 test("validateContactForm rejects invalid inputs and accepts complete valid submissions", () => {
@@ -145,8 +159,8 @@ test("validateContactForm rejects invalid inputs and accepts complete valid subm
   const valid = validateContactForm({
     name: "Jehoiachin",
     email: "jehoiachinkatemangwe1@gmail.com",
-    subject: "Lightning Integration",
-    message: "Looking to collaborate on a Rust Lightning payment router.",
+    subject: "Transit Payment Integration",
+    message: "Looking to collaborate on StatusHub webhook automation.",
   });
   assert.equal(valid.valid, true);
   assert.deepEqual(valid.errors, {});

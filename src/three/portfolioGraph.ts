@@ -1,11 +1,15 @@
-export type ProjectCategory = "all" | "blockchain" | "fullstack" | "design";
+export type ProjectCategory = "all" | "saas" | "clients" | "fintech";
 
 export type GeometryStyle =
+  | "dbshield"
+  | "prism"
+  | "pipeline"
+  | "beacon"
   | "candlestick"
-  | "lightning"
-  | "vault"
-  | "logistics"
-  | "cymatics";
+  | "audio"
+  | "transit"
+  | "terminal"
+  | "logistics";
 
 export interface Vec3Tuple {
   x: number;
@@ -63,37 +67,43 @@ export const SECTION_WAYPOINTS: CameraWaypoint[] = [
   {
     sectionId: "about",
     label: "Hub Core",
-    position: { x: -2.4, y: 3.4, z: 10.6 },
+    position: { x: -2.4, y: 3.5, z: 11.2 },
     target: { x: -1.4, y: 1.9, z: 0 },
   },
   {
     sectionId: "projects",
-    label: "Project Web",
-    position: { x: 4.8, y: 4.6, z: 8.6 },
+    label: "Systems Web",
+    position: { x: 5.2, y: 4.8, z: 9.2 },
     target: { x: 0, y: 1.8, z: 0 },
   },
   {
+    sectionId: "trading",
+    label: "R0TK Orbit",
+    position: { x: 8.6, y: 3.4, z: 1.4 },
+    target: { x: 0, y: 1.9, z: 0 },
+  },
+  {
     sectionId: "stack",
-    label: "Tech Architecture",
-    position: { x: 7.4, y: 3.2, z: -2.4 },
+    label: "Architecture",
+    position: { x: 6.4, y: 3.6, z: -6.2 },
     target: { x: 0, y: 1.9, z: 0 },
   },
   {
     sectionId: "wisdom",
     label: "3-6-9 Resonance",
-    position: { x: 0.4, y: 6.8, z: -6.8 },
+    position: { x: 0.4, y: 7.2, z: -7.4 },
     target: { x: 0, y: 2.0, z: 0 },
   },
   {
     sectionId: "experience",
     label: "Journey Orbit",
-    position: { x: -7.2, y: 3.6, z: -3.2 },
+    position: { x: -7.8, y: 3.8, z: -3.4 },
     target: { x: 0, y: 1.8, z: 0 },
   },
   {
     sectionId: "contact",
     label: "Connect",
-    position: { x: -4.2, y: 3.1, z: 8.8 },
+    position: { x: -4.4, y: 3.2, z: 9.4 },
     target: { x: 0, y: 2.0, z: 0 },
   },
 ];
@@ -117,7 +127,6 @@ export function computeFocusCameraForNode(
   const len = Math.hypot(nodePos.x, nodePos.z) || 1;
   const dirX = nodePos.x / len;
   const dirZ = nodePos.z / len;
-  // Position camera slightly outside and to the side of the node looking inward toward hub
   const sideX = -dirZ * 1.4;
   const sideZ = dirX * 1.4;
 
@@ -147,7 +156,6 @@ export function buildWebEdges(nodes: ProjectNodeSpec[]): WebEdge[] {
   const edges: WebEdge[] = [];
   const seenCrossPairs = new Set<string>();
 
-  // 1. Primary web links from the Central Sacred Hub to every project satellite
   for (const node of nodes) {
     const pos = positions.get(node.id)!;
     const midX = (HUB_CORE_POSITION.x + pos.x) * 0.5;
@@ -165,7 +173,6 @@ export function buildWebEdges(nodes: ProjectNodeSpec[]): WebEdge[] {
     });
   }
 
-  // 2. Cross-linked web strands between related projects
   for (const node of nodes) {
     const fromPos = positions.get(node.id);
     if (!fromPos) continue;

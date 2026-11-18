@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JehKTech — Jehoiachin Katemangwe | Portfolio</title>
+<meta name="description" content="Fintech engineer, UI/UX designer, QA automation engineer and systematic trader. Precision under pressure.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--black:#0A0A0A;--charcoal:#121212;--panel:#16181c;--white:#EDEDED;--muted:#8b9099;--silver:#c0c4cc;--gold:#c9a96a;--steel:#4a5a6a;--line:rgba(237,237,237,.09)}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--black);color:var(--white);font-family:'Inter Tight','Helvetica Neue',Arial,sans-serif;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+#bg{position:fixed;inset:0;z-index:0;pointer-events:none}
+.grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.05;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+nav{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;justify-content:space-between;align-items:center;padding:22px 5vw;background:linear-gradient(to bottom,rgba(10,10,10,.85),transparent);backdrop-filter:blur(6px)}
+.logo{font-weight:600;letter-spacing:.28em;font-size:.85rem;text-transform:uppercase}
+.logo span{color:var(--gold)}
+nav ul{display:flex;gap:2.2rem;list-style:none}
+nav a{color:var(--muted);text-decoration:none;font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;transition:color .3s}
+nav a:hover{color:var(--white)}
+main{position:relative;z-index:5}
+section{min-height:100vh;padding:130px 5vw 90px;max-width:1280px;margin:0 auto}
+.eyebrow{color:var(--gold);font-size:.72rem;letter-spacing:.32em;text-transform:uppercase;margin-bottom:1.4rem}
+h1{font-size:clamp(2.8rem,7.5vw,6.4rem);font-weight:300;line-height:1.02;letter-spacing:-.02em}
+h1 strong{font-weight:600}
+h2{font-size:clamp(1.9rem,4vw,3.1rem);font-weight:300;letter-spacing:-.01em;margin-bottom:.8rem}
+.lede{max-width:620px;color:var(--muted);font-size:1.12rem;margin-top:1.8rem}
+#hero{display:flex;flex-direction:column;justify-content:center}
+.cta{display:flex;gap:1rem;margin-top:2.6rem;flex-wrap:wrap}
+.btn{padding:14px 30px;border:1px solid var(--line);color:var(--white);text-decoration:none;font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;transition:all .35s;background:rgba(22,24,28,.5)}
+.btn:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-2px)}
+.btn.primary{background:var(--white);color:var(--black);border-color:var(--white)}
+.btn.primary:hover{background:var(--gold);border-color:var(--gold);color:var(--black)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1px;background:var(--line);margin-top:4.5rem;border:1px solid var(--line)}
+.stat{background:rgba(10,10,10,.8);padding:26px 22px}
+.stat b{display:block;font-size:2rem;font-weight:300}
+.stat span{color:var(--muted);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:22px;margin-top:3rem}
+.card{position:relative;background:rgba(18,18,18,.72);border:1px solid var(--line);padding:34px 30px 30px;backdrop-filter:blur(10px);transition:transform .45s cubic-bezier(.2,.8,.2,1),border-color .4s;transform-style:preserve-3d;will-change:transform}
+.card:hover{border-color:rgba(201,169,106,.5)}
+.card .tag{font-size:.66rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold)}
+.card h3{font-size:1.5rem;font-weight:500;margin:.7rem 0 .8rem}
+.card p{color:var(--muted);font-size:.96rem}
+.card ul{margin:1.1rem 0 1.3rem 1.1rem;color:var(--silver);font-size:.9rem}
+.card li{margin-bottom:.35rem}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:1rem}
+.chip{font-size:.7rem;padding:5px 11px;border:1px solid var(--line);color:var(--silver);letter-spacing:.06em}
+.status{position:absolute;top:30px;right:28px;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.status i{display:inline-block;width:6px;height:6px;border-radius:50%;background:#5fb381;margin-right:7px}
+.status i.build{background:var(--gold)}
+.status i.plan{background:var(--steel)}
+.timeline{margin-top:3rem;border-left:1px solid var(--line);padding-left:30px}
+.tl{position:relative;margin-bottom:2.4rem}
+.tl::before{content:'';position:absolute;left:-36px;top:8px;width:11px;height:11px;border-radius:50%;background:var(--black);border:1px solid var(--gold)}
+.tl h4{font-weight:500;font-size:1.15rem}
+.tl small{color:var(--gold);letter-spacing:.2em;text-transform:uppercase;font-size:.66rem}
+.tl p{color:var(--muted);margin-top:.4rem;max-width:640px}
+.skills{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px;margin-top:3rem}
+.skill{border-top:1px solid var(--gold);padding-top:18px}
+.skill h4{font-size:.78rem;letter-spacing:.24em;text-transform:uppercase;font-weight:500;margin-bottom:.8rem}
+.skill p{color:var(--muted);font-size:.95rem}
+.quote{margin-top:4rem;font-size:clamp(1.3rem,2.6vw,2rem);font-weight:300;color:var(--silver);max-width:760px}
+#contact{display:flex;flex-direction:column;justify-content:center}
+.links{display:flex;flex-wrap:wrap;gap:1.6rem;margin-top:2.4rem}
+.links a{color:var(--white);text-decoration:none;border-bottom:1px solid var(--line);padding-bottom:4px;font-size:.95rem;transition:all .3s}
+.links a:hover{color:var(--gold);border-color:var(--gold)}
+footer{position:relative;z-index:5;text-align:center;padding:40px 5vw 50px;color:var(--muted);font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;border-top:1px solid var(--line)}
+.reveal{opacity:0;transform:translateY(34px);transition:opacity 1s ease,transform 1s cubic-bezier(.2,.8,.2,1)}
+.reveal.in{opacity:1;transform:none}
+@media(max-width:760px){nav ul{display:none}.grid{grid-template-columns:1fr}section{padding-top:110px}}
+@media(prefers-reduced-motion:reduce){.reveal{transition:none;opacity:1;transform:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<canvas id="bg"></canvas>
+<div class="grain"></div>
+
+<nav>
+  <div class="logo">Jeh<span>K</span>Tech</div>
+  <ul>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#trading">Trading</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<main>
+<section id="hero">
+  <div class="eyebrow reveal">Lusaka, Zambia · Technologist · Trader · Founder</div>
+  <h1 class="reveal">Precision<br><strong>under pressure.</strong></h1>
+  <p class="lede reveal">I am Jehoiachin Katemangwe. I design and test payment systems that move real money, build SaaS products, and run a systematic trading operation. Structure first. Noise last.</p>
+  <div class="cta reveal">
+    <a class="btn primary" href="#work">View projects</a>
+    <a class="btn" href="#contact">Get in touch</a>
+  </div>
+  <div class="stats reveal">
+    <div class="stat"><b data-count="3">0</b><span>Years in fintech</span></div>
+    <div class="stat"><b data-count="5">0</b><span>Live payment integrations</span></div>
+    <div class="stat"><b data-count="10">0</b><span>+ UI modules shipped</span></div>
+    <div class="stat"><b data-count="3">0</b><span>SaaS and agency ventures</span></div>
+  </div>
+</section>
+
+<section id="work">
+  <div class="eyebrow reveal">Selected work</div>
+  <h2 class="reveal">Products and systems</h2>
+  <p class="lede reveal" style="margin-top:0">Software I have designed, built and shipped, from monitoring infrastructure to AI onboarding to national-scale payment rails.</p>
+  <div class="grid">
+
+    <article class="card reveal">
+      <div class="status"><i></i>In development</div>
+      <div class="tag">SaaS · Monitoring</div>
+      <h3>StatusHub</h3>
+      <p>Webhook management and status monitoring platform with real-time updates and full-text search.</p>
+      <ul>
+        <li>Real-time event streaming over server-sent events</li>
+        <li>PostgreSQL full-text search with GIN indexes</li>
+        <li>Security hardening, caching and rate limiting</li>
+      </ul>
+      <div class="chips"><span class="chip">Next.js 14</span><span class="chip">Express</span><span class="chip">Prisma</span><span class="chip">PostgreSQL</span><span class="chip">Firebase Auth</span></div>
+    </article>
+
+    <article class="card reveal">
+      <div class="status"><i class="build"></i>Frontend complete</div>
+      <div class="tag">SaaS · AI</div>
+      <h3>OnboardAI</h3>
+      <p>AI-powered client onboarding dashboard. Frontend built, with a full backend specification and four-week sprint plan ready.</p>
+      <ul>
+        <li>Clean dashboard UX for client intake and progress</li>
+        <li>Designed backend with queues, payments and sockets</li>
+      </ul>
+      <div class="chips"><span class="chip">React</span><span class="chip">Vite</span><span class="chip">Prisma</span><span class="chip">Stripe</span><span class="chip">BullMQ</span></div>
+    </article>
+
+    <article class="card reveal">
+      <div class="status"><i></i>Live</div>
+      <div class="tag">Agency · Automation</div>
+      <h3>Luminous Pixels</h3>
+      <p>AI automation agency serving US-based clients, with a content-managed site, working lead forms and an outreach system built around workflow automation.</p>
+      <ul>
+        <li>Mobile-first, accessible front end</li>
+        <li>Multi-agent sales workflow from lead to close</li>
+      </ul>
+      <div class="chips"><span class="chip">Vite</span><span class="chip">React</span><span class="chip">Sanity CMS</span><span class="chip">Resend</span></div>
+    </article>
+
+    <article class="card reveal">
+      <div class="status"><i class="build"></i>Semester project</div>
+      <div class="tag">E-Governance</div>
+      <h3>HRRAMS</h3>
+      <p>Human Rights Reporting and Awareness Management System. Anonymous and authenticated reporting, case management and an awareness portal.</p>
+      <ul>
+        <li>Role-based access and audit logging</li>
+        <li>Case management state machine</li>
+        <li>Dashboards and statistics</li>
+      </ul>
+      <div class="chips"><span class="chip">React</span><span class="chip">Node.js</span><span class="chip">MySQL</span><span class="chip">JWT</span></div>
+    </article>
+
+    <article class="card reveal">
+      <div class="status"><i></i>Production</div>
+      <div class="tag">Fintech · Mamastops</div>
+      <h3>Payment integrations</h3>
+      <p>Five live payment integrations for a cashless logistics platform, tested and designed end to end.</p>
+      <ul>
+        <li>E-Toll, BookNow and NRFA</li>
+        <li>Airtel Money V2 and M-Pesa Mozambique</li>
+        <li>WhatsApp OTP and TFN Payments</li>
+      </ul>
+      <div class="chips"><span class="chip">Playwright</span><span class="chip">QA automation</span><span class="chip">UI/UX</span></div>
+    </article>
+
+    <article class="card reveal">
+      <div class="status"><i class="plan"></i>Concept</div>
+      <div class="tag">Mobility</div>
+      <h3>Transit Tracker</h3>
+      <p>Real-time public transport tracking app concept with a full multi-agent development masterplan.</p>
+      <div class="chips"><span class="chip">React Native</span><span class="chip">PostGIS</span><span class="chip">Redis</span><span class="chip">WebSockets</span></div>
+    </article>
+
+  </div>
+</section>
+
+<section id="trading">
+  <div class="eyebrow reveal">Systematic trading</div>
+  <h2 class="reveal">R0TK framework</h2>
+  <p class="lede reveal" style="margin-top:0">A rules-based prop trading process. Higher-timeframe structure, intermediate liquidity, lower-timeframe entry. No confirmation, no trade.</p>
+  <div class="grid">
+    <article class="card reveal">
+      <div class="tag">Framework</div>
+      <h3>R0TK</h3>
+      <p>Smart Money Concepts applied with strict risk limits across futures, metals, crypto, forex and oil.</p>
+      <ul>
+        <li>One percent maximum risk per trade</li>
+        <li>Daily and weekly loss limits enforced</li>
+        <li>Oil workflow built around EIA inventory reports</li>
+      </ul>
+    </article>
+    <article class="card reveal">
+      <div class="tag">Research</div>
+      <h3>Midnight Opening Gap</h3>
+      <p>Published microstructure research on the Midnight Opening Gap, registered with a DOI on Zenodo.</p>
+      <div class="chips"><span class="chip">Zenodo</span><span class="chip">Academia.edu</span></div>
+    </article>
+    <article class="card reveal">
+      <div class="tag">Tooling</div>
+      <h3>MT5 Trade Copier</h3>
+      <p>Python trade copier that mirrors positions across prop accounts while enforcing risk rules automatically.</p>
+      <div class="chips"><span class="chip">Python</span><span class="chip">MetaTrader 5</span></div>
+    </article>
+  </div>
+  <p class="quote reveal">Stillness is also a position.</p>
+</section>
+
+<section id="experience">
+  <div class="eyebrow reveal">Experience</div>
+  <h2 class="reveal">Background</h2>
+  <div class="timeline">
+    <div class="tl reveal">
+      <small>Current</small>
+      <h4>UI/UX Designer and QA Automation Engineer — Mount Meru / Mamastops</h4>
+      <p>Three years inside a cashless logistics platform, designing interfaces and automating quality assurance for live payment flows.</p>
+    </div>
+    <div class="tl reveal">
+      <small>Ventures</small>
+      <h4>Founder — JehKTech, KTMNGW, Luminous Pixels</h4>
+      <p>An umbrella for software products, a trading and content brand, and an AI automation agency.</p>
+    </div>
+    <div class="tl reveal">
+      <small>Academic</small>
+      <h4>University student — E-Governance</h4>
+      <p>Building full-stack systems as part of a semester programme while shipping professional work in parallel.</p>
+    </div>
+  </div>
+
+  <div class="skills">
+    <div class="skill reveal"><h4>Frontend</h4><p>React, Vite, Next.js, TypeScript-style component architecture, accessible mobile-first CSS.</p></div>
+    <div class="skill reveal"><h4>Backend</h4><p>Node.js, Express, Prisma, PostgreSQL, MySQL, JWT, server-sent events.</p></div>
+    <div class="skill reveal"><h4>Quality</h4><p>Playwright end-to-end testing, payment flow verification, structured test reporting.</p></div>
+    <div class="skill reveal"><h4>Design</h4><p>UI/UX for fintech, dark minimal systems, brand and typography direction.</p></div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="eyebrow reveal">Contact</div>
+  <h1 class="reveal" style="font-size:clamp(2.4rem,6vw,5rem)">Let us build<br><strong>something precise.</strong></h1>
+  <p class="lede reveal">Open to product engineering, QA automation and fintech collaboration.</p>
+  <div class="links reveal">
+    <a href="mailto:jehoiachinkatemangwe1@gmail.com">jehoiachinkatemangwe1@gmail.com</a>
+    <a href="tel:+260970435346">+260 970 435 346</a>
+    <a href="https://github.com/JehkTech" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://www.linkedin.com/in/jkatemangwe" target="_blank" rel="noopener">LinkedIn</a>
+  </div>
+</section>
+</main>
+
+<footer>© <span id="yr"></span> JehKTech · Trade clarity.</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+  var canvas=document.getElementById('bg');
+  var renderer=new THREE.WebGLRenderer({canvas:canvas,antialias:true,alpha:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  var scene=new THREE.Scene();
+  scene.fog=new THREE.FogExp2(0x0a0a0a,0.045);
+  var camera=new THREE.PerspectiveCamera(60,window.innerWidth/window.innerHeight,0.1,100);
+  camera.position.z=8;
+
+  // Particle field
+  var N=1400,pos=new Float32Array(N*3);
+  for(var i=0;i<N;i++){pos[i*3]=(Math.random()-.5)*30;pos[i*3+1]=(Math.random()-.5)*30;pos[i*3+2]=(Math.random()-.5)*30;}
+  var pg=new THREE.BufferGeometry();pg.setAttribute('position',new THREE.BufferAttribute(pos,3));
+  var points=new THREE.Points(pg,new THREE.PointsMaterial({color:0xc0c4cc,size:0.025,transparent:true,opacity:.7}));
+  scene.add(points);
+
+  // Wireframe icosahedron core
+  var core=new THREE.Mesh(new THREE.IcosahedronGeometry(2.2,1),new THREE.MeshBasicMaterial({color:0xc9a96a,wireframe:true,transparent:true,opacity:.28}));
+  core.position.set(3.2,0,-2);scene.add(core);
+
+  // Outer ring
+  var ring=new THREE.Mesh(new THREE.TorusGeometry(3.6,0.008,8,160),new THREE.MeshBasicMaterial({color:0xc0c4cc,transparent:true,opacity:.35}));
+  ring.position.copy(core.position);ring.rotation.x=1.2;scene.add(ring);
+
+  var mx=0,my=0,sy=0;
+  window.addEventListener('mousemove',function(e){mx=(e.clientX/window.innerWidth-.5);my=(e.clientY/window.innerHeight-.5);});
+  window.addEventListener('scroll',function(){sy=window.scrollY/Math.max(1,document.body.scrollHeight-window.innerHeight);});
+  function resize(){renderer.setSize(window.innerWidth,window.innerHeight);camera.aspect=window.innerWidth/window.innerHeight;camera.updateProjectionMatrix();}
+  window.addEventListener('resize',resize);resize();
+
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var t=0;
+  function tick(){
+    t+=0.004;
+    if(!reduce){
+      points.rotation.y=t*0.15;points.rotation.x=t*0.05;
+      core.rotation.y=t*0.6;core.rotation.x=t*0.3;
+      ring.rotation.z=t*0.4;
+    }
+    camera.position.x+=((mx*1.6)-camera.position.x)*0.04;
+    camera.position.y+=((-my*1.0)-camera.position.y)*0.04;
+    camera.position.z=8-sy*4;
+    core.position.y=-sy*6+1;ring.position.y=core.position.y;
+    camera.lookAt(0,-sy*3,0);
+    renderer.render(scene,camera);
+    requestAnimationFrame(tick);
+  }
+  tick();
+
+  // Scroll reveal
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});
+
+  // Counters
+  var co=new IntersectionObserver(function(es){es.forEach(function(e){if(!e.isIntersecting)return;var el=e.target,target=+el.dataset.count,v=0;var iv=setInterval(function(){v++;el.textContent=v;if(v>=target)clearInterval(iv);},120);co.unobserve(el);});},{threshold:.6});
+  document.querySelectorAll('[data-count]').forEach(function(el){co.observe(el);});
+
+  // Card tilt
+  document.querySelectorAll('.card').forEach(function(c){
+    c.addEventListener('mousemove',function(e){var r=c.getBoundingClientRect();var x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;c.style.transform='perspective(900px) rotateY('+(x*8)+'deg) rotateX('+(-y*8)+'deg) translateY(-4px)';});
+    c.addEventListener('mouseleave',function(){c.style.transform='';});
+  });
+
+  document.getElementById('yr').textContent=new Date().getFullYear();
+})();
+</script>
+</body>
+</html>

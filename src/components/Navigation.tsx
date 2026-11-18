@@ -9,8 +9,8 @@ interface NavigationProps {
 const NAV_LINKS = [
   { id: "about", label: "About" },
   { id: "projects", label: "Projects" },
-  { id: "stack", label: "Stack" },
-  { id: "wisdom", label: "Wisdom" },
+  { id: "trading", label: "Trading" },
+  { id: "stack", label: "Architecture" },
   { id: "experience", label: "Experience" },
 ];
 
@@ -26,7 +26,7 @@ export function Navigation({
   };
 
   return (
-    <header className="fixed top-0 inset-x-0 z-50 bg-[#07090e]/95 border-b border-white/10">
+    <header className="fixed top-0 inset-x-0 z-50 bg-[#0a0a0a]/95 border-b border-white/10">
       <div className="max-w-7xl mx-auto px-6 h-14 flex items-center justify-between gap-8">
         {/* Zone 1: Single-line Wordmark */}
         <a
@@ -35,9 +35,9 @@ export function Navigation({
             e.preventDefault();
             handleLinkClick("about");
           }}
-          className="font-display text-lg font-semibold tracking-tight text-[#edf0f5] whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-amber-400"
+          className="font-display text-lg font-semibold tracking-tight text-[#ededed] whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#c9a96a]"
         >
-          JehkTech
+          Jeh<span className="text-[#c9a96a]">K</span>Tech
         </a>
 
         {/* Zone 2: 5 concise single-line nav links */}
@@ -57,8 +57,8 @@ export function Navigation({
                 }}
                 className={`text-sm font-medium whitespace-nowrap shrink-0 transition-colors duration-150 pb-0.5 border-b ${
                   isActive
-                    ? "text-amber-400 border-amber-400"
-                    : "text-slate-300 border-transparent hover:text-white hover:border-slate-500"
+                    ? "text-[#c9a96a] border-[#c9a96a]"
+                    : "text-[#c0c4cc] border-transparent hover:text-[#ededed] hover:border-white/30"
                 }`}
               >
                 {item.label}
@@ -72,7 +72,7 @@ export function Navigation({
           <button
             type="button"
             onClick={() => handleLinkClick("contact")}
-            className="hidden md:inline-flex items-center px-4 py-2 text-xs font-semibold bg-amber-500 text-slate-950 rounded-lg hover:bg-amber-400 transition-colors duration-150 whitespace-nowrap shrink-0 cursor-pointer"
+            className="hidden md:inline-flex items-center px-4 py-2 text-xs font-semibold bg-[#c9a96a] text-[#0a0a0a] rounded-lg hover:bg-[#d8bc82] transition-colors duration-150 whitespace-nowrap shrink-0 cursor-pointer"
           >
             Contact
           </button>
@@ -82,7 +82,7 @@ export function Navigation({
             onClick={() => setMobileOpen((prev) => !prev)}
             aria-label={mobileOpen ? "Close navigation menu" : "Open navigation menu"}
             aria-expanded={mobileOpen}
-            className="md:hidden p-2 text-slate-300 hover:text-white rounded-lg border border-white/10"
+            className="md:hidden p-2 text-[#c0c4cc] hover:text-white rounded-lg border border-white/10"
           >
             {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
@@ -91,7 +91,7 @@ export function Navigation({
 
       {/* Mobile drawer */}
       {mobileOpen && (
-        <div className="md:hidden bg-[#0b0f17] border-t border-white/10 px-6 py-4 space-y-2">
+        <div className="md:hidden bg-[#121212] border-t border-white/10 px-6 py-4 space-y-2">
           {NAV_LINKS.map((item) => (
             <a
               key={item.id}
@@ -101,7 +101,7 @@ export function Navigation({
                 handleLinkClick(item.id);
               }}
               className={`block py-2 text-sm font-medium ${
-                activeSection === item.id ? "text-amber-400" : "text-slate-300"
+                activeSection === item.id ? "text-[#c9a96a]" : "text-[#c0c4cc]"
               }`}
             >
               {item.label}
@@ -110,7 +110,7 @@ export function Navigation({
           <button
             type="button"
             onClick={() => handleLinkClick("contact")}
-            className="w-full mt-2 px-4 py-2.5 text-sm font-semibold bg-amber-500 text-slate-950 rounded-lg"
+            className="w-full mt-2 px-4 py-2.5 text-sm font-semibold bg-[#c9a96a] text-[#0a0a0a] rounded-lg"
           >
             Contact
           </button>

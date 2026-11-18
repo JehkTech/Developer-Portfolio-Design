@@ -95,8 +95,8 @@ export function PortfolioScene3D({
     ).matches;
 
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x07090e);
-    scene.fog = new THREE.FogExp2(0x07090e, 0.022);
+    scene.background = new THREE.Color(0x0a0a0a);
+    scene.fog = new THREE.FogExp2(0x0a0a0a, 0.021);
 
     const width = mount.clientWidth || window.innerWidth;
     const height = mount.clientHeight || window.innerHeight;
@@ -157,7 +157,7 @@ export function PortfolioScene3D({
     rimLight.position.set(-8, 6, -9);
     scene.add(rimLight);
 
-    const hubAccentLight = new THREE.PointLight(0xf59e0b, 2.4, 16, 1.6);
+    const hubAccentLight = new THREE.PointLight(0xc9a96a, 2.3, 16, 1.6);
     hubAccentLight.position.set(0, 2.6, 0);
     scene.add(hubAccentLight);
 

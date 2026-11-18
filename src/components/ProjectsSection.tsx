@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Compass, Github, Layers } from "lucide-react";
+import { Compass, ExternalLink, Github, Layers } from "lucide-react";
 import { PROJECTS, type PortfolioProject } from "../data/portfolioData";
 import { filterProjects, type ProjectCategory } from "../three/portfolioGraph";
 
@@ -12,10 +12,10 @@ interface ProjectsSectionProps {
 }
 
 const FILTER_OPTIONS: { id: ProjectCategory; label: string }[] = [
-  { id: "all", label: "All Works" },
-  { id: "blockchain", label: "Blockchain" },
-  { id: "fullstack", label: "Full-Stack" },
-  { id: "design", label: "Design & Audio" },
+  { id: "all", label: "All Systems" },
+  { id: "saas", label: "AI & SaaS" },
+  { id: "clients", label: "Client Work" },
+  { id: "fintech", label: "Fintech & Trading" },
 ];
 
 function ProjectImageFrame({ project }: { project: PortfolioProject }) {
@@ -23,15 +23,15 @@ function ProjectImageFrame({ project }: { project: PortfolioProject }) {
 
   if (imgFailed) {
     return (
-      <div className="aspect-[4/3] w-full bg-[#131a29] flex flex-col items-center justify-center p-6 text-center border-b border-white/10">
-        <Layers className="w-8 h-8 text-amber-400 mb-2" />
-        <p className="text-xs font-mono text-slate-300">{project.title}</p>
+      <div className="aspect-[4/3] w-full bg-[#16181c] flex flex-col items-center justify-center p-6 text-center border-b border-white/10">
+        <Layers className="w-8 h-8 text-[#c9a96a] mb-2" />
+        <p className="text-xs font-mono text-[#c0c4cc]">{project.title}</p>
       </div>
     );
   }
 
   return (
-    <div className="aspect-[4/3] w-full overflow-hidden bg-[#131a29] border-b border-white/10 relative">
+    <div className="aspect-[4/3] w-full overflow-hidden bg-[#16181c] border-b border-white/10 relative">
       <img
         src={project.image}
         alt={project.imageAlt}
@@ -57,25 +57,24 @@ export function ProjectsSection({
       id="projects"
       className="py-24 px-6 relative pointer-events-none"
     >
-      <div className="max-w-7xl mx-auto pointer-events-auto bg-[#090d16]/88 border border-white/10 rounded-2xl p-6 md:p-10">
+      <div className="max-w-7xl mx-auto pointer-events-auto bg-[#101114]/92 border border-white/10 rounded-2xl p-6 md:p-10">
         <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-6 mb-10 pb-8 border-b border-white/10">
           <div className="max-w-xl">
-            <p className="text-xs font-mono text-amber-400 mb-2">
-              Interconnected Portfolio Web
+            <p className="text-xs font-mono text-[#c9a96a] mb-2">
+              Selected Work &amp; Client Deployments
             </p>
-            <h2 className="font-display text-3xl md:text-4xl font-semibold text-white tracking-tight text-balance mb-3">
-              Featured Engineering &amp; Spatial Projects
+            <h2 className="font-display text-3xl md:text-4xl font-light text-[#ededed] tracking-tight text-balance mb-3">
+              Products, SaaS &amp;{" "}
+              <strong className="font-semibold text-white">Client Systems</strong>
             </h2>
-            <p className="text-slate-300 text-sm md:text-base leading-relaxed">
-              Each project forms a satellite node in the 3D hub above, linked by
-              shared technical architecture across Rust, Bitcoin Lightning, DeFi,
-              trading systems, and sacred geometry.
+            <p className="text-[#c0c4cc] text-sm md:text-base leading-relaxed">
+              Software and client platforms designed, automated, and shipped —
+              each mapped as an interconnected node in the 3D web hub above.
             </p>
           </div>
 
-          {/* Interactive segmented filter tabs */}
           <div
-            className="flex flex-nowrap overflow-x-auto max-w-full items-center gap-1 bg-[#111726] p-1 rounded-xl border border-white/10 self-start xl:self-end shrink-0"
+            className="flex flex-nowrap overflow-x-auto max-w-full items-center gap-1 bg-[#16181c] p-1 rounded-xl border border-white/10 self-start xl:self-end shrink-0"
             role="group"
             aria-label="Filter projects by category"
           >
@@ -89,8 +88,8 @@ export function ProjectsSection({
                   aria-pressed={isSelected}
                   className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors duration-150 whitespace-nowrap shrink-0 cursor-pointer ${
                     isSelected
-                      ? "bg-amber-500 text-slate-950"
-                      : "text-slate-300 hover:text-white"
+                      ? "bg-[#c9a96a] text-[#0a0a0a]"
+                      : "text-[#c0c4cc] hover:text-white"
                   }`}
                 >
                   {opt.label}
@@ -112,60 +111,92 @@ export function ProjectsSection({
                 key={project.id}
                 onMouseEnter={() => onHoverProject(project.id)}
                 onMouseLeave={() => onHoverProject(null)}
-                className={`group flex flex-col bg-[#0f1522] border rounded-xl overflow-hidden transition-colors duration-150 ${
+                className={`group flex flex-col bg-[#14161a] border rounded-xl overflow-hidden transition-colors duration-150 ${
                   isFocused
-                    ? "border-amber-400"
-                    : "border-white/10 hover:border-white/25"
+                    ? "border-[#c9a96a]"
+                    : "border-white/10 hover:border-[#c9a96a]/50"
                 }`}
               >
                 <ProjectImageFrame project={project} />
 
                 <div className="p-6 flex flex-col flex-1">
-                  <div className="flex items-center justify-between gap-2 text-xs font-mono text-slate-400 mb-2">
-                    <span className="text-amber-400">
+                  <div className="flex items-center justify-between gap-2 text-xs font-mono mb-2">
+                    <span className="text-[#c9a96a] tabular-nums">
                       {String(idx + 1).padStart(2, "0")} · {project.typeLabel}
+                    </span>
+                    <span className="text-[#8b9099] whitespace-nowrap">
+                      {project.statusLabel}
                     </span>
                   </div>
 
-                  <h3 className="font-display text-lg font-semibold text-white mb-2.5">
+                  <h3 className="font-display text-lg font-semibold text-[#ededed] mb-2.5">
                     {project.title}
                   </h3>
 
-                  <p className="text-sm text-slate-300 leading-relaxed mb-4 flex-1">
+                  <p className="text-sm text-[#c0c4cc] leading-relaxed mb-4 flex-1">
                     {project.description}
                   </p>
 
-                  <div className="space-y-2.5 pt-4 border-t border-white/10 mb-5">
-                    <p className="text-xs font-mono text-slate-300">
+                  <div className="space-y-2 pt-4 border-t border-white/10 mb-5">
+                    <p className="text-xs font-mono text-[#c0c4cc]">
                       {project.tech.join(" · ")}
                     </p>
                     {linkedTitles.length > 0 && (
-                      <p className="text-xs text-sky-300/90">
+                      <p className="text-xs text-[#8b9099]">
                         Web links: {linkedTitles.join(", ")}
                       </p>
                     )}
                   </div>
 
-                  <div className="flex items-center justify-between gap-3">
+                  <div className="flex flex-wrap items-center gap-2">
                     <button
                       type="button"
                       onClick={() => onFocusProject(project.id)}
-                      className="px-4 py-2 text-xs font-semibold bg-amber-500 text-slate-950 rounded-lg hover:bg-amber-400 transition-colors duration-150 inline-flex items-center gap-1.5 whitespace-nowrap shrink-0 cursor-pointer"
+                      className="px-3.5 py-2 text-xs font-semibold bg-[#c9a96a] text-[#0a0a0a] rounded-lg hover:bg-[#d8bc82] transition-colors duration-150 inline-flex items-center gap-1.5 whitespace-nowrap shrink-0 cursor-pointer"
                     >
                       <Compass className="w-3.5 h-3.5" />
                       <span>Focus in 3D</span>
                     </button>
 
-                    <a
-                      href={project.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`View ${project.title} source on GitHub`}
-                      className="px-3 py-2 text-xs font-medium text-slate-300 border border-white/12 rounded-lg hover:text-white hover:border-white/30 transition-colors duration-150 inline-flex items-center gap-1.5 whitespace-nowrap shrink-0"
-                    >
-                      <Github className="w-3.5 h-3.5" />
-                      <span>GitHub</span>
-                    </a>
+                    {project.live && (
+                      <a
+                        href={project.live}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`Open live deployment for ${project.title}`}
+                        className="px-3 py-2 text-xs font-medium text-[#ededed] border border-white/15 rounded-lg hover:border-[#c9a96a]/60 hover:text-[#c9a96a] transition-colors duration-150 inline-flex items-center gap-1.5 whitespace-nowrap shrink-0"
+                      >
+                        <ExternalLink className="w-3.5 h-3.5" />
+                        <span>Live Site</span>
+                      </a>
+                    )}
+
+                    {project.secondaryLinks?.map((sec) => (
+                      <a
+                        key={sec.url}
+                        href={sec.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`${sec.label} for ${project.title}`}
+                        className="px-3 py-2 text-xs font-medium text-[#c0c4cc] border border-white/12 rounded-lg hover:border-[#c9a96a]/60 hover:text-[#c9a96a] transition-colors duration-150 inline-flex items-center gap-1.5 whitespace-nowrap shrink-0"
+                      >
+                        <ExternalLink className="w-3.5 h-3.5" />
+                        <span>{sec.label}</span>
+                      </a>
+                    ))}
+
+                    {project.github && (
+                      <a
+                        href={project.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`View ${project.title} source on GitHub`}
+                        className="px-3 py-2 text-xs font-medium text-[#c0c4cc] border border-white/12 rounded-lg hover:text-white hover:border-white/30 transition-colors duration-150 inline-flex items-center gap-1.5 whitespace-nowrap shrink-0"
+                      >
+                        <Github className="w-3.5 h-3.5" />
+                        <span>GitHub</span>
+                      </a>
+                    )}
                   </div>
                 </div>
               </article>

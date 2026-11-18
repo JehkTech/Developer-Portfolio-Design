@@ -3,6 +3,7 @@ import { PortfolioScene3D } from "./components/PortfolioScene3D";
 import { Navigation } from "./components/Navigation";
 import { HeroSection } from "./components/HeroSection";
 import { ProjectsSection } from "./components/ProjectsSection";
+import { TradingSection } from "./components/TradingSection";
 import { TechStackSection } from "./components/TechStackSection";
 import { SpiritualSection } from "./components/SpiritualSection";
 import { ExperienceSection } from "./components/ExperienceSection";
@@ -59,7 +60,7 @@ export default function App() {
 
   return (
     <div
-      className="min-h-screen bg-[#07090e] text-[#edf0f5] relative overflow-x-hidden"
+      className="min-h-screen bg-[#0a0a0a] text-[#ededed] relative overflow-x-hidden"
       data-active-section={activeSection}
       data-camera-mode={cameraMode}
     >
@@ -103,6 +104,8 @@ export default function App() {
           onHoverProject={setHoveredProjectId}
         />
 
+        <TradingSection />
+
         <TechStackSection />
 
         <SpiritualSection />
@@ -111,10 +114,10 @@ export default function App() {
 
         <ContactSection />
 
-        <footer className="bg-[#07090e]/95 border-t border-white/10 py-8 px-6 pb-24 pointer-events-auto">
-          <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
-            <p>© 2026 JehkTech · Jehoiachin Katemangwe</p>
-            <p className="font-mono text-amber-400/90">
+        <footer className="bg-[#0a0a0a]/95 border-t border-white/10 py-8 px-6 pb-24 pointer-events-auto">
+          <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#8b9099]">
+            <p>© 2026 JehKTech · Trade clarity.</p>
+            <p className="font-mono text-[#c9a96a]">
               3 · 6 · 9 Sacred Geometry &amp; Spatial Systems
             </p>
           </div>
@@ -147,9 +150,9 @@ export default function App() {
         position="top-right"
         toastOptions={{
           style: {
-            background: "#0f1522",
+            background: "#121418",
             border: "1px solid rgba(255, 255, 255, 0.14)",
-            color: "#edf0f5",
+            color: "#ededed",
           },
         }}
       />

@@ -48,26 +48,26 @@ export function HubControlDock({
           type="button"
           onClick={() => setCollapsed((prev) => !prev)}
           aria-expanded={!collapsed}
-          className="px-3 py-1 text-xs font-medium text-slate-300 bg-[#0c111b] border border-b-0 border-white/15 rounded-t-lg hover:text-white transition-colors duration-150 inline-flex items-center gap-1.5 whitespace-nowrap shrink-0 cursor-pointer"
+          className="px-3 py-1 text-xs font-medium text-[#c0c4cc] bg-[#121418] border border-b-0 border-white/15 rounded-t-lg hover:text-white transition-colors duration-150 inline-flex items-center gap-1.5 whitespace-nowrap shrink-0 cursor-pointer"
         >
           {collapsed ? (
             <>
-              <ChevronUp className="w-3.5 h-3.5 text-amber-400" />
+              <ChevronUp className="w-3.5 h-3.5 text-[#c9a96a]" />
               <span>Show 3D Dock</span>
             </>
           ) : (
             <>
-              <ChevronDown className="w-3.5 h-3.5 text-amber-400" />
+              <ChevronDown className="w-3.5 h-3.5 text-[#c9a96a]" />
               <span>Hide 3D Dock</span>
             </>
           )}
         </button>
 
         {!collapsed && (
-          <div className="bg-[#0b101a]/95 border border-white/15 rounded-xl px-3 py-2 shadow-2xl flex items-center gap-2 overflow-x-auto max-w-full">
+          <div className="bg-[#101114]/95 border border-white/15 rounded-xl px-3 py-2 shadow-2xl flex items-center gap-2 overflow-x-auto max-w-full">
             {/* Scroll Sync vs Free Orbit segmented toggle */}
             <div
-              className="flex items-center bg-[#131a29] p-0.5 rounded-lg border border-white/10 shrink-0"
+              className="flex items-center bg-[#181b20] p-0.5 rounded-lg border border-white/10 shrink-0"
               role="group"
               aria-label="Camera navigation mode"
             >
@@ -76,8 +76,8 @@ export function HubControlDock({
                 onClick={() => onToggleCameraMode("scroll")}
                 className={`px-2.5 py-1.5 text-xs font-medium rounded-md transition-colors duration-150 whitespace-nowrap shrink-0 cursor-pointer ${
                   cameraMode === "scroll"
-                    ? "bg-amber-500 text-slate-950"
-                    : "text-slate-300 hover:text-white"
+                    ? "bg-[#c9a96a] text-[#0a0a0a]"
+                    : "text-[#c0c4cc] hover:text-white"
                 }`}
               >
                 Scroll Sync
@@ -87,8 +87,8 @@ export function HubControlDock({
                 onClick={() => onToggleCameraMode("orbit")}
                 className={`px-2.5 py-1.5 text-xs font-medium rounded-md transition-colors duration-150 whitespace-nowrap shrink-0 cursor-pointer ${
                   cameraMode === "orbit"
-                    ? "bg-amber-500 text-slate-950"
-                    : "text-slate-300 hover:text-white"
+                    ? "bg-[#c9a96a] text-[#0a0a0a]"
+                    : "text-[#c0c4cc] hover:text-white"
                 }`}
               >
                 Free Orbit
@@ -104,8 +104,8 @@ export function HubControlDock({
                 onClick={() => onFocusProject(null)}
                 className={`px-2.5 py-1.5 text-xs font-medium rounded-lg border transition-colors duration-150 inline-flex items-center gap-1.5 whitespace-nowrap shrink-0 cursor-pointer ${
                   focusedProjectId === null
-                    ? "border-amber-500/70 bg-amber-500/15 text-amber-300"
-                    : "border-white/10 text-slate-300 hover:text-white hover:border-white/25"
+                    ? "border-[#c9a96a]/70 bg-[#c9a96a]/15 text-[#c9a96a]"
+                    : "border-white/10 text-[#c0c4cc] hover:text-white hover:border-white/25"
                 }`}
               >
                 <Compass className="w-3.5 h-3.5" />
@@ -121,8 +121,8 @@ export function HubControlDock({
                     onClick={() => onFocusProject(proj.id)}
                     className={`px-2.5 py-1.5 text-xs font-medium rounded-lg border transition-colors duration-150 whitespace-nowrap shrink-0 cursor-pointer ${
                       isActive
-                        ? "border-amber-500 bg-amber-500 text-slate-950"
-                        : "border-white/10 text-slate-300 hover:text-white hover:border-white/25"
+                        ? "border-[#c9a96a] bg-[#c9a96a] text-[#0a0a0a]"
+                        : "border-white/10 text-[#c0c4cc] hover:text-white hover:border-white/25"
                     }`}
                   >
                     {proj.shortLabel}
@@ -142,7 +142,7 @@ export function HubControlDock({
                 className={`px-2.5 py-1.5 text-xs font-medium rounded-lg border transition-colors duration-150 inline-flex items-center gap-1.5 whitespace-nowrap shrink-0 cursor-pointer ${
                   zenMode
                     ? "border-sky-400 bg-sky-400/20 text-sky-200"
-                    : "border-white/10 text-slate-300 hover:text-white hover:border-white/25"
+                    : "border-white/10 text-[#c0c4cc] hover:text-white hover:border-white/25"
                 }`}
               >
                 {zenMode ? (
@@ -157,7 +157,7 @@ export function HubControlDock({
                 type="button"
                 onClick={onResetView}
                 aria-label="Reset 3D hub view"
-                className="p-1.5 text-slate-300 hover:text-white rounded-lg border border-white/10 hover:border-white/25 transition-colors duration-150 cursor-pointer"
+                className="p-1.5 text-[#c0c4cc] hover:text-white rounded-lg border border-white/10 hover:border-white/25 transition-colors duration-150 cursor-pointer"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
               </button>
