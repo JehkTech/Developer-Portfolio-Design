@@ -10,7 +10,11 @@ import {
   Phone,
 } from "lucide-react";
 import { toast } from "sonner";
-import { PORTFOLIO_EMAIL, PORTFOLIO_PHONE } from "../data/portfolioData";
+import {
+  MASKED_PHONE_DUMMY,
+  PORTFOLIO_EMAIL,
+  PORTFOLIO_GITHUB,
+} from "../data/portfolioData";
 import { MotionReveal } from "./MotionReveal";
 import {
   validateContactForm,
@@ -102,10 +106,21 @@ export function ContactSection() {
                     Direct Line
                   </p>
                   <a
-                    href="tel:+260970435346"
-                    className="text-sm text-[var(--text-primary)] hover:text-[var(--accent-gold)] transition-colors font-mono tabular-nums"
+                    href={PORTFOLIO_GITHUB}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Direct line protected — open JehKTech on GitHub"
+                    className="text-sm text-[var(--text-primary)] hover:text-[var(--accent-gold)] transition-colors inline-flex items-center gap-2 font-mono tabular-nums"
                   >
-                    {PORTFOLIO_PHONE}
+                    <span
+                      aria-hidden="true"
+                      className="blur-[4px] select-none"
+                    >
+                      {MASKED_PHONE_DUMMY}
+                    </span>
+                    <span className="text-xs text-[var(--text-muted)] hover:text-[var(--accent-gold)]">
+                      Open GitHub →
+                    </span>
                   </a>
                 </div>
               </div>

@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import {
+  buildJournalSpreads,
   buildWebEdges,
   computeFocusCameraForNode,
   computeProjectComplexityMetrics,
@@ -13,7 +14,10 @@ import {
   HUB_CORE_POSITION,
   interpolateCameraState,
   SECTION_WAYPOINTS,
+  stepJournalPage,
   validateContactForm,
+  validateJournalEntryInput,
+  type CustomJournalEntry,
   type ProjectNodeSpec,
 } from "./portfolioGraph";
 
@@ -235,3 +239,62 @@ test("validateContactForm rejects invalid inputs and accepts complete valid subm
   assert.equal(valid.valid, true);
   assert.deepEqual(valid.errors, {});
 });
+
+test("buildJournalSpreads creates 4 base chapters and paginates custom entries", () => {
+  const emptySpreads = buildJournalSpreads([]);
+  assert.equal(emptySpreads.length, 4);
+  assert.equal(emptySpreads[0].kind, "tesla");
+  assert.equal(emptySpreads[3].kind, "notes");
+
+  const fiveEntries: CustomJournalEntry[] = Array.from({ length: 5 }, (_, i) => ({
+    id: `entry-${i}`,
+    title: `Note ${i + 1}`,
+    category: "Reflection",
+    body: "Deliberate focus reveals system architecture.",
+    createdAt: "2026-11-18",
+  }));
+  const multiSpreads = buildJournalSpreads(fiveEntries, 4);
+  assert.equal(multiSpreads.length, 5);
+  assert.equal(multiSpreads[3].kind, "notes");
+  assert.equal(multiSpreads[4].kind, "notes");
+  if (multiSpreads[3].kind === "notes" && multiSpreads[4].kind === "notes") {
+    assert.equal(multiSpreads[3].entries.length, 4);
+    assert.equal(multiSpreads[4].entries.length, 1);
+  }
+});
+
+test("stepJournalPage flips sideways across pages and signals continue-down past final page", () => {
+  assert.deepEqual(stepJournalPage(0, 4, -1), {
+    nextIndex: 0,
+    outcome: "boundary-start",
+  });
+  assert.deepEqual(stepJournalPage(0, 4, 1), {
+    nextIndex: 1,
+    outcome: "flipped",
+  });
+  assert.deepEqual(stepJournalPage(3, 4, 1), {
+    nextIndex: 3,
+    outcome: "continue-down",
+  });
+});
+
+test("validateJournalEntryInput enforces title and body constraints", () => {
+  const bad = validateJournalEntryInput({
+    title: "A",
+    category: "Quote",
+    body: "Ok",
+  });
+  assert.equal(bad.valid, false);
+  assert.ok(bad.errors.title);
+  assert.ok(bad.errors.body);
+
+  const ok = validateJournalEntryInput({
+    title: "3-6-9 Alignment",
+    category: "Numeric Code",
+    code: "369963",
+    body: "Focus daily on deliberate creative engineering.",
+  });
+  assert.equal(ok.valid, true);
+  assert.deepEqual(ok.errors, {});
+});
+

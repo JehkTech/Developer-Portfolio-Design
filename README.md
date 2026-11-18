@@ -15,6 +15,7 @@ Interactive 3D portfolio for **JehKTech (Jehoiachin Katemangwe)** blending a scr
 - **Portfolio Sections & Analytics (`src/components/`)**
   - **Framer Motion Scroll Reveals (`MotionReveal.tsx`)**: Smooth GPU-composited `whileInView` fade + slide entrances across Hero, Projects, Portfolio Analytics, Trading, Tech Stack, Wisdom, Experience, and Contact sections (honoring `prefers-reduced-motion`).
   - **Real Website Previews & Recharts Analytics (`ProjectsSection.tsx`, `PortfolioMetricsCharts.tsx`, `ProjectDetailModal.tsx`)**: Minimalist browser-framed captures of actual live deployments plus Snapshot / Live Frame `iframe` toggle in `ProjectDetailModal`, and dual theme-aware Recharts visualizations (`Architecture Complexity Index` & `Tech Stack Distribution`).
+  - **Interactive Wisdom Journal (`SpiritualSection.tsx`, `SpiritualJournalModal.tsx`)**: Closed hardcover codex showcase on the main page that pops open into a full-screen, sideways 3D page-flipping journal covering 3-6-9 axioms, veil/reveal Quantum Resonance Codes, Manifestation Principles, and an interactive Field Notes composer (with `localStorage` persistence and seamless continuation down to `#experience` after the final spread).
   - `Navigation` (with Sun/Moon Dark & Light mode toggle), `HeroSection`, `ProjectsSection`, `TradingSection`, `TechStackSection`, `SpiritualSection`, `ExperienceSection`, `ContactSection`, and `ProjectDetailModal`.
 
 ## Commands

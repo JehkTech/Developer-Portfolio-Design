@@ -7,7 +7,10 @@ import luminousPixelsPreview from "../assets/previews/luminous_pixels.png";
 import onboardAiPreview from "../assets/previews/onboard_ai.png";
 import r0tkGithubPreview from "../assets/previews/r0tk_github.png";
 import jehktechGithubPreview from "../assets/previews/jehktech_github.png";
-import type { ProjectNodeSpec } from "../three/portfolioGraph";
+import type {
+  CustomJournalEntry,
+  ProjectNodeSpec,
+} from "../three/portfolioGraph";
 
 export interface ExternalSystemLink {
   label: string;
@@ -30,7 +33,8 @@ export interface PortfolioProject extends ProjectNodeSpec {
 }
 
 export const PORTFOLIO_EMAIL = "jehoiachinkatemangwe1@gmail.com";
-export const PORTFOLIO_PHONE = "+260 970 435 346";
+export const PORTFOLIO_GITHUB = "https://github.com/JehkTech";
+export const MASKED_PHONE_DUMMY = "+260 000 000 000";
 
 export const HERO_METRICS = [
   { value: "3+", label: "Years in fintech" },
@@ -433,3 +437,22 @@ export const EXPERIENCES = [
     skills: ["Python", "JavaScript", "Curriculum Design", "Responsive Design"],
   },
 ];
+
+export const DEFAULT_JOURNAL_ENTRIES: CustomJournalEntry[] = [
+  {
+    id: "seed-1",
+    title: "Stillness Before Execution",
+    category: "Reflection",
+    body: "Structure precedes speed. Before deploying any payment flow or entering an R0TK setup, define invalidation first and let noise pass.",
+    createdAt: "2026-11-12",
+  },
+  {
+    id: "seed-2",
+    title: "Harmonic Alignment Sequence",
+    category: "Numeric Code",
+    code: "369 818 719",
+    body: "Morning calibration note: clear intent (3), uninterrupted cadence (6), finished release (9).",
+    createdAt: "2026-11-15",
+  },
+];
+

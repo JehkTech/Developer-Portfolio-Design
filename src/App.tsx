@@ -174,7 +174,7 @@ export default function App() {
 
         <TechStackSection />
 
-        <SpiritualSection />
+        <SpiritualSection theme={theme} />
 
         <ExperienceSection />
 
