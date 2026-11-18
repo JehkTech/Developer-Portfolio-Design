@@ -66,22 +66,22 @@ function WebsitePreviewFrame({
             />
           ) : (
             /* Authentic live architecture endpoint view for sites without a hydrated static frame */
-            <div className="w-full h-full p-4 flex flex-col justify-between bg-[#0d1527] text-[#f0f5ff]">
-              <div className="flex items-center justify-between text-[11px] font-mono text-[#62a5ff]">
+            <div className="w-full h-full p-4 flex flex-col justify-between bg-[#0f0f13] text-[#f4efe6]">
+              <div className="flex items-center justify-between text-[11px] font-mono text-[#ffad66]">
                 <span>{project.title}</span>
                 <span>{project.statusLabel}</span>
               </div>
-              <div className="space-y-1.5 font-mono text-[11px] text-[#b8d4ff] border border-[#b8d4ff]/15 rounded-md p-3 bg-[#121d33]">
-                <div className="text-[#f0f5ff] font-semibold">
+              <div className="space-y-1.5 font-mono text-[11px] text-[#cbc8d8] border border-[#9d6bff]/25 rounded-md p-3 bg-[#17171f]">
+                <div className="text-[#f4efe6] font-semibold">
                   api-statushub.netlify.app
                 </div>
                 <div>POST /webhooks/ingest · HMAC Verified</div>
                 <div>GET /events/stream · Server-Sent Events</div>
-                <div className="text-[#83a1d1]">
+                <div className="text-[#57d9a3]">
                   PostgreSQL GIN Search · Express Workers
                 </div>
               </div>
-              <div className="text-[11px] text-[#83a1d1] font-mono">
+              <div className="text-[11px] text-[#938fa6] font-mono">
                 Click to inspect 3D node &amp; live link
               </div>
             </div>
@@ -121,6 +121,22 @@ function PortfolioCard({
     );
   };
 
+  const cardAccentBars = [
+    "from-[#ff7162] via-[#b06dff] to-[#5c8aff]",
+    "from-[#49c99b] via-[#34a88f] to-[#2457e6]",
+    "from-[#ffad66] via-[#ff7162] to-[#9d6bff]",
+    "from-[#9d6bff] via-[#5c8aff] to-[#57d9a3]",
+  ];
+  const cardBarGradient = cardAccentBars[index % cardAccentBars.length];
+  const badgeColorClass =
+    project.category === "clients"
+      ? "text-[var(--accent-coral)]"
+      : project.category === "fintech"
+      ? "text-[var(--accent-amber)]"
+      : index % 2 === 0
+      ? "text-[var(--accent-gold)]"
+      : "text-[var(--accent-sage)]";
+
   return (
     <article
       onMouseEnter={() => onHoverProject(project.id)}
@@ -136,6 +152,10 @@ function PortfolioCard({
           : "border-[var(--border-hairline)] hover:border-[var(--accent-gold)]/65 hover:shadow-md"
       }`}
     >
+      <div
+        aria-hidden="true"
+        className={`h-[3px] w-full bg-gradient-to-r ${cardBarGradient}`}
+      />
       <WebsitePreviewFrame
         project={project}
         onFocus={() => onFocusProject(project.id)}
@@ -143,7 +163,7 @@ function PortfolioCard({
 
       <div className="p-6 flex flex-col flex-1">
         <div className="flex items-center justify-between gap-2 text-xs font-mono mb-2">
-          <span className="text-[var(--accent-gold)] tabular-nums">
+          <span className={`${badgeColorClass} tabular-nums`}>
             {String(index + 1).padStart(2, "0")} · {project.typeLabel}
           </span>
           <span className="text-[var(--text-muted)] whitespace-nowrap">
@@ -242,7 +262,7 @@ export function ProjectsSection({
       <div className="max-w-7xl mx-auto">
         <MotionReveal className="flex flex-col xl:flex-row xl:items-end justify-between gap-6 mb-12 pb-8 border-b border-[var(--border-hairline)] pointer-events-auto">
           <div className="max-w-xl">
-            <p className="text-xs font-mono uppercase tracking-[0.26em] text-[var(--accent-gold)] mb-3">
+            <p className="text-xs font-mono uppercase tracking-[0.26em] text-[var(--accent-coral)] mb-3">
               Portfolio · Client Work &amp; Shipped Systems
             </p>
             <h2 className="font-display text-3xl md:text-5xl font-light text-[var(--text-primary)] tracking-tight text-balance mb-3">
@@ -288,7 +308,7 @@ export function ProjectsSection({
               <div id="clients" className="scroll-mt-20">
                 <div className="flex flex-wrap items-baseline justify-between gap-4 mb-6">
                   <div>
-                    <p className="text-xs font-mono uppercase tracking-[0.22em] text-[var(--accent-gold)] mb-1">
+                    <p className="text-xs font-mono uppercase tracking-[0.22em] text-[var(--accent-coral)] mb-1">
                       01 · Client Work
                     </p>
                     <h3 className="font-display text-2xl font-medium text-[var(--text-primary)]">

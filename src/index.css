@@ -10,37 +10,45 @@
 @layer base {
   :root {
     color-scheme: light;
-    --bg-canvas: #f3f6fc;
-    --bg-surface: rgba(255, 255, 255, 0.9);
-    --bg-surface-solid: #ffffff;
-    --bg-inset: #e6edf9;
-    --text-primary: #0d1527;
-    --text-secondary: #2a3b5c;
-    --text-muted: #4e6287;
-    --accent-gold: #1967dc;
-    --accent-gold-hover: #1355ba;
+    --bg-canvas: #f2efe8;
+    --bg-surface: rgba(251, 249, 245, 0.92);
+    --bg-surface-solid: #fbf9f5;
+    --bg-inset: #e7e2d8;
+    --text-primary: #111116;
+    --text-secondary: #363440;
+    --text-muted: #5d596b;
+    --accent-gold: #6d3cf2;
+    --accent-gold-hover: #5828dc;
     --accent-gold-contrast: #ffffff;
-    --border-hairline: rgba(13, 21, 39, 0.12);
-    --border-strong: rgba(13, 21, 39, 0.24);
-    --hero-scrim: radial-gradient(ellipse at left, rgba(243, 246, 252, 0.94) 0%, rgba(243, 246, 252, 0.68) 58%, transparent 100%);
+    --accent-coral: #be3426;
+    --accent-cobalt: #2457e6;
+    --accent-sage: #178260;
+    --accent-amber: #b85d19;
+    --border-hairline: rgba(17, 17, 22, 0.12);
+    --border-strong: rgba(17, 17, 22, 0.24);
+    --hero-scrim: radial-gradient(ellipse at left, rgba(242, 239, 232, 0.94) 0%, rgba(242, 239, 232, 0.7) 58%, transparent 100%);
     --grain-opacity: 0.02;
   }
 
   html.dark {
     color-scheme: dark;
-    --bg-canvas: #0d1527;
-    --bg-surface: rgba(18, 29, 51, 0.86);
-    --bg-surface-solid: #121d33;
-    --bg-inset: #16233d;
-    --text-primary: #f0f5ff;
-    --text-secondary: #b8d4ff;
-    --text-muted: #83a1d1;
-    --accent-gold: #3b8eff;
-    --accent-gold-hover: #62a5ff;
-    --accent-gold-contrast: #091224;
-    --border-hairline: rgba(184, 212, 255, 0.14);
-    --border-strong: rgba(184, 212, 255, 0.28);
-    --hero-scrim: radial-gradient(ellipse at left, rgba(13, 21, 39, 0.9) 0%, rgba(13, 21, 39, 0.58) 58%, transparent 100%);
+    --bg-canvas: #0f0f13;
+    --bg-surface: rgba(23, 23, 31, 0.88);
+    --bg-surface-solid: #17171f;
+    --bg-inset: #1e1e29;
+    --text-primary: #f4efe6;
+    --text-secondary: #cbc8d8;
+    --text-muted: #938fa6;
+    --accent-gold: #9d6bff;
+    --accent-gold-hover: #b28aff;
+    --accent-gold-contrast: #0d0c14;
+    --accent-coral: #ff7162;
+    --accent-cobalt: #5c8aff;
+    --accent-sage: #57d9a3;
+    --accent-amber: #ffad66;
+    --border-hairline: rgba(244, 239, 230, 0.12);
+    --border-strong: rgba(244, 239, 230, 0.26);
+    --hero-scrim: radial-gradient(ellipse at left, rgba(15, 15, 19, 0.92) 0%, rgba(15, 15, 19, 0.6) 58%, transparent 100%);
     --grain-opacity: 0.035;
   }
 

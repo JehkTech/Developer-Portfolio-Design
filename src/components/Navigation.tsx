@@ -48,7 +48,7 @@ export function Navigation({
             className="w-6 h-6 rounded-full object-cover shrink-0"
           />
           <span>
-            Jeh<span className="text-[var(--accent-gold)]">K</span>Tech
+            Jeh<span className="text-[var(--accent-coral)]">K</span>Tech
           </span>
         </a>
 

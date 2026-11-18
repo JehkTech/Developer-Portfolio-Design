@@ -26,20 +26,23 @@ export function PortfolioMetricsCharts({ theme }: PortfolioMetricsChartsProps) {
 
   const isDark = theme === "dark";
   const gridStroke = isDark
-    ? "rgba(184, 212, 255, 0.1)"
-    : "rgba(13, 21, 39, 0.08)";
-  const tickColor = isDark ? "#83a1d1" : "#4e6287";
-  const goldBar = isDark ? "#3b8eff" : "#1967dc";
-  const silverBar = isDark ? "#b8d4ff" : "#647ea8";
-  const emeraldBar = isDark ? "#38bdf8" : "#0284c7";
+    ? "rgba(244, 239, 230, 0.1)"
+    : "rgba(17, 17, 22, 0.08)";
+  const tickColor = isDark ? "#938fa6" : "#5d596b";
+  const coralBar = isDark ? "#ff7162" : "#be3426";
+  const violetBar = isDark ? "#9d6bff" : "#6d3cf2";
+  const sageBar = isDark ? "#57d9a3" : "#178260";
+  const cobaltBar = isDark ? "#5c8aff" : "#2457e6";
+  const amberBar = isDark ? "#ffad66" : "#c76a1e";
+  const techBarSequence = [violetBar, coralBar, cobaltBar, sageBar, amberBar];
 
   const tooltipStyle = {
-    backgroundColor: isDark ? "#121d33" : "#ffffff",
+    backgroundColor: isDark ? "#17171f" : "#fbf9f5",
     border: isDark
-      ? "1px solid rgba(184, 212, 255, 0.2)"
-      : "1px solid rgba(13, 21, 39, 0.14)",
+      ? "1px solid rgba(244, 239, 230, 0.18)"
+      : "1px solid rgba(17, 17, 22, 0.14)",
     borderRadius: "8px",
-    color: isDark ? "#f0f5ff" : "#0d1527",
+    color: isDark ? "#f4efe6" : "#111116",
     fontSize: "12px",
   };
 
@@ -116,10 +119,10 @@ export function PortfolioMetricsCharts({ theme }: PortfolioMetricsChartsProps) {
                   {complexityData.map((entry) => {
                     const fill =
                       entry.category === "clients"
-                        ? goldBar
+                        ? coralBar
                         : entry.category === "saas"
-                        ? silverBar
-                        : emeraldBar;
+                        ? violetBar
+                        : sageBar;
                     return <Cell key={entry.name} fill={fill} />;
                   })}
                 </Bar>
@@ -131,21 +134,21 @@ export function PortfolioMetricsCharts({ theme }: PortfolioMetricsChartsProps) {
             <span className="inline-flex items-center gap-1.5">
               <span
                 className="w-2.5 h-2.5 rounded-sm inline-block"
-                style={{ backgroundColor: goldBar }}
+                style={{ backgroundColor: coralBar }}
               />
               Client Work
             </span>
             <span className="inline-flex items-center gap-1.5">
               <span
                 className="w-2.5 h-2.5 rounded-sm inline-block"
-                style={{ backgroundColor: silverBar }}
+                style={{ backgroundColor: violetBar }}
               />
               SaaS &amp; AI
             </span>
             <span className="inline-flex items-center gap-1.5">
               <span
                 className="w-2.5 h-2.5 rounded-sm inline-block"
-                style={{ backgroundColor: emeraldBar }}
+                style={{ backgroundColor: sageBar }}
               />
               Fintech &amp; Trading
             </span>
@@ -207,12 +210,14 @@ export function PortfolioMetricsCharts({ theme }: PortfolioMetricsChartsProps) {
                     "Deployments",
                   ]}
                 />
-                <Bar
-                  dataKey="count"
-                  fill={goldBar}
-                  radius={[0, 5, 5, 0]}
-                  barSize={16}
-                />
+                <Bar dataKey="count" radius={[0, 5, 5, 0]} barSize={16}>
+                  {techData.map((item, idx) => (
+                    <Cell
+                      key={item.technology}
+                      fill={techBarSequence[idx % techBarSequence.length]}
+                    />
+                  ))}
+                </Bar>
               </BarChart>
             </ResponsiveContainer>
           </div>

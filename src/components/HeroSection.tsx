@@ -33,14 +33,16 @@ export function HeroSection({
           className="lg:col-span-7 pointer-events-auto relative py-4 pr-6"
           style={{ background: "var(--hero-scrim)" }}
         >
-          <p className="text-xs font-mono uppercase tracking-[0.24em] text-[var(--accent-gold)] mb-5">
+          <p className="text-xs font-mono uppercase tracking-[0.24em] text-[var(--accent-coral)] mb-5">
             Lusaka, Zambia · Engineering &amp; Client Portfolio
           </p>
 
           <h1 className="font-display text-5xl sm:text-6xl md:text-[4.5rem] font-light tracking-tight text-[var(--text-primary)] leading-[1.02] text-balance mb-6">
             Precision
             <br />
-            <strong className="font-semibold">under pressure.</strong>
+            <strong className="font-semibold bg-gradient-to-r from-[#be3426] via-[#6d3cf2] to-[#2457e6] dark:from-[#ff7162] dark:via-[#a978ff] dark:to-[#5c8aff] bg-clip-text text-transparent">
+              under pressure.
+            </strong>
           </h1>
 
           <p className="max-w-xl text-[var(--text-secondary)] text-base md:text-lg leading-relaxed mb-6">
@@ -96,7 +98,11 @@ export function HeroSection({
         transition={{ duration: 0.65, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
         className="max-w-7xl mx-auto w-full mt-10 pointer-events-auto"
       >
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-[var(--border-hairline)] border border-[var(--border-hairline)]">
+        <div
+          aria-hidden="true"
+          className="h-[2px] w-full bg-gradient-to-r from-[#ff7162] via-[#9d6bff] to-[#49c99b] opacity-85"
+        />
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-[var(--border-hairline)] border-x border-b border-[var(--border-hairline)]">
           {HERO_METRICS.map((item) => (
             <div key={item.label} className="bg-[var(--bg-surface)] p-5 md:p-6">
               <div className="font-display text-2xl md:text-3xl font-light text-[var(--text-primary)] tabular-nums mb-1">

@@ -39,7 +39,7 @@ export function SpiritualSection({ theme }: SpiritualSectionProps) {
               className="py-4 pr-6 rounded-2xl"
               style={{ background: "var(--hero-scrim)" }}
             >
-              <p className="text-xs font-mono uppercase tracking-[0.26em] text-[var(--accent-gold)] mb-3">
+              <p className="text-xs font-mono uppercase tracking-[0.26em] text-[var(--accent-coral)] mb-3">
                 Harmonic Philosophy &amp; Field Journal
               </p>
               <h2 className="font-display text-3xl md:text-5xl font-light text-[var(--text-primary)] tracking-tight text-balance mb-4">
@@ -115,7 +115,7 @@ export function SpiritualSection({ theme }: SpiritualSectionProps) {
                 {/* Bookmark Ribbon Tab */}
                 <div
                   aria-hidden="true"
-                  className="absolute -bottom-2 right-10 w-5 h-10 bg-[var(--accent-gold)] rounded-b-sm shadow-md transition-transform duration-300 group-hover:translate-y-1"
+                  className="absolute -bottom-2 right-10 w-5 h-10 bg-gradient-to-b from-[#ff7162] via-[#9d6bff] to-[#49c99b] rounded-b-sm shadow-md transition-transform duration-300 group-hover:translate-y-1"
                 />
 
                 <div className="flex items-center justify-between text-[11px] font-mono text-[var(--accent-gold)] uppercase tracking-[0.2em]">

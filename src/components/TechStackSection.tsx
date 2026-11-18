@@ -18,7 +18,7 @@ export function TechStackSection() {
     <section id="stack" className="py-24 px-6 relative pointer-events-none">
       <div className="max-w-7xl mx-auto">
         <MotionReveal className="mb-12 pb-8 border-b border-[var(--border-hairline)] max-w-2xl pointer-events-auto">
-          <p className="text-xs font-mono uppercase tracking-[0.26em] text-[var(--accent-gold)] mb-3">
+          <p className="text-xs font-mono uppercase tracking-[0.26em] text-[var(--accent-coral)] mb-3">
             Engineering Architecture
           </p>
           <h2 className="font-display text-3xl md:text-5xl font-light text-[var(--text-primary)] tracking-tight text-balance mb-3">
@@ -34,19 +34,27 @@ export function TechStackSection() {
         {/* 4 Skill Domains */}
         <MotionReveal delay={0.05}>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10 pointer-events-auto">
-            {SKILL_GROUPS.map((group) => (
-              <div
-                key={group.title}
-                className="border-t border-[var(--accent-gold)] pt-4 bg-[var(--bg-surface)] px-4 pb-4 rounded-b-lg"
-              >
-                <h3 className="font-mono text-xs uppercase tracking-[0.22em] text-[var(--text-primary)] mb-2">
-                  {group.title}
-                </h3>
-                <p className="text-sm text-[var(--text-muted)] leading-relaxed">
-                  {group.detail}
-                </p>
-              </div>
-            ))}
+            {SKILL_GROUPS.map((group, idx) => {
+              const borderTones = [
+                "border-t-[var(--accent-coral)]",
+                "border-t-[var(--accent-gold)]",
+                "border-t-[var(--accent-sage)]",
+                "border-t-[var(--accent-cobalt)]",
+              ];
+              return (
+                <div
+                  key={group.title}
+                  className={`border-t-2 ${borderTones[idx % borderTones.length]} pt-4 bg-[var(--bg-surface)] px-4 pb-4 rounded-b-lg`}
+                >
+                  <h3 className="font-mono text-xs uppercase tracking-[0.22em] text-[var(--text-primary)] mb-2">
+                    {group.title}
+                  </h3>
+                  <p className="text-sm text-[var(--text-muted)] leading-relaxed">
+                    {group.detail}
+                  </p>
+                </div>
+              );
+            })}
           </div>
         </MotionReveal>
 
@@ -56,7 +64,7 @@ export function TechStackSection() {
           <div className="lg:col-span-5 flex flex-col gap-6">
             <div className="bg-[var(--bg-surface)] border border-[var(--border-hairline)] rounded-lg p-6 flex-1 flex flex-col justify-between">
               <div>
-                <p className="text-xs font-mono text-[var(--accent-gold)] mb-2">
+                <p className="text-xs font-mono text-[var(--accent-sage)] mb-2">
                   Active Build · Trading Analytics
                 </p>
                 <h3 className="font-display text-xl font-semibold text-[var(--text-primary)] mb-3">

@@ -95,7 +95,7 @@ export function ProjectDetailModal({
         </div>
 
         {/* Media Viewport */}
-        <div className="relative h-60 bg-[#0d1527] shrink-0 border-b border-[var(--border-hairline)]">
+        <div className="relative h-60 bg-[#0f0f13] shrink-0 border-b border-[var(--border-hairline)]">
           {previewMode === "iframe" && project.live ? (
             <iframe
               src={project.live}
@@ -112,30 +112,30 @@ export function ProjectDetailModal({
                 referrerPolicy="no-referrer"
                 className="w-full h-full object-cover object-top"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#091224]/90 via-[#0d1527]/35 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0f0f13]/92 via-[#0f0f13]/38 to-transparent" />
               <div className="absolute bottom-3 left-5 right-5">
-                <p className="text-xs font-mono text-[#b8d4ff] mb-1">
+                <p className="text-xs font-mono text-[#ffad66] mb-1">
                   {project.typeLabel} · {project.statusLabel}
                 </p>
                 <h2
                   id="project-modal-title"
-                  className="font-display text-xl font-semibold text-white"
+                  className="font-display text-xl font-semibold text-[#f4efe6]"
                 >
                   {project.title}
                 </h2>
               </div>
             </>
           ) : (
-            <div className="w-full h-full p-6 flex flex-col justify-between bg-[#0d1527] text-white">
-              <p className="text-xs font-mono text-[#b8d4ff]">
+            <div className="w-full h-full p-6 flex flex-col justify-between bg-[#0f0f13] text-[#f4efe6]">
+              <p className="text-xs font-mono text-[#ffad66]">
                 {project.typeLabel} · {project.statusLabel}
               </p>
-              <div className="font-mono text-xs text-[#b8d4ff] border border-[#b8d4ff]/15 rounded-lg p-3 bg-[#121d33]">
+              <div className="font-mono text-xs text-[#cbc8d8] border border-[#9d6bff]/25 rounded-lg p-3 bg-[#17171f]">
                 POST /webhooks/ingest · GET /events/stream · PostgreSQL GIN
               </div>
               <h2
                 id="project-modal-title"
-                className="font-display text-xl font-semibold text-white"
+                className="font-display text-xl font-semibold text-[#f4efe6]"
               >
                 {project.title}
               </h2>

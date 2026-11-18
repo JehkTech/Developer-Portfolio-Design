@@ -281,15 +281,15 @@ export function SpiritualJournalModal({
   const isLast = pageIndex === spreads.length - 1;
   const isDark = theme === "dark";
 
-  // Archival book surface palette tailored to JehkTech Light & Dark themes
-  const paperBg = isDark ? "bg-[#101a2e]" : "bg-[#fcfdff]";
-  const paperRightBg = isDark ? "bg-[#142038]" : "bg-[#f3f7fe]";
+  // Archival book surface palette tailored to obsidian Dark & warm parchment Light themes
+  const paperBg = isDark ? "bg-[#14141b]" : "bg-[#fbf9f5]";
+  const paperRightBg = isDark ? "bg-[#191923]" : "bg-[#f2ede2]";
   const paperRule = isDark
-    ? "border-[#b8d4ff]/14"
-    : "border-[#0d1527]/12";
-  const paperText = isDark ? "text-[#f0f5ff]" : "text-[#0d1527]";
-  const paperSecondary = isDark ? "text-[#b8d4ff]" : "text-[#2a3b5c]";
-  const paperMuted = isDark ? "text-[#83a1d1]" : "text-[#4e6287]";
+    ? "border-[#f4efe6]/14"
+    : "border-[#111116]/12";
+  const paperText = isDark ? "text-[#f4efe6]" : "text-[#111116]";
+  const paperSecondary = isDark ? "text-[#cbc8d8]" : "text-[#363440]";
+  const paperMuted = isDark ? "text-[#938fa6]" : "text-[#5d596b]";
 
   const pageVariants = {
     enter: (dir: number) =>
@@ -876,7 +876,7 @@ export function SpiritualJournalModal({
                           }}
                           placeholder="e.g. Morning Intention or Focus Sequence"
                           className={`w-full px-3 py-2 text-sm rounded-lg border ${paperRule} ${
-                            isDark ? "bg-[#0d0f13]" : "bg-white"
+                            isDark ? "bg-[#0f0f13]" : "bg-white"
                           } ${paperText} focus:outline-none focus:border-[var(--accent-gold)]`}
                         />
                         {errors.title && (
@@ -906,7 +906,7 @@ export function SpiritualJournalModal({
                               )
                             }
                             className={`w-full px-3 py-2 text-sm rounded-lg border ${paperRule} ${
-                              isDark ? "bg-[#0d0f13]" : "bg-white"
+                              isDark ? "bg-[#0f0f13]" : "bg-white"
                             } ${paperText} focus:outline-none focus:border-[var(--accent-gold)]`}
                           >
                             {ENTRY_CATEGORIES.map((cat) => (
@@ -931,7 +931,7 @@ export function SpiritualJournalModal({
                             onChange={(e) => setCode(e.target.value)}
                             placeholder="e.g. 369 917"
                             className={`w-full px-3 py-2 text-sm font-mono rounded-lg border ${paperRule} ${
-                              isDark ? "bg-[#0d0f13]" : "bg-white"
+                              isDark ? "bg-[#0f0f13]" : "bg-white"
                             } ${paperText} focus:outline-none focus:border-[var(--accent-gold)]`}
                           />
                         </div>
@@ -955,7 +955,7 @@ export function SpiritualJournalModal({
                           }}
                           placeholder="Write your reflection, affirmation, or harmonic note..."
                           className={`w-full px-3 py-2 text-sm rounded-lg border ${paperRule} ${
-                            isDark ? "bg-[#0d0f13]" : "bg-white"
+                            isDark ? "bg-[#0f0f13]" : "bg-white"
                           } ${paperText} resize-none focus:outline-none focus:border-[var(--accent-gold)]`}
                         />
                         {errors.body && (

@@ -20,6 +20,7 @@ import {
   createProjectNodeGroup,
   createSacredHubGroup,
   createWebFilaments,
+  resolvePaletteAccentHex,
   type ProjectNodeHandle,
 } from "../three/hubModels";
 
@@ -206,21 +207,19 @@ export function PortfolioScene3D({
 
       hub.outerWireMat.color.setHex(palette.goldWire);
       hub.outerWireMat.opacity = palette.outerIcoOpacity;
-      hub.silverRingMat.color.setHex(palette.silverWire);
+      hub.silverRingMat.color.setHex(palette.coralWire);
       hub.silverRingMat.opacity = palette.ringOpacityOuter;
       hub.goldRingMat.color.setHex(palette.goldWire);
       hub.goldRingMat.opacity = palette.ringOpacityInner;
-      hub.markerMat.color.setHex(palette.goldWire);
-      hub.markerMat.emissive.setHex(palette.goldWire);
-      hub.innerLatticeMat.color.setHex(palette.silverWire);
+      hub.markerMat.color.setHex(palette.coralWire);
+      hub.markerMat.emissive.setHex(palette.coralWire);
+      hub.innerLatticeMat.color.setHex(palette.cobaltWire);
       hub.coreCrystalMat.color.setHex(palette.kernelSurface);
-      hub.coreCrystalMat.emissive.setHex(palette.goldWire);
-      hub.coreEdgeMat.color.setHex(palette.goldWire);
+      hub.coreCrystalMat.emissive.setHex(palette.cobaltWire);
+      hub.coreEdgeMat.color.setHex(palette.coralWire);
 
       nodeHandles.forEach((handle) => {
-        const accentColor = handle.isGoldAccent
-          ? palette.goldWire
-          : palette.silverWire;
+        const accentColor = resolvePaletteAccentHex(palette, handle.accentKey);
         handle.obsidianMat.color.setHex(palette.kernelSurface);
         handle.wireMat.color.setHex(accentColor);
         handle.beaconMat.color.setHex(accentColor);

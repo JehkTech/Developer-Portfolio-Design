@@ -6,7 +6,7 @@ export function TradingSection() {
     <section id="trading" className="py-24 px-6 relative pointer-events-none">
       <div className="max-w-7xl mx-auto">
         <MotionReveal className="mb-12 pb-8 border-b border-[var(--border-hairline)] max-w-2xl pointer-events-auto">
-          <p className="text-xs font-mono uppercase tracking-[0.26em] text-[var(--accent-gold)] mb-3">
+          <p className="text-xs font-mono uppercase tracking-[0.26em] text-[var(--accent-coral)] mb-3">
             Systematic Trading
           </p>
           <h2 className="font-display text-3xl md:text-5xl font-light text-[var(--text-primary)] tracking-tight text-balance mb-3">
@@ -24,7 +24,15 @@ export function TradingSection() {
             <MotionReveal key={pillar.title} delay={index * 0.06}>
               <article className="h-full bg-[var(--bg-surface)] border border-[var(--border-hairline)] rounded-lg p-6 flex flex-col justify-between hover:border-[var(--accent-gold)]/55 transition-colors duration-150">
                 <div>
-                  <p className="text-xs font-mono uppercase tracking-[0.2em] text-[var(--accent-gold)] mb-2">
+                  <p
+                    className={`text-xs font-mono uppercase tracking-[0.2em] mb-2 ${
+                      index === 0
+                        ? "text-[var(--accent-coral)]"
+                        : index === 1
+                        ? "text-[var(--accent-gold)]"
+                        : "text-[var(--accent-sage)]"
+                    }`}
+                  >
                     {pillar.tag}
                   </p>
                   <h3 className="font-display text-xl font-semibold text-[var(--text-primary)] mb-3">

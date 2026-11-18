@@ -25,6 +25,7 @@ export interface HubAnimatedParts {
 export interface ProjectNodeHandle {
   id: string;
   isGoldAccent: boolean;
+  accentKey: "gold" | "coral" | "cobalt" | "sage";
   group: THREE.Group;
   totemGroup: THREE.Group;
   collarRing: THREE.Mesh;
@@ -64,7 +65,7 @@ export function createSacredHubGroup(
   group.position.set(0, 0, 0);
 
   const silverRingMat = new THREE.MeshStandardMaterial({
-    color: palette.silverWire,
+    color: palette.coralWire,
     roughness: 0.26,
     metalness: 0.86,
     bumpMap: metalBump,
@@ -97,7 +98,7 @@ export function createSacredHubGroup(
   );
   group.add(outerWireframe);
 
-  // 2. Outer Hairline Orbital Ring
+  // 2. Outer Hairline Orbital Ring (Warm Coral Accent)
   const outerRing = new THREE.Mesh(
     new THREE.TorusGeometry(3.55, 0.011, 8, 180),
     silverRingMat
@@ -116,9 +117,9 @@ export function createSacredHubGroup(
 
   const markerGeo = new THREE.OctahedronGeometry(0.055, 0);
   const markerMat = new THREE.MeshStandardMaterial({
-    color: palette.goldWire,
-    emissive: palette.goldWire,
-    emissiveIntensity: 0.45,
+    color: palette.coralWire,
+    emissive: palette.coralWire,
+    emissiveIntensity: 0.52,
     roughness: 0.2,
     metalness: 0.85,
   });
@@ -134,9 +135,9 @@ export function createSacredHubGroup(
   const coreLattice = new THREE.Group();
 
   const innerLatticeMat = new THREE.LineBasicMaterial({
-    color: palette.silverWire,
+    color: palette.cobaltWire,
     transparent: true,
-    opacity: 0.52,
+    opacity: 0.56,
   });
   const innerLattice = new THREE.LineSegments(
     new THREE.EdgesGeometry(new THREE.IcosahedronGeometry(1.18, 0)),
@@ -150,8 +151,8 @@ export function createSacredHubGroup(
     metalness: 0.84,
     clearcoat: 1.0,
     clearcoatRoughness: 0.16,
-    emissive: palette.goldWire,
-    emissiveIntensity: 0.18,
+    emissive: palette.cobaltWire,
+    emissiveIntensity: 0.22,
   });
   const coreCrystal = new THREE.Mesh(
     new THREE.OctahedronGeometry(0.64, 0),
@@ -160,9 +161,9 @@ export function createSacredHubGroup(
   coreLattice.add(coreCrystal);
 
   const coreEdgeMat = new THREE.LineBasicMaterial({
-    color: palette.goldWire,
+    color: palette.coralWire,
     transparent: true,
-    opacity: 0.78,
+    opacity: 0.82,
   });
   const coreEdgeHighlight = new THREE.LineSegments(
     new THREE.EdgesGeometry(new THREE.OctahedronGeometry(0.65, 0)),
@@ -214,6 +215,35 @@ function buildWireframeAndKernel(
 /**
  * Weightless Architectural Polyhedron Constellation Node (3-5 distinct composite layers)
  */
+export function resolveNodeAccentKey(
+  project: Pick<ProjectNodeSpec, "category" | "accentHex">
+): "gold" | "coral" | "cobalt" | "sage" {
+  if (project.category === "clients") {
+    return project.accentHex === 0xc9a96a ? "coral" : "cobalt";
+  }
+  if (project.category === "fintech") {
+    return project.accentHex === 0xc9a96a ? "gold" : "coral";
+  }
+  return project.accentHex === 0xc9a96a ? "gold" : "sage";
+}
+
+export function resolvePaletteAccentHex(
+  palette: SceneThemePalette,
+  key: "gold" | "coral" | "cobalt" | "sage"
+): number {
+  switch (key) {
+    case "coral":
+      return palette.coralWire;
+    case "cobalt":
+      return palette.cobaltWire;
+    case "sage":
+      return palette.sageWire;
+    case "gold":
+    default:
+      return palette.goldWire;
+  }
+}
+
 export function createProjectNodeGroup(
   project: ProjectNodeSpec,
   position: Vec3Tuple,
@@ -221,7 +251,8 @@ export function createProjectNodeGroup(
   palette: SceneThemePalette
 ): ProjectNodeHandle {
   const isGoldAccent = project.accentHex === 0xc9a96a;
-  const accentColor = isGoldAccent ? palette.goldWire : palette.silverWire;
+  const accentKey = resolveNodeAccentKey(project);
+  const accentColor = resolvePaletteAccentHex(palette, accentKey);
 
   const group = new THREE.Group();
   group.position.set(position.x, position.y, position.z);
@@ -463,6 +494,7 @@ export function createProjectNodeGroup(
   return {
     id: project.id,
     isGoldAccent,
+    accentKey,
     group,
     totemGroup,
     collarRing,
