@@ -1,12 +1,12 @@
-import aiDbTrackImg from "../assets/images/project_ai_db_track_1795018352779.jpg";
-import luminousPixelsImg from "../assets/images/project_luminous_pixels_1795018353368.jpg";
-import onboardAiImg from "../assets/images/project_onboard_ai_1795018354918.jpg";
-import statusHubImg from "../assets/images/project_statushub_1795018354546.jpg";
-import carGuyImg from "../assets/images/project_car_guy_1795018355851.jpg";
-import joinTransitImg from "../assets/images/project_join_transit_1795018355810.jpg";
-import joinMerchantPayImg from "../assets/images/project_join_merchant_pay_1795018356239.jpg";
-import tradingImg from "../assets/images/project_trading_journal_1795009658883.jpg";
-import cargoImg from "../assets/images/project_cargo_marketplace_1795009659378.jpg";
+import platinumCourierPreview from "../assets/previews/platinum_courier.png";
+import malikCarGuyPreview from "../assets/previews/malik_car_guy.png";
+import joinSolutionsPreview from "../assets/previews/join_solutions.png";
+import joinMerchantPayPreview from "../assets/previews/join_merchant_pay_v2.png";
+import aiDbTrackPreview from "../assets/previews/ai_db_track.png";
+import luminousPixelsPreview from "../assets/previews/luminous_pixels.png";
+import onboardAiPreview from "../assets/previews/onboard_ai.png";
+import r0tkGithubPreview from "../assets/previews/r0tk_github.png";
+import jehktechGithubPreview from "../assets/previews/jehktech_github.png";
 import type { ProjectNodeSpec } from "../three/portfolioGraph";
 
 export interface ExternalSystemLink {
@@ -17,14 +17,16 @@ export interface ExternalSystemLink {
 export interface PortfolioProject extends ProjectNodeSpec {
   typeLabel: string;
   statusLabel: string;
+  domainLabel: string;
   description: string;
   architectureNotes: string;
   tech: string[];
-  image: string;
+  image?: string;
   imageAlt: string;
   live?: string;
   secondaryLinks?: ExternalSystemLink[];
   github?: string;
+  complexityScore: number;
 }
 
 export const PORTFOLIO_EMAIL = "jehoiachinkatemangwe1@gmail.com";
@@ -33,37 +35,138 @@ export const PORTFOLIO_PHONE = "+260 970 435 346";
 export const HERO_METRICS = [
   { value: "3+", label: "Years in fintech" },
   { value: "5", label: "Live payment integrations" },
-  { value: "3", label: "Client systems shipped" },
+  { value: "4", label: "Client systems shipped" },
   { value: "4", label: "SaaS & AI platforms" },
 ];
 
 export const PROJECTS: PortfolioProject[] = [
   {
+    id: "platinum-courier",
+    title: "Platinum Courier Services",
+    shortLabel: "01 Platinum",
+    category: "clients",
+    geometryStyle: "courier",
+    orbitAngle: 2.15,
+    orbitRadius: 5.5,
+    elevation: 1.55,
+    accentHex: 0xc9a96a,
+    connections: ["join-platform", "mamastops", "ai-db-track"],
+    typeLabel: "Client · Nationwide Logistics",
+    statusLabel: "Client Live",
+    domainLabel: "platinum-courier-services.jehoiachinkatemangwe1.workers.dev",
+    description:
+      "Nationwide parcel courier and dispatch platform covering all 10 provinces of Zambia with live waybill tracking, quote estimation, pickup scheduling, and staff operations.",
+    architectureNotes:
+      "Edge-deployed on Cloudflare Workers with instant waybill lookup (PCS tracking), multi-province branch routing, automated dispatch intake, and light/dark UI modes.",
+    tech: ["React", "TypeScript", "Cloudflare Workers", "Tracking UX"],
+    image: platinumCourierPreview,
+    imageAlt: "Live website preview of Platinum Courier Services parcel tracking portal",
+    live: "https://platinum-courier-services.jehoiachinkatemangwe1.workers.dev/",
+    complexityScore: 86,
+  },
+  {
+    id: "malik-car-guy",
+    title: "Car Guy Zambia (Malik)",
+    shortLabel: "02 Car Guy",
+    category: "clients",
+    geometryStyle: "audio",
+    orbitAngle: 2.85,
+    orbitRadius: 5.6,
+    elevation: -0.95,
+    accentHex: 0xc9a96a,
+    connections: ["luminous-pixels", "join-platform"],
+    typeLabel: "Client · Automotive Retail",
+    statusLabel: "Client Live",
+    domainLabel: "malik-car-guy.vercel.app",
+    description:
+      "Brand storefront and installation booking platform for Car Guy in Lusaka, Zambia — showcasing Power X audio, Android Auto head units, and custom vehicle interiors.",
+    architectureNotes:
+      "High-contrast editorial automotive storefront deployed on Vercel with rapid WhatsApp quote conversion, model-fit catalog views, and mobile-first navigation.",
+    tech: ["React", "Vercel", "Responsive UI", "Conversion UX"],
+    image: malikCarGuyPreview,
+    imageAlt: "Live website preview of Car Guy Zambia automotive accessories storefront",
+    live: "https://malik-car-guy.vercel.app/",
+    complexityScore: 76,
+  },
+  {
+    id: "join-platform",
+    title: "JOIN Digital Solutions",
+    shortLabel: "03 JOIN Ops",
+    category: "clients",
+    geometryStyle: "transit",
+    orbitAngle: 3.55,
+    orbitRadius: 5.8,
+    elevation: 2.0,
+    accentHex: 0xc0c4cc,
+    connections: ["join-merchant-pay", "platinum-courier", "statushub", "luminous-pixels", "mamastops"],
+    typeLabel: "Client · Transit Operations",
+    statusLabel: "Client Live",
+    domainLabel: "joindigitalsolutions.tech",
+    description:
+      "Transport operations platform built for transit agencies and operators to deploy contactless fares, live route analytics, AI verification, and automated compliance reconciliation.",
+    architectureNotes:
+      "Modular operator architecture connecting fleet input, AI autofill & verification, payment rail switching, compliance logging, and an interactive system demo.",
+    tech: ["React", "Transit Systems", "Analytics", "Workflow Automation"],
+    image: joinSolutionsPreview,
+    imageAlt: "Live website preview of JOIN Digital Solutions transit platform",
+    live: "https://joindigitalsolutions.tech/",
+    secondaryLinks: [
+      { label: "Live Demo", url: "https://joindemo.netlify.app/" },
+    ],
+    complexityScore: 92,
+  },
+  {
+    id: "join-merchant-pay",
+    title: "JOIN Smart Transit Merchant Pay",
+    shortLabel: "04 JOIN Pay",
+    category: "clients",
+    geometryStyle: "terminal",
+    orbitAngle: 4.2,
+    orbitRadius: 5.4,
+    elevation: -1.45,
+    accentHex: 0xc9a96a,
+    connections: ["join-platform", "mamastops"],
+    typeLabel: "Client · Contactless Pay",
+    statusLabel: "Client Live",
+    domainLabel: "join-smart-transit-merchant-pay.run.app",
+    description:
+      "Tap. Pay. Go. Merchant and driver payment interface for the JOIN Smart Transit network featuring OTP onboarding, role presets, and real-time fare settlement.",
+    architectureNotes:
+      "Cloud Run deployed contactless transit application designed for rapid OTP verification, admin/fleet/driver role flows, and low-latency fare confirmation.",
+    tech: ["TypeScript", "Cloud Run", "Transit FinTech", "Merchant UX"],
+    image: joinMerchantPayPreview,
+    imageAlt: "Live website preview of JOIN Smart Transit Merchant Pay mobile portal",
+    live: "https://join-smart-transit-merchant-pay-354740630774.europe-west2.run.app/",
+    complexityScore: 88,
+  },
+  {
     id: "ai-db-track",
     title: "AI-DB Track",
-    shortLabel: "01 AI-DB",
+    shortLabel: "05 AI-DB",
     category: "saas",
     geometryStyle: "dbshield",
     orbitAngle: -0.55,
-    orbitRadius: 4.5,
+    orbitRadius: 4.6,
     elevation: 1.4,
     accentHex: 0xc9a96a,
-    connections: ["statushub", "onboard-ai", "luminous-pixels"],
+    connections: ["statushub", "onboard-ai", "luminous-pixels", "platinum-courier"],
     typeLabel: "SaaS · Database AI",
     statusLabel: "Live Product",
+    domainLabel: "ai-db-track.netlify.app",
     description:
-      "AI-powered autopilot for PostgreSQL and MSSQL backups featuring automated scheduling, checksum integrity verification, test restores, and anomaly detection.",
+      "AI-powered autopilot for PostgreSQL and MSSQL backups featuring automated scheduling, checksum integrity verification, test restores, and compliance tracking.",
     architectureNotes:
-      "Automated pg_dump and native MSSQL snapshot orchestration paired with predictive storage analytics, self-healing integrity scripts, and compliance-ready audit trails.",
+      "Automated pg_dump and native MSSQL snapshot orchestration paired with predictive storage analytics, automated test restores, and GDPR/HIPAA audit trails.",
     tech: ["PostgreSQL", "MSSQL", "React", "TypeScript", "Automated Recovery"],
-    image: aiDbTrackImg,
-    imageAlt: "AI-DB Track automated database backup protection architecture",
+    image: aiDbTrackPreview,
+    imageAlt: "Live website preview of AI-DB Track PostgreSQL and MSSQL backup autopilot",
     live: "https://ai-db-track.netlify.app/#features",
+    complexityScore: 90,
   },
   {
     id: "luminous-pixels",
     title: "Luminous Pixels",
-    shortLabel: "02 Luminous",
+    shortLabel: "06 Luminous",
     category: "saas",
     geometryStyle: "prism",
     orbitAngle: 0.25,
@@ -73,135 +176,71 @@ export const PROJECTS: PortfolioProject[] = [
     connections: ["onboard-ai", "ai-db-track", "malik-car-guy", "join-platform"],
     typeLabel: "Agency · AI Automation",
     statusLabel: "Live",
+    domainLabel: "luminouspixels.app",
     description:
-      "AI automation agency serving US-based businesses with custom workflow pipelines, Sanity CMS content architecture, lead capture, and automated outreach.",
+      "AI automation agency serving ambitious businesses globally with custom workflow pipelines, Sanity CMS content architecture, lead capture, and automated outreach.",
     architectureNotes:
-      "Mobile-first Vite + React front end integrated with Sanity CMS, Resend transactional pipelines, and multi-agent intake workflows from discovery to close.",
+      "Vite + React front end integrated with Sanity CMS, Resend transactional pipelines, WhatsApp concierge intake, and multi-agent sales automation.",
     tech: ["React", "Vite", "Sanity CMS", "Resend", "AI Workflows"],
-    image: luminousPixelsImg,
-    imageAlt: "Luminous Pixels multi-agent AI workflow lattice render",
+    image: luminousPixelsPreview,
+    imageAlt: "Live website preview of Luminous Pixels AI automation agency",
     live: "https://luminouspixels.app/",
     secondaryLinks: [
       { label: "Netlify Mirror", url: "https://luminuouspixels.netlify.app/#" },
     ],
+    complexityScore: 84,
   },
   {
     id: "onboard-ai",
     title: "OnboardAI",
-    shortLabel: "03 OnboardAI",
+    shortLabel: "07 OnboardAI",
     category: "saas",
     geometryStyle: "pipeline",
-    orbitAngle: 1.05,
+    orbitAngle: 1.0,
     orbitRadius: 4.7,
     elevation: 1.85,
     accentHex: 0xc0c4cc,
     connections: ["luminous-pixels", "statushub", "ai-db-track"],
     typeLabel: "SaaS · Client Intelligence",
     statusLabel: "Frontend Live",
+    domainLabel: "ai-client-onboarding.netlify.app",
     description:
-      "AI-powered client onboarding intelligence platform transforming client intake forms into structured scoping briefs, project workflows, and conversion telemetry.",
+      "AI-powered client onboarding intelligence platform turning client intake forms into structured scoping reports, project workflows, and conversion telemetry.",
     architectureNotes:
-      "Interactive intake SaaS dashboard paired with a full backend architecture specification covering Redis/BullMQ queues, Stripe billing, and socket telemetry.",
+      "Interactive intake SaaS dashboard backed by a production architecture specification covering Redis/BullMQ queues, Prisma ORM, Stripe billing, and WebSockets.",
     tech: ["React", "Vite", "Prisma", "Stripe", "BullMQ"],
-    image: onboardAiImg,
-    imageAlt: "OnboardAI layered client intake pipeline visualization",
+    image: onboardAiPreview,
+    imageAlt: "Live website preview of OnboardAI intelligence platform",
     live: "https://ai-client-onboarding.netlify.app/",
+    complexityScore: 89,
   },
   {
     id: "statushub",
     title: "StatusHub",
-    shortLabel: "04 StatusHub",
+    shortLabel: "08 StatusHub",
     category: "saas",
     geometryStyle: "beacon",
-    orbitAngle: 1.85,
+    orbitAngle: 1.65,
     orbitRadius: 4.9,
     elevation: -1.65,
     accentHex: 0xc0c4cc,
     connections: ["ai-db-track", "onboard-ai", "join-platform", "trading"],
     typeLabel: "SaaS · Monitoring",
     statusLabel: "In Development",
+    domainLabel: "api-statushub.netlify.app",
     description:
       "Webhook management and API status monitoring platform with server-sent event streaming, PostgreSQL GIN full-text search, caching, and rate limiting.",
     architectureNotes:
       "Next.js 14 dashboard and Express ingestion workers backing real-time SSE incident updates, PostgreSQL pg_trgm search indexes, and Firebase authentication.",
     tech: ["Next.js 14", "Express", "Prisma", "PostgreSQL", "SSE"],
-    image: statusHubImg,
-    imageAlt: "StatusHub real-time webhook routing and uptime monitoring grid",
+    imageAlt: "StatusHub webhook monitoring platform live deployment preview",
     live: "https://api-statushub.netlify.app/",
-  },
-  {
-    id: "malik-car-guy",
-    title: "Car Guy Zambia (Malik)",
-    shortLabel: "05 Car Guy",
-    category: "clients",
-    geometryStyle: "audio",
-    orbitAngle: 2.65,
-    orbitRadius: 5.6,
-    elevation: 0.9,
-    accentHex: 0xc9a96a,
-    connections: ["luminous-pixels", "join-platform"],
-    typeLabel: "Client · Automotive Retail",
-    statusLabel: "Client Live",
-    description:
-      "Brand storefront and installation booking platform for Car Guy in Lusaka, Zambia — showcasing Power X audio, Android Auto head units, and luxury interiors.",
-    architectureNotes:
-      "High-contrast editorial automotive showcase engineered with fast media presentation, category navigation, installation scheduling, and mobile responsiveness.",
-    tech: ["React", "Vercel", "Responsive UI", "Conversion UX"],
-    image: carGuyImg,
-    imageAlt: "Car Guy Zambia custom automotive audio and head unit studio render",
-    live: "https://malik-car-guy.vercel.app/",
-  },
-  {
-    id: "join-platform",
-    title: "JOIN Digital Solutions",
-    shortLabel: "06 JOIN Ops",
-    category: "clients",
-    geometryStyle: "transit",
-    orbitAngle: 3.45,
-    orbitRadius: 5.8,
-    elevation: 2.05,
-    accentHex: 0xc0c4cc,
-    connections: ["join-merchant-pay", "statushub", "luminous-pixels", "mamastops"],
-    typeLabel: "Client · Transit Operations",
-    statusLabel: "Client Live",
-    description:
-      "Transport operations platform built for transit agencies and operators to deploy contactless fares, live route analytics, and automated fare reconciliation.",
-    architectureNotes:
-      "Modular operator architecture connecting passenger onboarding, real-time fleet telemetry, audit modules, and interactive system demo environments.",
-    tech: ["React", "Transit Systems", "Analytics", "Workflow Automation"],
-    image: joinTransitImg,
-    imageAlt: "JOIN Digital Solutions contactless urban transit network visualization",
-    live: "https://joindigitalsolutions.tech/",
-    secondaryLinks: [
-      { label: "Live Demo", url: "https://joindemo.netlify.app/" },
-    ],
-  },
-  {
-    id: "join-merchant-pay",
-    title: "JOIN Smart Transit Merchant Pay",
-    shortLabel: "07 JOIN Pay",
-    category: "clients",
-    geometryStyle: "terminal",
-    orbitAngle: 4.15,
-    orbitRadius: 5.4,
-    elevation: -1.45,
-    accentHex: 0xc9a96a,
-    connections: ["join-platform", "mamastops"],
-    typeLabel: "Client · Contactless Pay",
-    statusLabel: "Client Live",
-    description:
-      "Tap. Pay. Go. Merchant payment interface for the JOIN Smart Transit network enabling instant passenger fare collection and real-time merchant settlement.",
-    architectureNotes:
-      "Cloud Run deployed contactless payment workflow optimized for rapid boarding verification, driver/merchant clarity, and low-latency fare confirmation.",
-    tech: ["TypeScript", "Cloud Run", "Transit FinTech", "Merchant UX"],
-    image: joinMerchantPayImg,
-    imageAlt: "JOIN Smart Transit contactless NFC merchant payment terminal",
-    live: "https://join-smart-transit-merchant-pay-354740630774.europe-west2.run.app/",
+    complexityScore: 93,
   },
   {
     id: "trading",
     title: "R0TK Trading Journal",
-    shortLabel: "08 R0TK",
+    shortLabel: "09 R0TK",
     category: "fintech",
     geometryStyle: "candlestick",
     orbitAngle: 4.9,
@@ -211,36 +250,40 @@ export const PROJECTS: PortfolioProject[] = [
     connections: ["statushub", "mamastops"],
     typeLabel: "Fintech · Trading",
     statusLabel: "Active Build",
+    domainLabel: "github.com/JehkTech/r0tk_journal",
     description:
       "Full-stack systematic trading journal and analytics engine backing the R0TK methodology with strict risk limits, drawdown telemetry, and session reviews.",
     architectureNotes:
-      "Event-driven trade logging paired with PostgreSQL time-series aggregation, deterministic win-rate calculations, and 3-6-9 harmonic structural studies.",
+      "Event-driven trade logging paired with PostgreSQL/Supabase backend aggregation, deterministic win-rate calculations, and 3-6-9 harmonic structural studies.",
     tech: ["React", "Node.js", "PostgreSQL", "Chart.js", "WebSocket"],
-    image: tradingImg,
-    imageAlt: "R0TK Trading Journal candlestick analytics visualization",
+    image: r0tkGithubPreview,
+    imageAlt: "GitHub repository preview of JehkTech r0tk_journal systematic trading project",
     github: "https://github.com/JehkTech/r0tk_journal",
+    complexityScore: 87,
   },
   {
     id: "mamastops",
     title: "Mamastops Logistics & Payments",
-    shortLabel: "09 Mamastops",
+    shortLabel: "10 Mamastops",
     category: "fintech",
     geometryStyle: "logistics",
     orbitAngle: 5.6,
     orbitRadius: 5.3,
     elevation: -0.95,
     accentHex: 0xc0c4cc,
-    connections: ["join-platform", "join-merchant-pay", "trading"],
+    connections: ["platinum-courier", "join-platform", "join-merchant-pay", "trading"],
     typeLabel: "Fintech · Logistics",
     statusLabel: "Production",
+    domainLabel: "github.com/JehkTech",
     description:
       "Cargo-Truck Marketplace UI/UX and five live cashless payment integrations (E-Toll, BookNow, NRFA, Airtel Money V2, M-Pesa Mozambique, WhatsApp OTP).",
     architectureNotes:
       "Multi-role dispatch flows, driver matching, and automated Playwright end-to-end QA verification across live mobile-money and tolling rails.",
     tech: ["Figma", "Playwright", "QA Automation", "Payment Rails"],
-    image: cargoImg,
-    imageAlt: "Mamastops Cargo-Truck Marketplace and payment rail UI architecture",
-    github: "https://github.com/JehkTech/Mamastops-Cargo-Truck-Marketplace",
+    image: jehktechGithubPreview,
+    imageAlt: "GitHub profile preview showcasing JehkTech production fintech and Mamastops engineering work",
+    github: "https://github.com/JehkTech",
+    complexityScore: 95,
   },
 ];
 
@@ -368,7 +411,7 @@ export const EXPERIENCES = [
     company: "JehKTech · KTMNGW · Luminous Pixels",
     period: "Ongoing",
     description:
-      "Umbrella operation spanning full-stack SaaS software products (AI-DB Track, StatusHub, OnboardAI), client digital infrastructure (JOIN Transit, Car Guy), and systematic trading tooling.",
+      "Umbrella operation spanning full-stack SaaS software products (AI-DB Track, StatusHub, OnboardAI), client digital infrastructure (Platinum Courier, JOIN Transit, Car Guy), and systematic trading tooling.",
     skills: ["SaaS Architecture", "AI Automation", "Client Delivery", "R0TK"],
   },
   {

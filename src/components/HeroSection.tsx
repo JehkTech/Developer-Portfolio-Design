@@ -1,3 +1,4 @@
+import { motion, useReducedMotion } from "framer-motion";
 import { ArrowDown, Compass, Copy } from "lucide-react";
 import { toast } from "sonner";
 import { HERO_METRICS, PORTFOLIO_EMAIL } from "../data/portfolioData";
@@ -11,6 +12,8 @@ export function HeroSection({
   onExploreProjects,
   onEnterOrbit,
 }: HeroSectionProps) {
+  const prefersReduced = useReducedMotion();
+
   const copyEmail = () => {
     navigator.clipboard?.writeText(PORTFOLIO_EMAIL);
     toast.success("Email copied to clipboard");
@@ -23,7 +26,10 @@ export function HeroSection({
     >
       <div className="max-w-7xl mx-auto w-full my-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
         {/* Left editorial column — blended cleanly over the 3D scene */}
-        <div
+        <motion.div
+          initial={prefersReduced ? false : { opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           className="lg:col-span-7 pointer-events-auto relative py-4 pr-6"
           style={{ background: "var(--hero-scrim)" }}
         >
@@ -45,7 +51,7 @@ export function HeroSection({
           </p>
 
           <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-mono text-[var(--text-muted)] mb-8">
-            <span>3 Client Deployments</span>
+            <span>4 Client Deployments</span>
             <span aria-hidden="true">·</span>
             <span>4 SaaS &amp; AI Builds</span>
             <span aria-hidden="true">·</span>
@@ -80,11 +86,16 @@ export function HeroSection({
               <span>Copy Email</span>
             </button>
           </div>
-        </div>
+        </motion.div>
       </div>
 
       {/* Full-width 4-column KPI strip */}
-      <div className="max-w-7xl mx-auto w-full mt-10 pointer-events-auto">
+      <motion.div
+        initial={prefersReduced ? false : { opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.65, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
+        className="max-w-7xl mx-auto w-full mt-10 pointer-events-auto"
+      >
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-[var(--border-hairline)] border border-[var(--border-hairline)]">
           {HERO_METRICS.map((item) => (
             <div key={item.label} className="bg-[var(--bg-surface)] p-5 md:p-6">
@@ -97,7 +108,7 @@ export function HeroSection({
             </div>
           ))}
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }

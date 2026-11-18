@@ -162,6 +162,7 @@ export default function App() {
         />
 
         <ProjectsSection
+          theme={theme}
           activeFilter={activeFilter}
           focusedProjectId={focusedProjectId}
           onFilterChange={setActiveFilter}

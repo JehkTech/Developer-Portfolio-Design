@@ -10,6 +10,7 @@ export type GeometryStyle =
   | "audio"
   | "transit"
   | "terminal"
+  | "courier"
   | "logistics";
 
 export interface Vec3Tuple {
@@ -29,6 +30,20 @@ export interface ProjectNodeSpec {
   elevation: number;
   accentHex: number;
   connections: string[];
+  complexityScore?: number;
+  modulesCount?: number;
+}
+
+export interface TechDistributionDatum {
+  technology: string;
+  count: number;
+}
+
+export interface ProjectComplexityDatum {
+  name: string;
+  complexity: number;
+  connections: number;
+  category: Exclude<ProjectCategory, "all">;
 }
 
 export interface WebEdge {
@@ -311,6 +326,46 @@ export function buildWebEdges(nodes: ProjectNodeSpec[]): WebEdge[] {
   }
 
   return edges;
+}
+
+export function computeTechDistribution(
+  projects: Array<{ tech: string[] }>,
+  limit = 8
+): TechDistributionDatum[] {
+  const counts = new Map<string, number>();
+  for (const proj of projects) {
+    for (const item of proj.tech) {
+      const normalized = item.trim();
+      if (!normalized) continue;
+      counts.set(normalized, (counts.get(normalized) ?? 0) + 1);
+    }
+  }
+
+  return Array.from(counts.entries())
+    .map(([technology, count]) => ({ technology, count }))
+    .sort((a, b) => b.count - a.count || a.technology.localeCompare(b.technology))
+    .slice(0, limit);
+}
+
+export function computeProjectComplexityMetrics(
+  projects: Array<
+    Pick<
+      ProjectNodeSpec,
+      "shortLabel" | "category" | "connections" | "complexityScore"
+    > & { tech: string[] }
+  >
+): ProjectComplexityDatum[] {
+  return projects.map((p) => {
+    const baseScore =
+      p.complexityScore ??
+      Math.min(100, 45 + p.tech.length * 8 + p.connections.length * 6);
+    return {
+      name: p.shortLabel.replace(/^\d+\s+/, ""),
+      complexity: baseScore,
+      connections: p.connections.length,
+      category: p.category,
+    };
+  });
 }
 
 export function smoothstep01(t: number): number {

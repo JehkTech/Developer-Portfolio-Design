@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { PORTFOLIO_EMAIL, PORTFOLIO_PHONE } from "../data/portfolioData";
-import { useScrollReveal } from "../hooks/useScrollReveal";
+import { MotionReveal } from "./MotionReveal";
 import {
   validateContactForm,
   type ContactFormErrors,
@@ -24,7 +24,6 @@ export function ContactSection() {
   const [message, setMessage] = useState("");
   const [errors, setErrors] = useState<ContactFormErrors>({});
   const [submitted, setSubmitted] = useState(false);
-  const { ref, visible } = useScrollReveal<HTMLDivElement>();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -53,11 +52,8 @@ export function ContactSection() {
       id="contact"
       className="py-24 pb-24 px-6 relative pointer-events-none"
     >
-      <div
-        ref={ref}
-        className={`max-w-7xl mx-auto reveal-block ${visible ? "is-visible" : ""}`}
-      >
-        <div className="mb-12 pb-8 border-b border-[var(--border-hairline)] max-w-2xl pointer-events-auto">
+      <div className="max-w-7xl mx-auto">
+        <MotionReveal className="mb-12 pb-8 border-b border-[var(--border-hairline)] max-w-2xl pointer-events-auto">
           <p className="text-xs font-mono uppercase tracking-[0.26em] text-[var(--accent-gold)] mb-3">
             Direct Collaboration
           </p>
@@ -69,9 +65,10 @@ export function ContactSection() {
             Open to client engineering, AI workflow automation, QA automation,
             and fintech collaboration.
           </p>
-        </div>
+        </MotionReveal>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 pointer-events-auto">
+        <MotionReveal delay={0.06}>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 pointer-events-auto">
           {/* Left Column: Direct Details & Social Links */}
           <div className="lg:col-span-5 space-y-6">
             <div className="bg-[var(--bg-surface)] border border-[var(--border-hairline)] rounded-lg p-6 space-y-5">
@@ -326,7 +323,8 @@ export function ContactSection() {
               </button>
             </form>
           </div>
-        </div>
+          </div>
+        </MotionReveal>
       </div>
     </section>
   );

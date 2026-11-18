@@ -6,11 +6,9 @@ import {
   SKILL_GROUPS,
   TECH_STACK,
 } from "../data/portfolioData";
-import { useScrollReveal } from "../hooks/useScrollReveal";
+import { MotionReveal } from "./MotionReveal";
 
 export function TechStackSection() {
-  const { ref, visible } = useScrollReveal<HTMLDivElement>();
-
   const copyEmail = () => {
     navigator.clipboard?.writeText(PORTFOLIO_EMAIL);
     toast.success("Email copied to clipboard");
@@ -18,11 +16,8 @@ export function TechStackSection() {
 
   return (
     <section id="stack" className="py-24 px-6 relative pointer-events-none">
-      <div
-        ref={ref}
-        className={`max-w-7xl mx-auto reveal-block ${visible ? "is-visible" : ""}`}
-      >
-        <div className="mb-12 pb-8 border-b border-[var(--border-hairline)] max-w-2xl pointer-events-auto">
+      <div className="max-w-7xl mx-auto">
+        <MotionReveal className="mb-12 pb-8 border-b border-[var(--border-hairline)] max-w-2xl pointer-events-auto">
           <p className="text-xs font-mono uppercase tracking-[0.26em] text-[var(--accent-gold)] mb-3">
             Engineering Architecture
           </p>
@@ -34,26 +29,29 @@ export function TechStackSection() {
             Production full-stack tooling across React, Next.js, Node.js,
             PostgreSQL, Prisma, Python automation, and Playwright QA suites.
           </p>
-        </div>
+        </MotionReveal>
 
         {/* 4 Skill Domains */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10 pointer-events-auto">
-          {SKILL_GROUPS.map((group) => (
-            <div
-              key={group.title}
-              className="border-t border-[var(--accent-gold)] pt-4 bg-[var(--bg-surface)] px-4 pb-4 rounded-b-lg"
-            >
-              <h3 className="font-mono text-xs uppercase tracking-[0.22em] text-[var(--text-primary)] mb-2">
-                {group.title}
-              </h3>
-              <p className="text-sm text-[var(--text-muted)] leading-relaxed">
-                {group.detail}
-              </p>
-            </div>
-          ))}
-        </div>
+        <MotionReveal delay={0.05}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10 pointer-events-auto">
+            {SKILL_GROUPS.map((group) => (
+              <div
+                key={group.title}
+                className="border-t border-[var(--accent-gold)] pt-4 bg-[var(--bg-surface)] px-4 pb-4 rounded-b-lg"
+              >
+                <h3 className="font-mono text-xs uppercase tracking-[0.22em] text-[var(--text-primary)] mb-2">
+                  {group.title}
+                </h3>
+                <p className="text-sm text-[var(--text-muted)] leading-relaxed">
+                  {group.detail}
+                </p>
+              </div>
+            ))}
+          </div>
+        </MotionReveal>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch pointer-events-auto">
+        <MotionReveal delay={0.1}>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch pointer-events-auto">
           {/* Left Column: Active Build + Advisory */}
           <div className="lg:col-span-5 flex flex-col gap-6">
             <div className="bg-[var(--bg-surface)] border border-[var(--border-hairline)] rounded-lg p-6 flex-1 flex flex-col justify-between">
@@ -141,7 +139,8 @@ export function TechStackSection() {
               </span>
             </div>
           </div>
-        </div>
+          </div>
+        </MotionReveal>
       </div>
     </section>
   );

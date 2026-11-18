@@ -5,11 +5,10 @@ import {
   SPIRITUAL_INSIGHTS,
   TESLA_NUMBERS,
 } from "../data/portfolioData";
-import { useScrollReveal } from "../hooks/useScrollReveal";
+import { MotionReveal } from "./MotionReveal";
 
 export function SpiritualSection() {
   const [revealedCodes, setRevealedCodes] = useState<Record<string, boolean>>({});
-  const { ref, visible } = useScrollReveal<HTMLDivElement>();
 
   const toggleCode = (code: string) => {
     setRevealedCodes((prev) => ({ ...prev, [code]: !prev[code] }));
@@ -17,11 +16,8 @@ export function SpiritualSection() {
 
   return (
     <section id="wisdom" className="py-24 px-6 relative pointer-events-none">
-      <div
-        ref={ref}
-        className={`max-w-7xl mx-auto reveal-block ${visible ? "is-visible" : ""}`}
-      >
-        <div className="mb-12 pb-8 border-b border-[var(--border-hairline)] max-w-2xl pointer-events-auto">
+      <div className="max-w-7xl mx-auto">
+        <MotionReveal className="mb-12 pb-8 border-b border-[var(--border-hairline)] max-w-2xl pointer-events-auto">
           <p className="text-xs font-mono uppercase tracking-[0.26em] text-[var(--accent-gold)] mb-3">
             Harmonic Philosophy &amp; Sacred Geometry
           </p>
@@ -32,9 +28,10 @@ export function SpiritualSection() {
             Integrating Tesla&apos;s 3-6-9 harmonic ratios and intentional focus
             principles alongside disciplined engineering execution.
           </p>
-        </div>
+        </MotionReveal>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6 pointer-events-auto">
+        <MotionReveal delay={0.05}>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6 pointer-events-auto">
           {/* Tesla 3-6-9 Harmonic Card */}
           <div className="bg-[var(--bg-surface)] border border-[var(--border-hairline)] rounded-lg p-6 md:p-8 flex flex-col justify-between">
             <div>
@@ -141,10 +138,12 @@ export function SpiritualSection() {
               Click any sequence row to lock its visibility state.
             </div>
           </div>
-        </div>
+          </div>
+        </MotionReveal>
 
         {/* Manifestation Principles */}
-        <div className="bg-[var(--bg-surface)] border border-[var(--border-hairline)] rounded-lg p-6 md:p-8 pointer-events-auto">
+        <MotionReveal delay={0.1}>
+          <div className="bg-[var(--bg-surface)] border border-[var(--border-hairline)] rounded-lg p-6 md:p-8 pointer-events-auto">
           <div className="flex flex-wrap items-baseline justify-between gap-4 mb-6">
             <h3 className="font-display text-xl font-semibold text-[var(--text-primary)]">
               Manifestation Principles
@@ -169,7 +168,8 @@ export function SpiritualSection() {
               </div>
             ))}
           </div>
-        </div>
+          </div>
+        </MotionReveal>
       </div>
     </section>
   );
