@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import { ArrowRight, ExternalLink, Github, X } from "lucide-react";
+import { useEffect, useState } from "react";
+import { ArrowRight, ExternalLink, Github, Globe, X } from "lucide-react";
 import { PROJECTS, type PortfolioProject } from "../data/portfolioData";
 
 interface ProjectDetailModalProps {
@@ -13,6 +13,12 @@ export function ProjectDetailModal({
   onClose,
   onSelectConnectedProject,
 }: ProjectDetailModalProps) {
+  const [previewMode, setPreviewMode] = useState<"snapshot" | "iframe">("snapshot");
+
+  useEffect(() => {
+    setPreviewMode("snapshot");
+  }, [project?.id]);
+
   useEffect(() => {
     if (!project) return;
     const onKeyDown = (e: KeyboardEvent) => {
@@ -35,37 +41,123 @@ export function ProjectDetailModal({
       aria-modal="true"
       aria-labelledby="project-modal-title"
     >
-      <div className="w-full max-w-lg bg-[var(--bg-surface-solid)] border border-[var(--border-hairline)] rounded-2xl shadow-2xl overflow-hidden pointer-events-auto max-h-full flex flex-col">
-        <div className="relative h-52 bg-[var(--bg-inset)] shrink-0">
-          <img
-            src={project.image}
-            alt={project.imageAlt}
-            referrerPolicy="no-referrer"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent" />
-          <button
-            type="button"
-            onClick={onClose}
-            aria-label="Close project inspector"
-            className="absolute top-3 right-3 w-9 h-9 rounded-lg bg-black/75 border border-white/20 text-white hover:bg-black flex items-center justify-center cursor-pointer"
-          >
-            <X className="w-4 h-4" />
-          </button>
-          <div className="absolute bottom-3 left-5 right-5">
-            <p className="text-xs font-mono text-[#e5cfa3] mb-1">
-              {project.typeLabel} · {project.statusLabel}
-            </p>
-            <h2
-              id="project-modal-title"
-              className="font-display text-xl font-semibold text-white"
+      <div className="w-full max-w-xl bg-[var(--bg-surface-solid)] border border-[var(--border-hairline)] rounded-2xl shadow-2xl overflow-hidden pointer-events-auto max-h-full flex flex-col">
+        {/* Browser Chrome Header + Live Preview Toggle */}
+        <div className="px-4 py-2.5 bg-[var(--bg-inset)] border-b border-[var(--border-hairline)] flex items-center justify-between gap-3 shrink-0">
+          <div className="flex items-center gap-2 min-w-0">
+            <Globe className="w-3.5 h-3.5 text-[var(--accent-gold)] shrink-0" />
+            <span className="font-mono text-xs text-[var(--text-secondary)] truncate">
+              {project.domainLabel}
+            </span>
+          </div>
+
+          <div className="flex items-center gap-2 shrink-0">
+            {project.live && (
+              <div
+                className="flex items-center bg-[var(--bg-surface-solid)] border border-[var(--border-hairline)] rounded-md p-0.5"
+                role="group"
+                aria-label="Preview mode"
+              >
+                <button
+                  type="button"
+                  onClick={() => setPreviewMode("snapshot")}
+                  className={`px-2 py-1 text-[11px] font-medium rounded transition-colors cursor-pointer ${
+                    previewMode === "snapshot"
+                      ? "bg-[var(--accent-gold)] text-[var(--accent-gold-contrast)]"
+                      : "text-[var(--text-muted)] hover:text-[var(--text-primary)]"
+                  }`}
+                >
+                  Snapshot
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setPreviewMode("iframe")}
+                  className={`px-2 py-1 text-[11px] font-medium rounded transition-colors cursor-pointer ${
+                    previewMode === "iframe"
+                      ? "bg-[var(--accent-gold)] text-[var(--accent-gold-contrast)]"
+                      : "text-[var(--text-muted)] hover:text-[var(--text-primary)]"
+                  }`}
+                >
+                  Live Frame
+                </button>
+              </div>
+            )}
+
+            <button
+              type="button"
+              onClick={onClose}
+              aria-label="Close project inspector"
+              className="w-8 h-8 rounded-lg bg-[var(--bg-surface-solid)] border border-[var(--border-hairline)] text-[var(--text-primary)] hover:border-[var(--accent-gold)] flex items-center justify-center cursor-pointer"
             >
-              {project.title}
-            </h2>
+              <X className="w-4 h-4" />
+            </button>
           </div>
         </div>
 
+        {/* Media Viewport */}
+        <div className="relative h-60 bg-[#0f1116] shrink-0 border-b border-[var(--border-hairline)]">
+          {previewMode === "iframe" && project.live ? (
+            <iframe
+              src={project.live}
+              title={`Live website preview of ${project.title}`}
+              className="w-full h-full bg-white border-0"
+              loading="lazy"
+              sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+            />
+          ) : project.image ? (
+            <>
+              <img
+                src={project.image}
+                alt={project.imageAlt}
+                referrerPolicy="no-referrer"
+                className="w-full h-full object-cover object-top"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
+              <div className="absolute bottom-3 left-5 right-5">
+                <p className="text-xs font-mono text-[#e5cfa3] mb-1">
+                  {project.typeLabel} · {project.statusLabel}
+                </p>
+                <h2
+                  id="project-modal-title"
+                  className="font-display text-xl font-semibold text-white"
+                >
+                  {project.title}
+                </h2>
+              </div>
+            </>
+          ) : (
+            <div className="w-full h-full p-6 flex flex-col justify-between bg-[#0f1116] text-white">
+              <p className="text-xs font-mono text-[#e5cfa3]">
+                {project.typeLabel} · {project.statusLabel}
+              </p>
+              <div className="font-mono text-xs text-[#c0c4cc] border border-white/10 rounded-lg p-3 bg-[#151820]">
+                POST /webhooks/ingest · GET /events/stream · PostgreSQL GIN
+              </div>
+              <h2
+                id="project-modal-title"
+                className="font-display text-xl font-semibold text-white"
+              >
+                {project.title}
+              </h2>
+            </div>
+          )}
+        </div>
+
         <div className="p-5 space-y-5 overflow-y-auto">
+          {previewMode === "iframe" && (
+            <div className="flex items-center justify-between gap-2 pb-2 border-b border-[var(--border-hairline)]">
+              <h2
+                id="project-modal-title"
+                className="font-display text-lg font-semibold text-[var(--text-primary)]"
+              >
+                {project.title}
+              </h2>
+              <span className="text-xs font-mono text-[var(--accent-gold)]">
+                {project.statusLabel}
+              </span>
+            </div>
+          )}
+
           <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
             {project.description}
           </p>

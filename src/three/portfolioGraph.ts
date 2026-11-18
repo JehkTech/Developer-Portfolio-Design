@@ -10,6 +10,7 @@ export type GeometryStyle =
   | "audio"
   | "transit"
   | "terminal"
+  | "courier"
   | "logistics";
 
 export interface Vec3Tuple {
@@ -29,6 +30,20 @@ export interface ProjectNodeSpec {
   elevation: number;
   accentHex: number;
   connections: string[];
+  complexityScore?: number;
+  modulesCount?: number;
+}
+
+export interface TechDistributionDatum {
+  technology: string;
+  count: number;
+}
+
+export interface ProjectComplexityDatum {
+  name: string;
+  complexity: number;
+  connections: number;
+  category: Exclude<ProjectCategory, "all">;
 }
 
 export interface WebEdge {
@@ -313,6 +328,46 @@ export function buildWebEdges(nodes: ProjectNodeSpec[]): WebEdge[] {
   return edges;
 }
 
+export function computeTechDistribution(
+  projects: Array<{ tech: string[] }>,
+  limit = 8
+): TechDistributionDatum[] {
+  const counts = new Map<string, number>();
+  for (const proj of projects) {
+    for (const item of proj.tech) {
+      const normalized = item.trim();
+      if (!normalized) continue;
+      counts.set(normalized, (counts.get(normalized) ?? 0) + 1);
+    }
+  }
+
+  return Array.from(counts.entries())
+    .map(([technology, count]) => ({ technology, count }))
+    .sort((a, b) => b.count - a.count || a.technology.localeCompare(b.technology))
+    .slice(0, limit);
+}
+
+export function computeProjectComplexityMetrics(
+  projects: Array<
+    Pick<
+      ProjectNodeSpec,
+      "shortLabel" | "category" | "connections" | "complexityScore"
+    > & { tech: string[] }
+  >
+): ProjectComplexityDatum[] {
+  return projects.map((p) => {
+    const baseScore =
+      p.complexityScore ??
+      Math.min(100, 45 + p.tech.length * 8 + p.connections.length * 6);
+    return {
+      name: p.shortLabel.replace(/^\d+\s+/, ""),
+      complexity: baseScore,
+      connections: p.connections.length,
+      category: p.category,
+    };
+  });
+}
+
 export function smoothstep01(t: number): number {
   const clamped = Math.max(0, Math.min(1, t));
   return clamped * clamped * (3 - 2 * clamped);
@@ -428,3 +483,165 @@ export function validateContactForm(input: ContactFormInput): {
     errors,
   };
 }
+
+export type JournalEntryCategory =
+  | "Reflection"
+  | "Numeric Code"
+  | "Principle"
+  | "Quote";
+
+export interface CustomJournalEntry {
+  id: string;
+  title: string;
+  category: JournalEntryCategory;
+  code?: string;
+  body: string;
+  createdAt: string;
+}
+
+export interface JournalEntryInput {
+  title: string;
+  category: JournalEntryCategory;
+  code?: string;
+  body: string;
+}
+
+export interface JournalEntryErrors {
+  title?: string;
+  body?: string;
+}
+
+export type JournalSpread =
+  | {
+      id: string;
+      folio: string;
+      chapter: string;
+      title: string;
+      kind: "tesla";
+    }
+  | {
+      id: string;
+      folio: string;
+      chapter: string;
+      title: string;
+      kind: "codes";
+    }
+  | {
+      id: string;
+      folio: string;
+      chapter: string;
+      title: string;
+      kind: "principles";
+    }
+  | {
+      id: string;
+      folio: string;
+      chapter: string;
+      title: string;
+      kind: "notes";
+      entries: CustomJournalEntry[];
+      pageSliceIndex: number;
+    };
+
+export function validateJournalEntryInput(input: JournalEntryInput): {
+  valid: boolean;
+  errors: JournalEntryErrors;
+} {
+  const errors: JournalEntryErrors = {};
+  if (input.title.trim().length < 2) {
+    errors.title = "Enter a short heading (at least 2 characters).";
+  }
+  if (input.body.trim().length < 4) {
+    errors.body = "Write your thought, code note, or reflection (at least 4 characters).";
+  }
+  return {
+    valid: Object.keys(errors).length === 0,
+    errors,
+  };
+}
+
+export function buildJournalSpreads(
+  customEntries: CustomJournalEntry[],
+  notesPerSpread = 4
+): JournalSpread[] {
+  const base: JournalSpread[] = [
+    {
+      id: "spread-tesla",
+      folio: "01",
+      chapter: "Chapter I",
+      title: "Harmonic 3 · 6 · 9 & Axioms",
+      kind: "tesla",
+    },
+    {
+      id: "spread-codes",
+      folio: "02",
+      chapter: "Chapter II",
+      title: "Quantum Resonance Codes",
+      kind: "codes",
+    },
+    {
+      id: "spread-principles",
+      folio: "03",
+      chapter: "Chapter III",
+      title: "Manifestation & Focus Rules",
+      kind: "principles",
+    },
+  ];
+
+  const chunkSize = Math.max(1, notesPerSpread);
+  if (customEntries.length === 0) {
+    base.push({
+      id: "spread-notes-0",
+      folio: "04",
+      chapter: "Chapter IV",
+      title: "Field Notes & Added Entries",
+      kind: "notes",
+      entries: [],
+      pageSliceIndex: 0,
+    });
+    return base;
+  }
+
+  for (let i = 0; i < customEntries.length; i += chunkSize) {
+    const sliceIdx = Math.floor(i / chunkSize);
+    const folioNum = String(base.length + 1).padStart(2, "0");
+    base.push({
+      id: `spread-notes-${sliceIdx}`,
+      folio: folioNum,
+      chapter: `Chapter IV${sliceIdx > 0 ? ` · ${sliceIdx + 1}` : ""}`,
+      title:
+        sliceIdx === 0
+          ? "Field Notes & Added Entries"
+          : `Field Notes · Page ${sliceIdx + 1}`,
+      kind: "notes",
+      entries: customEntries.slice(i, i + chunkSize),
+      pageSliceIndex: sliceIdx,
+    });
+  }
+
+  return base;
+}
+
+export function stepJournalPage(
+  currentIndex: number,
+  totalPages: number,
+  delta: 1 | -1
+): {
+  nextIndex: number;
+  outcome: "flipped" | "boundary-start" | "continue-down";
+} {
+  if (totalPages <= 0) {
+    return { nextIndex: 0, outcome: "continue-down" };
+  }
+  if (delta < 0) {
+    if (currentIndex <= 0) {
+      return { nextIndex: 0, outcome: "boundary-start" };
+    }
+    return { nextIndex: currentIndex - 1, outcome: "flipped" };
+  }
+  if (currentIndex >= totalPages - 1) {
+    return { nextIndex: totalPages - 1, outcome: "continue-down" };
+  }
+  return { nextIndex: currentIndex + 1, outcome: "flipped" };
+}
+

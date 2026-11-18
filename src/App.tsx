@@ -162,6 +162,7 @@ export default function App() {
         />
 
         <ProjectsSection
+          theme={theme}
           activeFilter={activeFilter}
           focusedProjectId={focusedProjectId}
           onFilterChange={setActiveFilter}
@@ -173,7 +174,7 @@ export default function App() {
 
         <TechStackSection />
 
-        <SpiritualSection />
+        <SpiritualSection theme={theme} />
 
         <ExperienceSection />
 

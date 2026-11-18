@@ -1,25 +1,45 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import {
+  buildJournalSpreads,
   buildWebEdges,
   computeFocusCameraForNode,
+  computeProjectComplexityMetrics,
   computeProjectNodePosition,
   computeScrollSceneTransform,
+  computeTechDistribution,
   dampValue,
   filterProjects,
   getSceneThemePalette,
   HUB_CORE_POSITION,
   interpolateCameraState,
   SECTION_WAYPOINTS,
+  stepJournalPage,
   validateContactForm,
+  validateJournalEntryInput,
+  type CustomJournalEntry,
   type ProjectNodeSpec,
 } from "./portfolioGraph";
 
-const sampleNodes: ProjectNodeSpec[] = [
+const sampleNodes: Array<ProjectNodeSpec & { tech: string[] }> = [
+  {
+    id: "platinum-courier",
+    title: "Platinum Courier Services",
+    shortLabel: "01 Platinum",
+    category: "clients",
+    geometryStyle: "courier",
+    orbitAngle: 2.15,
+    orbitRadius: 5.5,
+    elevation: 1.55,
+    accentHex: 0xc9a96a,
+    connections: ["join-platform"],
+    complexityScore: 86,
+    tech: ["React", "TypeScript", "Cloudflare Workers"],
+  },
   {
     id: "ai-db-track",
     title: "AI-DB Track",
-    shortLabel: "01 AI-DB",
+    shortLabel: "02 AI-DB",
     category: "saas",
     geometryStyle: "dbshield",
     orbitAngle: 0,
@@ -27,11 +47,13 @@ const sampleNodes: ProjectNodeSpec[] = [
     elevation: 2.1,
     accentHex: 0xc9a96a,
     connections: ["statushub", "onboard-ai"],
+    complexityScore: 90,
+    tech: ["PostgreSQL", "React", "TypeScript"],
   },
   {
     id: "onboard-ai",
     title: "OnboardAI",
-    shortLabel: "02 OnboardAI",
+    shortLabel: "03 OnboardAI",
     category: "saas",
     geometryStyle: "pipeline",
     orbitAngle: (Math.PI * 2) / 4,
@@ -39,23 +61,27 @@ const sampleNodes: ProjectNodeSpec[] = [
     elevation: 2.4,
     accentHex: 0xc0c4cc,
     connections: ["ai-db-track"],
+    complexityScore: 89,
+    tech: ["React", "Vite", "Prisma"],
   },
   {
     id: "join-platform",
     title: "JOIN Digital Solutions",
-    shortLabel: "03 JOIN Ops",
+    shortLabel: "04 JOIN Ops",
     category: "clients",
     geometryStyle: "transit",
     orbitAngle: Math.PI,
     orbitRadius: 5.8,
     elevation: 2.0,
     accentHex: 0xc9a96a,
-    connections: ["statushub"],
+    connections: ["statushub", "platinum-courier"],
+    complexityScore: 92,
+    tech: ["React", "Transit Systems"],
   },
   {
     id: "statushub",
     title: "StatusHub",
-    shortLabel: "04 StatusHub",
+    shortLabel: "05 StatusHub",
     category: "saas",
     geometryStyle: "beacon",
     orbitAngle: Math.PI * 1.4,
@@ -63,11 +89,13 @@ const sampleNodes: ProjectNodeSpec[] = [
     elevation: 2.2,
     accentHex: 0xc0c4cc,
     connections: ["ai-db-track", "join-platform"],
+    complexityScore: 93,
+    tech: ["Next.js 14", "PostgreSQL", "Prisma"],
   },
   {
     id: "trading",
     title: "R0TK Trading Journal",
-    shortLabel: "05 R0TK",
+    shortLabel: "06 R0TK",
     category: "fintech",
     geometryStyle: "candlestick",
     orbitAngle: Math.PI * 1.75,
@@ -75,6 +103,8 @@ const sampleNodes: ProjectNodeSpec[] = [
     elevation: 2.0,
     accentHex: 0xc9a96a,
     connections: ["statushub"],
+    complexityScore: 87,
+    tech: ["React", "Node.js", "PostgreSQL"],
   },
 ];
 
@@ -100,9 +130,28 @@ test("buildWebEdges links every project to the hub and deduplicates cross-links"
     assert.deepEqual(link.from, HUB_CORE_POSITION);
   }
 
-  assert.equal(crossLinks.length, 4);
+  // Unique pairs: (platinum-courier, join-platform), (ai-db-track, statushub), (ai-db-track, onboard-ai), (join-platform, statushub), (statushub, trading)
+  assert.equal(crossLinks.length, 5);
   const ids = new Set(crossLinks.map((e) => e.id));
-  assert.equal(ids.size, 4);
+  assert.equal(ids.size, 5);
+});
+
+test("computeTechDistribution aggregates and sorts top technologies deterministically", () => {
+  const dist = computeTechDistribution(sampleNodes, 4);
+  assert.equal(dist[0].technology, "React");
+  assert.equal(dist[0].count, 5);
+  assert.equal(dist[1].technology, "PostgreSQL");
+  assert.equal(dist[1].count, 3);
+  assert.equal(dist.length, 4);
+});
+
+test("computeProjectComplexityMetrics returns numeric complexity and connection counts", () => {
+  const metrics = computeProjectComplexityMetrics(sampleNodes);
+  assert.equal(metrics.length, sampleNodes.length);
+  assert.equal(metrics[0].name, "Platinum");
+  assert.equal(metrics[0].complexity, 86);
+  assert.equal(metrics[0].connections, 1);
+  assert.equal(metrics[3].connections, 2);
 });
 
 test("interpolateCameraState clamps at boundaries and includes clients & trading waypoints", () => {
@@ -162,9 +211,9 @@ test("dampValue converges smoothly toward target without overshooting", () => {
 });
 
 test("filterProjects filters by category and preserves all on 'all'", () => {
-  assert.equal(filterProjects(sampleNodes, "all").length, 5);
+  assert.equal(filterProjects(sampleNodes, "all").length, 6);
   assert.equal(filterProjects(sampleNodes, "saas").length, 3);
-  assert.equal(filterProjects(sampleNodes, "clients").length, 1);
+  assert.equal(filterProjects(sampleNodes, "clients").length, 2);
   assert.equal(filterProjects(sampleNodes, "fintech").length, 1);
 });
 
@@ -190,3 +239,62 @@ test("validateContactForm rejects invalid inputs and accepts complete valid subm
   assert.equal(valid.valid, true);
   assert.deepEqual(valid.errors, {});
 });
+
+test("buildJournalSpreads creates 4 base chapters and paginates custom entries", () => {
+  const emptySpreads = buildJournalSpreads([]);
+  assert.equal(emptySpreads.length, 4);
+  assert.equal(emptySpreads[0].kind, "tesla");
+  assert.equal(emptySpreads[3].kind, "notes");
+
+  const fiveEntries: CustomJournalEntry[] = Array.from({ length: 5 }, (_, i) => ({
+    id: `entry-${i}`,
+    title: `Note ${i + 1}`,
+    category: "Reflection",
+    body: "Deliberate focus reveals system architecture.",
+    createdAt: "2026-11-18",
+  }));
+  const multiSpreads = buildJournalSpreads(fiveEntries, 4);
+  assert.equal(multiSpreads.length, 5);
+  assert.equal(multiSpreads[3].kind, "notes");
+  assert.equal(multiSpreads[4].kind, "notes");
+  if (multiSpreads[3].kind === "notes" && multiSpreads[4].kind === "notes") {
+    assert.equal(multiSpreads[3].entries.length, 4);
+    assert.equal(multiSpreads[4].entries.length, 1);
+  }
+});
+
+test("stepJournalPage flips sideways across pages and signals continue-down past final page", () => {
+  assert.deepEqual(stepJournalPage(0, 4, -1), {
+    nextIndex: 0,
+    outcome: "boundary-start",
+  });
+  assert.deepEqual(stepJournalPage(0, 4, 1), {
+    nextIndex: 1,
+    outcome: "flipped",
+  });
+  assert.deepEqual(stepJournalPage(3, 4, 1), {
+    nextIndex: 3,
+    outcome: "continue-down",
+  });
+});
+
+test("validateJournalEntryInput enforces title and body constraints", () => {
+  const bad = validateJournalEntryInput({
+    title: "A",
+    category: "Quote",
+    body: "Ok",
+  });
+  assert.equal(bad.valid, false);
+  assert.ok(bad.errors.title);
+  assert.ok(bad.errors.body);
+
+  const ok = validateJournalEntryInput({
+    title: "3-6-9 Alignment",
+    category: "Numeric Code",
+    code: "369963",
+    body: "Focus daily on deliberate creative engineering.",
+  });
+  assert.equal(ok.valid, true);
+  assert.deepEqual(ok.errors, {});
+});
+

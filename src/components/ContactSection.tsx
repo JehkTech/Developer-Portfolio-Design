@@ -10,8 +10,12 @@ import {
   Phone,
 } from "lucide-react";
 import { toast } from "sonner";
-import { PORTFOLIO_EMAIL, PORTFOLIO_PHONE } from "../data/portfolioData";
-import { useScrollReveal } from "../hooks/useScrollReveal";
+import {
+  MASKED_PHONE_DUMMY,
+  PORTFOLIO_EMAIL,
+  PORTFOLIO_GITHUB,
+} from "../data/portfolioData";
+import { MotionReveal } from "./MotionReveal";
 import {
   validateContactForm,
   type ContactFormErrors,
@@ -24,7 +28,6 @@ export function ContactSection() {
   const [message, setMessage] = useState("");
   const [errors, setErrors] = useState<ContactFormErrors>({});
   const [submitted, setSubmitted] = useState(false);
-  const { ref, visible } = useScrollReveal<HTMLDivElement>();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -53,11 +56,8 @@ export function ContactSection() {
       id="contact"
       className="py-24 pb-24 px-6 relative pointer-events-none"
     >
-      <div
-        ref={ref}
-        className={`max-w-7xl mx-auto reveal-block ${visible ? "is-visible" : ""}`}
-      >
-        <div className="mb-12 pb-8 border-b border-[var(--border-hairline)] max-w-2xl pointer-events-auto">
+      <div className="max-w-7xl mx-auto">
+        <MotionReveal className="mb-12 pb-8 border-b border-[var(--border-hairline)] max-w-2xl pointer-events-auto">
           <p className="text-xs font-mono uppercase tracking-[0.26em] text-[var(--accent-gold)] mb-3">
             Direct Collaboration
           </p>
@@ -69,9 +69,10 @@ export function ContactSection() {
             Open to client engineering, AI workflow automation, QA automation,
             and fintech collaboration.
           </p>
-        </div>
+        </MotionReveal>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 pointer-events-auto">
+        <MotionReveal delay={0.06}>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 pointer-events-auto">
           {/* Left Column: Direct Details & Social Links */}
           <div className="lg:col-span-5 space-y-6">
             <div className="bg-[var(--bg-surface)] border border-[var(--border-hairline)] rounded-lg p-6 space-y-5">
@@ -105,10 +106,21 @@ export function ContactSection() {
                     Direct Line
                   </p>
                   <a
-                    href="tel:+260970435346"
-                    className="text-sm text-[var(--text-primary)] hover:text-[var(--accent-gold)] transition-colors font-mono tabular-nums"
+                    href={PORTFOLIO_GITHUB}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Direct line protected — open JehKTech on GitHub"
+                    className="text-sm text-[var(--text-primary)] hover:text-[var(--accent-gold)] transition-colors inline-flex items-center gap-2 font-mono tabular-nums"
                   >
-                    {PORTFOLIO_PHONE}
+                    <span
+                      aria-hidden="true"
+                      className="blur-[4px] select-none"
+                    >
+                      {MASKED_PHONE_DUMMY}
+                    </span>
+                    <span className="text-xs text-[var(--text-muted)] hover:text-[var(--accent-gold)]">
+                      Open GitHub →
+                    </span>
                   </a>
                 </div>
               </div>
@@ -326,7 +338,8 @@ export function ContactSection() {
               </button>
             </form>
           </div>
-        </div>
+          </div>
+        </MotionReveal>
       </div>
     </section>
   );

@@ -409,6 +409,25 @@ export function createProjectNodeGroup(
       break;
     }
 
+    case "courier": {
+      buildWireframeAndKernel(
+        new THREE.OctahedronGeometry(0.46, 0),
+        new THREE.BoxGeometry(0.24, 0.24, 0.24),
+        wireMat,
+        obsidianMat,
+        beaconMat,
+        totemGroup,
+        true
+      );
+      const wingArc = new THREE.Mesh(
+        new THREE.TorusGeometry(0.42, 0.01, 8, 32, Math.PI * 1.35),
+        beaconMat
+      );
+      wingArc.rotation.z = 0.6;
+      totemGroup.add(wingArc);
+      break;
+    }
+
     case "logistics":
     default: {
       buildWireframeAndKernel(
