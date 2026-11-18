@@ -19,30 +19,35 @@ export function HeroSection({
   return (
     <section
       id="about"
-      className="min-h-screen pt-20 pb-28 px-6 flex flex-col justify-between relative pointer-events-none"
+      className="min-h-screen pt-24 pb-20 px-6 flex flex-col justify-between relative pointer-events-none"
     >
       <div className="max-w-7xl mx-auto w-full my-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-        {/* Left editorial column — leaves right-center 3D Sacred Hub unobstructed */}
-        <div className="lg:col-span-6 bg-[#101114]/90 border border-white/10 rounded-2xl p-6 md:p-8 pointer-events-auto">
-          <p className="text-xs font-mono text-[#c9a96a] tracking-wide mb-3">
-            Lusaka, Zambia · Technologist · Trader · Founder
+        {/* Left editorial column — blended cleanly over the 3D scene */}
+        <div
+          className="lg:col-span-7 pointer-events-auto relative py-4 pr-6"
+          style={{ background: "var(--hero-scrim)" }}
+        >
+          <p className="text-xs font-mono uppercase tracking-[0.24em] text-[var(--accent-gold)] mb-5">
+            Lusaka, Zambia · Engineering &amp; Client Portfolio
           </p>
 
-          <h1 className="font-display text-4xl md:text-5xl font-light tracking-tight text-[#ededed] leading-[1.05] text-balance mb-4">
-            Precision{" "}
-            <strong className="font-semibold text-white">under pressure.</strong>
+          <h1 className="font-display text-5xl sm:text-6xl md:text-[4.5rem] font-light tracking-tight text-[var(--text-primary)] leading-[1.02] text-balance mb-6">
+            Precision
+            <br />
+            <strong className="font-semibold">under pressure.</strong>
           </h1>
 
-          <p className="text-[#c0c4cc] text-sm md:text-base leading-relaxed mb-5">
+          <p className="max-w-xl text-[var(--text-secondary)] text-base md:text-lg leading-relaxed mb-6">
             I am Jehoiachin Katemangwe. I design and test payment systems that
-            move real money, build SaaS products, and run a systematic trading
-            operation. Structure first. Noise last.
+            move real money, ship production client deployments and AI SaaS
+            products, and run a systematic trading operation. Structure first.
+            Noise last.
           </p>
 
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-mono text-[#8b9099] mb-6 pb-5 border-b border-white/10">
-            <span>Fintech &amp; QA Systems</span>
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-mono text-[var(--text-muted)] mb-8">
+            <span>3 Client Deployments</span>
             <span aria-hidden="true">·</span>
-            <span>9 Linked Web Nodes</span>
+            <span>4 SaaS &amp; AI Builds</span>
             <span aria-hidden="true">·</span>
             <span>R0TK Systematic Trading</span>
           </div>
@@ -51,42 +56,44 @@ export function HeroSection({
             <button
               type="button"
               onClick={onExploreProjects}
-              className="px-5 py-2.5 bg-[#ededed] text-[#0a0a0a] text-sm font-semibold rounded-lg hover:bg-[#c9a96a] transition-colors duration-150 inline-flex items-center gap-2 whitespace-nowrap shrink-0 cursor-pointer"
+              className="px-6 py-3 bg-[var(--text-primary)] text-[var(--bg-canvas)] text-xs font-semibold uppercase tracking-[0.18em] rounded-md hover:bg-[var(--accent-gold)] hover:text-[var(--accent-gold-contrast)] transition-colors duration-150 inline-flex items-center gap-2 whitespace-nowrap shrink-0 cursor-pointer"
             >
-              <span>View Projects</span>
-              <ArrowDown className="w-4 h-4" />
+              <span>Explore Portfolio</span>
+              <ArrowDown className="w-3.5 h-3.5" />
             </button>
 
             <button
               type="button"
               onClick={onEnterOrbit}
-              className="px-4 py-2.5 bg-[#16181c] border border-white/15 text-[#ededed] text-sm font-medium rounded-lg hover:border-[#c9a96a]/70 hover:text-[#c9a96a] transition-colors duration-150 inline-flex items-center gap-2 whitespace-nowrap shrink-0 cursor-pointer"
+              className="px-5 py-3 bg-[var(--bg-surface)] border border-[var(--border-hairline)] text-[var(--text-primary)] text-xs font-medium uppercase tracking-[0.18em] rounded-md hover:border-[var(--accent-gold)] hover:text-[var(--accent-gold)] transition-colors duration-150 inline-flex items-center gap-2 whitespace-nowrap shrink-0 cursor-pointer"
             >
-              <Compass className="w-4 h-4 text-[#c9a96a]" />
+              <Compass className="w-3.5 h-3.5 text-[var(--accent-gold)]" />
               <span>Orbit 3D Hub</span>
             </button>
 
             <button
               type="button"
               onClick={copyEmail}
-              className="px-3.5 py-2.5 text-[#c0c4cc] hover:text-[#c9a96a] text-sm font-medium inline-flex items-center gap-2 transition-colors duration-150 whitespace-nowrap shrink-0 cursor-pointer"
+              className="px-4 py-3 text-[var(--text-secondary)] hover:text-[var(--accent-gold)] text-xs font-medium uppercase tracking-[0.16em] inline-flex items-center gap-2 transition-colors duration-150 whitespace-nowrap shrink-0 cursor-pointer"
             >
-              <Copy className="w-4 h-4" />
+              <Copy className="w-3.5 h-3.5" />
               <span>Copy Email</span>
             </button>
           </div>
         </div>
       </div>
 
-      {/* Full-width 4-column KPI strip matching index_3ace1b93.html */}
-      <div className="max-w-7xl mx-auto w-full mt-6 pointer-events-auto">
-        <div className="grid grid-cols-2 lg:grid-cols-4 border border-white/10 bg-[#101114]/90 rounded-xl divide-y sm:divide-y-0 sm:divide-x divide-white/10">
+      {/* Full-width 4-column KPI strip */}
+      <div className="max-w-7xl mx-auto w-full mt-10 pointer-events-auto">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-[var(--border-hairline)] border border-[var(--border-hairline)]">
           {HERO_METRICS.map((item) => (
-            <div key={item.label} className="p-4 md:p-5">
-              <div className="font-display text-2xl md:text-3xl font-light text-[#ededed] tabular-nums mb-1">
+            <div key={item.label} className="bg-[var(--bg-surface)] p-5 md:p-6">
+              <div className="font-display text-2xl md:text-3xl font-light text-[var(--text-primary)] tabular-nums mb-1">
                 {item.value}
               </div>
-              <p className="text-xs font-mono text-[#8b9099]">{item.label}</p>
+              <p className="text-[11px] font-mono uppercase tracking-[0.14em] text-[var(--text-muted)]">
+                {item.label}
+              </p>
             </div>
           ))}
         </div>

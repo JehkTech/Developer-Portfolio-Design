@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
   --font-display: "Outfit", ui-sans-serif, system-ui, sans-serif;
@@ -8,14 +9,47 @@
 
 @layer base {
   :root {
+    color-scheme: light;
+    --bg-canvas: #f6f5f1;
+    --bg-surface: rgba(255, 255, 255, 0.88);
+    --bg-surface-solid: #ffffff;
+    --bg-inset: #eceae3;
+    --text-primary: #141518;
+    --text-secondary: #3f444e;
+    --text-muted: #5d6470;
+    --accent-gold: #9a7532;
+    --accent-gold-hover: #7f5f24;
+    --accent-gold-contrast: #ffffff;
+    --border-hairline: rgba(20, 21, 24, 0.12);
+    --border-strong: rgba(20, 21, 24, 0.22);
+    --hero-scrim: radial-gradient(ellipse at left, rgba(246, 245, 241, 0.92) 0%, rgba(246, 245, 241, 0.65) 58%, transparent 100%);
+    --grain-opacity: 0.025;
+  }
+
+  html.dark {
     color-scheme: dark;
+    --bg-canvas: #0a0a0a;
+    --bg-surface: rgba(18, 18, 18, 0.86);
+    --bg-surface-solid: #121418;
+    --bg-inset: #16181c;
+    --text-primary: #ededed;
+    --text-secondary: #c0c4cc;
+    --text-muted: #8b9099;
+    --accent-gold: #c9a96a;
+    --accent-gold-hover: #d8bc82;
+    --accent-gold-contrast: #0a0a0a;
+    --border-hairline: rgba(255, 255, 255, 0.1);
+    --border-strong: rgba(255, 255, 255, 0.22);
+    --hero-scrim: radial-gradient(ellipse at left, rgba(10, 10, 10, 0.88) 0%, rgba(10, 10, 10, 0.56) 58%, transparent 100%);
+    --grain-opacity: 0.04;
   }
 
   html {
     font-family: var(--font-sans);
-    background-color: #0a0a0a;
-    color: #ededed;
+    background-color: var(--bg-canvas);
+    color: var(--text-primary);
     scroll-behavior: smooth;
+    transition: background-color 220ms ease, color 220ms ease;
   }
 
   h1, h2, h3, .font-display {
@@ -27,13 +61,39 @@
   }
 }
 
+.reveal-block {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 550ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 550ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-block.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+  .reveal-block {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: var(--grain-opacity);
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
 }

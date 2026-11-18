@@ -4,8 +4,10 @@ import {
   buildWebEdges,
   computeFocusCameraForNode,
   computeProjectNodePosition,
+  computeScrollSceneTransform,
   dampValue,
   filterProjects,
+  getSceneThemePalette,
   HUB_CORE_POSITION,
   interpolateCameraState,
   SECTION_WAYPOINTS,
@@ -35,7 +37,7 @@ const sampleNodes: ProjectNodeSpec[] = [
     orbitAngle: (Math.PI * 2) / 4,
     orbitRadius: 4.6,
     elevation: 2.4,
-    accentHex: 0x60a5fa,
+    accentHex: 0xc0c4cc,
     connections: ["ai-db-track"],
   },
   {
@@ -59,7 +61,7 @@ const sampleNodes: ProjectNodeSpec[] = [
     orbitAngle: Math.PI * 1.4,
     orbitRadius: 4.6,
     elevation: 2.2,
-    accentHex: 0x60a5fa,
+    accentHex: 0xc0c4cc,
     connections: ["ai-db-track", "join-platform"],
   },
   {
@@ -98,13 +100,13 @@ test("buildWebEdges links every project to the hub and deduplicates cross-links"
     assert.deepEqual(link.from, HUB_CORE_POSITION);
   }
 
-  // Unique pairs: (ai-db-track, statushub), (ai-db-track, onboard-ai), (join-platform, statushub), (statushub, trading)
   assert.equal(crossLinks.length, 4);
   const ids = new Set(crossLinks.map((e) => e.id));
   assert.equal(ids.size, 4);
 });
 
-test("interpolateCameraState clamps at boundaries and includes trading waypoint", () => {
+test("interpolateCameraState clamps at boundaries and includes clients & trading waypoints", () => {
+  assert.ok(SECTION_WAYPOINTS.some((w) => w.sectionId === "clients"));
   assert.ok(SECTION_WAYPOINTS.some((w) => w.sectionId === "trading"));
 
   const start = interpolateCameraState(-0.5, SECTION_WAYPOINTS);
@@ -120,6 +122,29 @@ test("interpolateCameraState clamps at boundaries and includes trading waypoint"
   assert.ok(Number.isFinite(mid.position.x));
   assert.ok(Number.isFinite(mid.position.y));
   assert.ok(Number.isFinite(mid.position.z));
+});
+
+test("computeScrollSceneTransform rotates and elevates constellation smoothly with scroll", () => {
+  const top = computeScrollSceneTransform(0);
+  const mid = computeScrollSceneTransform(0.5);
+  const bottom = computeScrollSceneTransform(1);
+
+  assert.equal(top.constellationYaw, 0);
+  assert.ok(mid.constellationYaw > top.constellationYaw);
+  assert.ok(bottom.constellationYaw > mid.constellationYaw);
+  assert.ok(mid.hubPosY < 0);
+  assert.ok(bottom.hubTiltX > top.hubTiltX);
+});
+
+test("getSceneThemePalette produces distinct calibrated dark and light palettes", () => {
+  const dark = getSceneThemePalette("dark");
+  const light = getSceneThemePalette("light");
+
+  assert.equal(dark.background, 0x0a0a0a);
+  assert.equal(light.background, 0xf6f5f1);
+  assert.notEqual(dark.goldWire, light.goldWire);
+  assert.notEqual(dark.starPrimary, light.starPrimary);
+  assert.ok(light.hemiIntensity > dark.hemiIntensity);
 });
 
 test("computeFocusCameraForNode frames target node cleanly", () => {

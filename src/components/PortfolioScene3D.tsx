@@ -7,17 +7,16 @@ import {
   buildWebEdges,
   computeFocusCameraForNode,
   computeProjectNodePosition,
+  computeScrollSceneTransform,
+  getSceneThemePalette,
   interpolateCameraState,
   SECTION_WAYPOINTS,
+  type PortfolioTheme,
   type ProjectCategory,
 } from "../three/portfolioGraph";
+import { createBrushedMetalBumpTexture } from "../three/proceduralTextures";
 import {
-  createBrushedMetalBumpTexture,
-  createContactShadowTexture,
-  createSacredFloorTexture,
-} from "../three/proceduralTextures";
-import {
-  createOrbitalStage,
+  createAtmosphericStarfield,
   createProjectNodeGroup,
   createSacredHubGroup,
   createWebFilaments,
@@ -25,6 +24,7 @@ import {
 } from "../three/hubModels";
 
 export interface PortfolioScene3DProps {
+  theme: PortfolioTheme;
   activeFilter: ProjectCategory;
   focusedProjectId: string | null;
   hoveredProjectId: string | null;
@@ -37,6 +37,7 @@ export interface PortfolioScene3DProps {
 const _targetCamPos = new THREE.Vector3();
 const _targetLookAt = new THREE.Vector3();
 const _beadPoint = new THREE.Vector3();
+const _focusWorldPos = new THREE.Vector3();
 
 function detectSoftwareWebGL(): boolean {
   try {
@@ -54,6 +55,7 @@ function detectSoftwareWebGL(): boolean {
 }
 
 export function PortfolioScene3D({
+  theme,
   activeFilter,
   focusedProjectId,
   hoveredProjectId,
@@ -65,8 +67,8 @@ export function PortfolioScene3D({
   const canvasMountRef = useRef<HTMLDivElement>(null);
   const [contextLost, setContextLost] = useState(false);
 
-  // Store latest React props in refs so the mounted WebGL scene is never torn down
   const propsRef = useRef({
+    theme,
     activeFilter,
     focusedProjectId,
     hoveredProjectId,
@@ -76,6 +78,7 @@ export function PortfolioScene3D({
     onActiveSectionChange,
   });
   propsRef.current = {
+    theme,
     activeFilter,
     focusedProjectId,
     hoveredProjectId,
@@ -94,13 +97,18 @@ export function PortfolioScene3D({
       "(prefers-reduced-motion: reduce)"
     ).matches;
 
+    let appliedTheme: PortfolioTheme = propsRef.current.theme;
+    let palette = getSceneThemePalette(appliedTheme);
+
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x0a0a0a);
-    scene.fog = new THREE.FogExp2(0x0a0a0a, 0.021);
+    const bgColor = new THREE.Color(palette.background);
+    scene.background = bgColor;
+    const fog = new THREE.FogExp2(palette.fogColor, palette.fogDensity);
+    scene.fog = fog;
 
     const width = mount.clientWidth || window.innerWidth;
     const height = mount.clientHeight || window.innerHeight;
-    const camera = new THREE.PerspectiveCamera(46, width / height, 0.1, 140);
+    const camera = new THREE.PerspectiveCamera(52, width / height, 0.1, 140);
     camera.position.set(
       SECTION_WAYPOINTS[0].position.x,
       SECTION_WAYPOINTS[0].position.y,
@@ -113,19 +121,17 @@ export function PortfolioScene3D({
     });
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.1;
+    renderer.toneMappingExposure = 1.08;
     renderer.setPixelRatio(
       isSoftwareGl ? 1 : Math.min(window.devicePixelRatio, 2)
     );
     renderer.setSize(width, height);
-    renderer.shadowMap.enabled = !isSoftwareGl;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.shadowMap.enabled = false;
     renderer.domElement.style.display = "block";
     renderer.domElement.style.width = "100%";
     renderer.domElement.style.height = "100%";
     mount.appendChild(renderer.domElement);
 
-    // Studio PBR environment reflections (kept on every device)
     const pmremGenerator = new THREE.PMREMGenerator(renderer);
     const roomEnv = new RoomEnvironment();
     const envTarget = pmremGenerator.fromScene(roomEnv, 0.04);
@@ -133,47 +139,38 @@ export function PortfolioScene3D({
     roomEnv.dispose();
     pmremGenerator.dispose();
 
-    // Warm/cool 3-point architectural lighting rig
-    const hemiLight = new THREE.HemisphereLight(0x93c5fd, 0x0f172a, 0.85);
+    const hemiLight = new THREE.HemisphereLight(
+      palette.hemiSky,
+      palette.hemiGround,
+      palette.hemiIntensity
+    );
     scene.add(hemiLight);
 
-    const keyLight = new THREE.DirectionalLight(0xfff1d6, 2.2);
-    keyLight.position.set(7, 12, 8);
-    if (!isSoftwareGl) {
-      keyLight.castShadow = true;
-      keyLight.shadow.mapSize.set(1024, 1024);
-      keyLight.shadow.camera.near = 1;
-      keyLight.shadow.camera.far = 36;
-      keyLight.shadow.camera.left = -12;
-      keyLight.shadow.camera.right = 12;
-      keyLight.shadow.camera.top = 12;
-      keyLight.shadow.camera.bottom = -12;
-      keyLight.shadow.bias = -0.0005;
-      keyLight.shadow.normalBias = 0.02;
-    }
+    const keyLight = new THREE.DirectionalLight(0xfff1d6, palette.keyIntensity);
+    keyLight.position.set(7, 10, 8);
     scene.add(keyLight);
 
-    const rimLight = new THREE.DirectionalLight(0x38bdf8, 1.15);
-    rimLight.position.set(-8, 6, -9);
+    const rimLight = new THREE.DirectionalLight(0x8b9099, 0.95);
+    rimLight.position.set(-8, -5, -9);
     scene.add(rimLight);
 
-    const hubAccentLight = new THREE.PointLight(0xc9a96a, 2.3, 16, 1.6);
-    hubAccentLight.position.set(0, 2.6, 0);
+    const hubAccentLight = new THREE.PointLight(palette.goldWire, 1.8, 15, 1.6);
+    hubAccentLight.position.set(0, 0.4, 0);
     scene.add(hubAccentLight);
 
-    // Procedural textures & composite 3D world
     const maxAnisotropy = renderer.capabilities.getMaxAnisotropy();
-    const floorTex = createSacredFloorTexture(maxAnisotropy);
-    const shadowTex = createContactShadowTexture();
     const metalBump = createBrushedMetalBumpTexture(maxAnisotropy);
 
-    const stage = createOrbitalStage(floorTex, metalBump);
-    scene.add(stage.group);
+    const starfield = createAtmosphericStarfield(palette);
+    scene.add(starfield.group);
 
-    const hub = createSacredHubGroup(metalBump, shadowTex);
-    scene.add(hub.group);
+    // Master Constellation Root rotated & glided synchronously with scroll
+    const constellationRoot = new THREE.Group();
+    scene.add(constellationRoot);
 
-    const nodePositions = new Map<string, ReturnType<typeof computeProjectNodePosition>>();
+    const hub = createSacredHubGroup(metalBump, palette);
+    constellationRoot.add(hub.group);
+
     const nodeHandles = new Map<string, ProjectNodeHandle>();
     const raycastTargets: THREE.Object3D[] = [];
 
@@ -183,33 +180,76 @@ export function PortfolioScene3D({
         project.orbitRadius,
         project.elevation
       );
-      nodePositions.set(project.id, pos);
-      const handle = createProjectNodeGroup(project, pos, metalBump, shadowTex);
-      scene.add(handle.group);
+      const handle = createProjectNodeGroup(project, pos, metalBump, palette);
+      constellationRoot.add(handle.group);
       nodeHandles.set(project.id, handle);
       raycastTargets.push(handle.hitMesh);
     });
 
     const edges = buildWebEdges(PROJECTS);
-    const filaments = createWebFilaments(edges);
-    scene.add(filaments.group);
+    const filaments = createWebFilaments(edges, palette);
+    constellationRoot.add(filaments.group);
 
-    // Controls
+    const applySceneTheme = (nextTheme: PortfolioTheme) => {
+      palette = getSceneThemePalette(nextTheme);
+      bgColor.setHex(palette.background);
+      fog.color.setHex(palette.fogColor);
+      fog.density = palette.fogDensity;
+
+      hemiLight.color.setHex(palette.hemiSky);
+      hemiLight.groundColor.setHex(palette.hemiGround);
+      hemiLight.intensity = palette.hemiIntensity;
+      keyLight.intensity = palette.keyIntensity;
+      hubAccentLight.color.setHex(palette.goldWire);
+
+      starfield.recolor(palette.starPrimary, palette.starAccent, palette.starOpacity);
+
+      hub.outerWireMat.color.setHex(palette.goldWire);
+      hub.outerWireMat.opacity = palette.outerIcoOpacity;
+      hub.silverRingMat.color.setHex(palette.silverWire);
+      hub.silverRingMat.opacity = palette.ringOpacityOuter;
+      hub.goldRingMat.color.setHex(palette.goldWire);
+      hub.goldRingMat.opacity = palette.ringOpacityInner;
+      hub.markerMat.color.setHex(palette.goldWire);
+      hub.markerMat.emissive.setHex(palette.goldWire);
+      hub.innerLatticeMat.color.setHex(palette.silverWire);
+      hub.coreCrystalMat.color.setHex(palette.kernelSurface);
+      hub.coreCrystalMat.emissive.setHex(palette.goldWire);
+      hub.coreEdgeMat.color.setHex(palette.goldWire);
+
+      nodeHandles.forEach((handle) => {
+        const accentColor = handle.isGoldAccent
+          ? palette.goldWire
+          : palette.silverWire;
+        handle.obsidianMat.color.setHex(palette.kernelSurface);
+        handle.wireMat.color.setHex(accentColor);
+        handle.beaconMat.color.setHex(accentColor);
+        handle.beaconMat.emissive.setHex(accentColor);
+      });
+
+      filaments.handles.forEach((fh) => {
+        const lineColor =
+          fh.edge.kind === "hub-link" ? palette.hubLink : palette.crossLink;
+        const beadColor =
+          fh.edge.kind === "hub-link" ? palette.beadHub : palette.beadCross;
+        fh.material.color.setHex(lineColor);
+        fh.beadMat.color.setHex(beadColor);
+      });
+    };
+
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = !isSoftwareGl;
     controls.dampingFactor = 0.06;
     controls.enablePan = false;
-    controls.minDistance = 3.2;
-    controls.maxDistance = 16;
-    controls.maxPolarAngle = Math.PI * 0.47;
-    controls.minPolarAngle = 0.25;
+    controls.minDistance = 2.8;
+    controls.maxDistance = 15;
+    controls.minPolarAngle = 0.15;
+    controls.maxPolarAngle = Math.PI * 0.85;
     controls.target.set(
       SECTION_WAYPOINTS[0].target.x,
       SECTION_WAYPOINTS[0].target.y,
       SECTION_WAYPOINTS[0].target.z
     );
-
-    // Disable wheel zoom while in Scroll Sync so page scrolling never gets trapped
     controls.enableZoom = propsRef.current.cameraMode === "orbit";
 
     let userDraggingOrbit = false;
@@ -222,18 +262,24 @@ export function PortfolioScene3D({
     controls.addEventListener("start", onControlsStart);
     controls.addEventListener("end", onControlsEnd);
 
-    // Pre-warm shaders on real GPU
     if (!isSoftwareGl) {
       renderer.compile(scene, camera);
     }
 
-    // Raycasting on Layer 1 proxy hit spheres
     const raycaster = new THREE.Raycaster();
     raycaster.layers.set(1);
     const pointer = new THREE.Vector2();
+    let parallaxX = 0;
+    let parallaxY = 0;
     let lastRaycastTime = 0;
     let pointerDownX = 0;
     let pointerDownY = 0;
+
+    const onWindowMouseMove = (ev: MouseEvent) => {
+      parallaxX = ev.clientX / Math.max(1, window.innerWidth) - 0.5;
+      parallaxY = ev.clientY / Math.max(1, window.innerHeight) - 0.5;
+    };
+    window.addEventListener("mousemove", onWindowMouseMove, { passive: true });
 
     const updatePointer = (ev: PointerEvent) => {
       const rect = renderer.domElement.getBoundingClientRect();
@@ -264,7 +310,7 @@ export function PortfolioScene3D({
 
     const onPointerUp = (ev: PointerEvent) => {
       const moved = Math.hypot(ev.clientX - pointerDownX, ev.clientY - pointerDownY);
-      if (moved > 6) return; // Ignore orbit drag releases
+      if (moved > 6) return;
 
       updatePointer(ev);
       raycaster.setFromCamera(pointer, camera);
@@ -281,7 +327,6 @@ export function PortfolioScene3D({
     renderer.domElement.addEventListener("pointermove", onPointerMove);
     renderer.domElement.addEventListener("pointerup", onPointerUp);
 
-    // WebGL context loss safety
     const onContextLost = (e: Event) => {
       e.preventDefault();
       setContextLost(true);
@@ -290,12 +335,8 @@ export function PortfolioScene3D({
       setContextLost(false);
     };
     renderer.domElement.addEventListener("webglcontextlost", onContextLost);
-    renderer.domElement.addEventListener(
-      "webglcontextrestored",
-      onContextRestored
-    );
+    renderer.domElement.addEventListener("webglcontextrestored", onContextRestored);
 
-    // Resize listener
     const onResize = () => {
       const w = mount.clientWidth || window.innerWidth;
       const h = mount.clientHeight || window.innerHeight;
@@ -305,7 +346,6 @@ export function PortfolioScene3D({
     };
     window.addEventListener("resize", onResize);
 
-    // Scroll progress tracker
     let lastReportedSection = "about";
     const getScrollProgress = () => {
       const maxScroll = Math.max(
@@ -315,7 +355,19 @@ export function PortfolioScene3D({
       return Math.min(1, Math.max(0, window.scrollY / maxScroll));
     };
 
-    // Frame loop with Software-WebGL afterDraw pacing
+    const getVisibleSectionId = (): string | null => {
+      const probeY = window.innerHeight * 0.34;
+      for (const wp of SECTION_WAYPOINTS) {
+        const el = document.getElementById(wp.sectionId);
+        if (!el) continue;
+        const rect = el.getBoundingClientRect();
+        if (rect.top <= probeY && rect.bottom >= probeY) {
+          return wp.sectionId;
+        }
+      }
+      return null;
+    };
+
     let disposed = false;
     let frameId = 0;
     let lastTime = performance.now();
@@ -351,6 +403,7 @@ export function PortfolioScene3D({
       elapsed += delta * motionScale;
 
       const {
+        theme: currentTheme,
         activeFilter: filter,
         focusedProjectId: focusId,
         hoveredProjectId: hoverId,
@@ -358,19 +411,50 @@ export function PortfolioScene3D({
         onActiveSectionChange: reportSection,
       } = propsRef.current;
 
+      if (currentTheme !== appliedTheme) {
+        appliedTheme = currentTheme;
+        applySceneTheme(currentTheme);
+      }
+
       controls.enableZoom = mode === "orbit";
 
-      // 1. Animate Sacred Hub gimbals and crystal
-      hub.outerGimbal.rotation.y = elapsed * 0.22;
-      hub.outerGimbal.rotation.x = Math.sin(elapsed * 0.35) * 0.28;
-      hub.innerGimbal.rotation.z = -elapsed * 0.31;
-      hub.innerGimbal.rotation.x = Math.cos(elapsed * 0.25) * 0.4;
-      hub.harmonicRing.rotation.z = elapsed * 0.18;
-      hub.coreLattice.rotation.y = -elapsed * 0.28;
-      hub.coreCrystal.rotation.y = elapsed * 0.55;
-      hub.coreCrystal.position.y = Math.sin(elapsed * 1.4) * 0.08 * motionScale;
+      const scrollProgress = getScrollProgress();
+      const scrollTransform = computeScrollSceneTransform(scrollProgress);
 
-      // 2. Animate Project Satellite totems & filter/focus emphasis
+      // 1. Scroll-Coupled Constellation Choreography + Ambient Drift
+      starfield.points.rotation.y = elapsed * 0.036 + scrollTransform.constellationYaw * 0.25;
+      starfield.points.rotation.x = elapsed * 0.012 + scrollTransform.starTiltZ * 0.4;
+
+      if (mode === "scroll" && !focusId) {
+        constellationRoot.rotation.y = THREE.MathUtils.damp(
+          constellationRoot.rotation.y,
+          scrollTransform.constellationYaw,
+          7.0,
+          delta
+        );
+        constellationRoot.rotation.x = THREE.MathUtils.damp(
+          constellationRoot.rotation.x,
+          scrollTransform.hubTiltX,
+          7.0,
+          delta
+        );
+        constellationRoot.position.y = THREE.MathUtils.damp(
+          constellationRoot.position.y,
+          scrollTransform.hubPosY,
+          7.0,
+          delta
+        );
+      }
+
+      hub.outerWireframe.rotation.y = elapsed * 0.14;
+      hub.outerWireframe.rotation.x = elapsed * 0.07;
+      hub.outerRing.rotation.z = elapsed * 0.095;
+      hub.innerRing.rotation.y = -elapsed * 0.12;
+      hub.coreLattice.rotation.y = -elapsed * 0.22;
+      hub.coreCrystal.rotation.x = elapsed * 0.26;
+      hub.coreCrystal.position.y = Math.sin(elapsed * 1.1) * 0.05 * motionScale;
+
+      // 2. Constellation Project Polyhedra (hover & category filter emphasis)
       PROJECTS.forEach((proj, idx) => {
         const handle = nodeHandles.get(proj.id);
         if (!handle) return;
@@ -380,9 +464,9 @@ export function PortfolioScene3D({
         const isHovered = hoverId === proj.id;
 
         const targetScale = isFocused
-          ? 1.24
+          ? 1.28
           : isHovered
-          ? 1.14
+          ? 1.16
           : matchesFilter
           ? 1.0
           : 0.72;
@@ -395,17 +479,18 @@ export function PortfolioScene3D({
         handle.group.scale.setScalar(nextScale);
 
         const floatOffset =
-          Math.sin(elapsed * 1.25 + idx * 1.3) * 0.12 * motionScale;
-        handle.totemGroup.position.y = 0.05 + floatOffset;
-        handle.totemGroup.rotation.y = elapsed * 0.36 + idx * 0.8;
-        handle.collarRing.rotation.z = elapsed * 0.5;
+          Math.sin(elapsed * 0.9 + idx * 1.3) * 0.08 * motionScale;
+        handle.totemGroup.position.y = floatOffset;
+        handle.totemGroup.rotation.y = elapsed * 0.28 + idx * 0.8;
+        handle.totemGroup.rotation.x = Math.sin(elapsed * 0.35 + idx) * 0.18;
+        handle.collarRing.rotation.z = elapsed * 0.34;
 
         const targetEmissive = isFocused
-          ? 1.15
+          ? 1.05
           : isHovered
-          ? 0.85
+          ? 0.8
           : matchesFilter
-          ? 0.42
+          ? 0.28
           : 0.08;
         handle.beaconMat.emissiveIntensity = THREE.MathUtils.damp(
           handle.beaconMat.emissiveIntensity,
@@ -413,9 +498,23 @@ export function PortfolioScene3D({
           8,
           delta
         );
+
+        const targetWireOpacity = isFocused
+          ? 0.96
+          : isHovered
+          ? 0.88
+          : matchesFilter
+          ? palette.wireOpacityBase
+          : 0.2;
+        handle.wireMat.opacity = THREE.MathUtils.damp(
+          handle.wireMat.opacity,
+          targetWireOpacity,
+          8,
+          delta
+        );
       });
 
-      // 3. Animate Web Filament pulses & link highlights
+      // 3. Slender Spline Web Filaments & Traveling Motes
       filaments.handles.forEach((fh) => {
         const t = (fh.pulseOffset + elapsed * fh.pulseSpeed) % 1;
         fh.curve.getPointAt(t, _beadPoint);
@@ -428,11 +527,11 @@ export function PortfolioScene3D({
 
         const targetOpacity = activeId
           ? connectedToActive
-            ? 0.95
-            : 0.16
+            ? 0.92
+            : 0.1
           : fh.edge.kind === "hub-link"
-          ? 0.78
-          : 0.44;
+          ? palette.hubLinkOpacity
+          : palette.crossLinkOpacity;
         fh.material.opacity = THREE.MathUtils.damp(
           fh.material.opacity,
           targetOpacity,
@@ -442,71 +541,78 @@ export function PortfolioScene3D({
         fh.pulseBead.visible = !activeId || connectedToActive;
       });
 
-      // 4. Camera Choreography (Focus Node OR Scroll-Linked Waypoints)
-      const scrollProgress = getScrollProgress();
+      // 4. Camera Choreography (Node Focus OR Scroll-Linked + Pointer Parallax)
       const scrollCam = interpolateCameraState(scrollProgress, SECTION_WAYPOINTS);
-      if (scrollCam.activeSectionId !== lastReportedSection) {
-        lastReportedSection = scrollCam.activeSectionId;
-        reportSection?.(scrollCam.activeSectionId);
+      const visibleSection = getVisibleSectionId() ?? scrollCam.activeSectionId;
+      if (visibleSection !== lastReportedSection) {
+        lastReportedSection = visibleSection;
+        reportSection?.(visibleSection);
       }
 
       if (focusId) {
-        const focusPos = nodePositions.get(focusId);
-        if (focusPos) {
-          const framed = computeFocusCameraForNode(focusPos, 4.4);
+        const focusHandle = nodeHandles.get(focusId);
+        if (focusHandle) {
+          focusHandle.group.getWorldPosition(_focusWorldPos);
+          const framed = computeFocusCameraForNode(
+            {
+              x: _focusWorldPos.x,
+              y: _focusWorldPos.y,
+              z: _focusWorldPos.z,
+            },
+            3.6
+          );
           _targetCamPos.set(
             framed.position.x,
             framed.position.y,
             framed.position.z
           );
-          _targetLookAt.set(
-            framed.target.x,
-            framed.target.y,
-            framed.target.z
-          );
+          _targetLookAt.set(framed.target.x, framed.target.y, framed.target.z);
           if (!userDraggingOrbit) {
             camera.position.x = THREE.MathUtils.damp(
               camera.position.x,
               _targetCamPos.x,
-              5.5,
+              6.5,
               delta
             );
             camera.position.y = THREE.MathUtils.damp(
               camera.position.y,
               _targetCamPos.y,
-              5.5,
+              6.5,
               delta
             );
             camera.position.z = THREE.MathUtils.damp(
               camera.position.z,
               _targetCamPos.z,
-              5.5,
+              6.5,
               delta
             );
             controls.target.x = THREE.MathUtils.damp(
               controls.target.x,
               _targetLookAt.x,
-              6.5,
+              7.5,
               delta
             );
             controls.target.y = THREE.MathUtils.damp(
               controls.target.y,
               _targetLookAt.y,
-              6.5,
+              7.5,
               delta
             );
             controls.target.z = THREE.MathUtils.damp(
               controls.target.z,
               _targetLookAt.z,
-              6.5,
+              7.5,
               delta
             );
           }
         }
       } else if (mode === "scroll" && !userDraggingOrbit) {
+        const px = prefersReducedMotion ? 0 : parallaxX * 1.1;
+        const py = prefersReducedMotion ? 0 : -parallaxY * 0.7;
+
         _targetCamPos.set(
-          scrollCam.position.x,
-          scrollCam.position.y,
+          scrollCam.position.x + px,
+          scrollCam.position.y + py,
           scrollCam.position.z
         );
         _targetLookAt.set(
@@ -517,37 +623,37 @@ export function PortfolioScene3D({
         camera.position.x = THREE.MathUtils.damp(
           camera.position.x,
           _targetCamPos.x,
-          4.5,
+          7.0,
           delta
         );
         camera.position.y = THREE.MathUtils.damp(
           camera.position.y,
           _targetCamPos.y,
-          4.5,
+          7.0,
           delta
         );
         camera.position.z = THREE.MathUtils.damp(
           camera.position.z,
           _targetCamPos.z,
-          4.5,
+          7.0,
           delta
         );
         controls.target.x = THREE.MathUtils.damp(
           controls.target.x,
           _targetLookAt.x,
-          5.5,
+          7.5,
           delta
         );
         controls.target.y = THREE.MathUtils.damp(
           controls.target.y,
           _targetLookAt.y,
-          5.5,
+          7.5,
           delta
         );
         controls.target.z = THREE.MathUtils.damp(
           controls.target.z,
           _targetLookAt.z,
-          5.5,
+          7.5,
           delta
         );
       }
@@ -570,6 +676,7 @@ export function PortfolioScene3D({
       clearTimeout(frameId);
 
       window.removeEventListener("resize", onResize);
+      window.removeEventListener("mousemove", onWindowMouseMove);
       controls.removeEventListener("start", onControlsStart);
       controls.removeEventListener("end", onControlsEnd);
       controls.dispose();
@@ -584,7 +691,12 @@ export function PortfolioScene3D({
       );
 
       scene.traverse((obj) => {
-        if (obj instanceof THREE.Mesh || obj instanceof THREE.LineSegments) {
+        if (
+          obj instanceof THREE.Mesh ||
+          obj instanceof THREE.LineSegments ||
+          obj instanceof THREE.Line ||
+          obj instanceof THREE.Points
+        ) {
           obj.geometry?.dispose();
           if (Array.isArray(obj.material)) {
             obj.material.forEach((m) => m.dispose());
@@ -594,8 +706,6 @@ export function PortfolioScene3D({
         }
       });
 
-      floorTex.dispose();
-      shadowTex.dispose();
       metalBump.dispose();
       envTarget.dispose();
       renderer.dispose();
@@ -609,16 +719,17 @@ export function PortfolioScene3D({
     <div
       ref={canvasMountRef}
       data-testid="portfolio-3d-canvas"
+      data-theme={theme}
       className="fixed inset-0 z-0 pointer-events-auto"
-      aria-label="Interactive 3D sacred geometry and project web hub"
+      aria-label="Interactive 3D wireframe sacred geometry and project web constellation"
     >
       {contextLost && (
-        <div className="absolute inset-0 flex items-center justify-center bg-[#07090e] text-[#edf0f5] p-6">
-          <div className="max-w-md border border-white/10 bg-[#111724] p-6 text-center rounded-xl">
+        <div className="absolute inset-0 flex items-center justify-center bg-[var(--bg-canvas)] text-[var(--text-primary)] p-6">
+          <div className="max-w-md border border-[var(--border-hairline)] bg-[var(--bg-surface-solid)] p-6 text-center rounded-xl">
             <h2 className="text-lg font-semibold mb-2">3D Viewport Paused</h2>
-            <p className="text-sm text-slate-400">
+            <p className="text-sm text-[var(--text-muted)]">
               WebGL context was temporarily suspended by the browser. Reload or
-              scroll to continue exploring JehkTech.
+              scroll to continue exploring JehKTech.
             </p>
           </div>
         </div>

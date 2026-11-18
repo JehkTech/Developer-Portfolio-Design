@@ -1,19 +1,19 @@
-# JehKTech — 3D Portfolio Hub & Spatial Systems
+# JehKTech — 3D Portfolio & Spatial Systems
 
-Interactive 3D portfolio hub for **JehKTech (Jehoiachin Katemangwe)** linking SaaS products, AI automation infrastructure, client transit & automotive deployments, and the **R0TK** systematic trading operation inside an interconnected Three.js spatial web.
+Interactive 3D portfolio for **JehKTech (Jehoiachin Katemangwe)** blending a scroll-coupled Three.js wireframe constellation directly behind **Client Work**, **SaaS & AI products**, and the **R0TK** systematic trading operation — with full Dark (Obsidian) and Light (Alabaster) theme parity.
 
 ## Architecture Overview
 
-- **Persistent 3D Spatial Hub (`src/components/PortfolioScene3D.tsx`)**
-  - **Sacred Geometry Core (`createSacredHubGroup`)**: Multi-layered 3-6-9 harmonic gimbal rings, faceted inner octahedron core, and champagne-gold orbital markers (`#0a0a0a` obsidian + `#c9a96a` champagne gold palette).
-  - **9 Composite Satellite Nodes (`createProjectNodeGroup`)**: Bespoke procedural 3D assemblies for *AI-DB Track*, *Luminous Pixels*, *OnboardAI*, *StatusHub*, *Car Guy Zambia*, *JOIN Digital Solutions*, *JOIN Smart Transit Merchant Pay*, *R0TK Trading Journal*, and *Mamastops Logistics & Payments*, each with Layer-1 raycast picking proxies.
-  - **Glowing Web Filaments (`createWebFilaments`)**: Curved quadratic bezier spline filaments with animated traveling pulse beads linking every system to the central core and cross-linking related platforms.
-  - **Scroll-Linked Camera & Free Orbit**: Exponentially damped camera waypoints (`SECTION_WAYPOINTS`) across 7 sections (`about`, `projects`, `trading`, `stack`, `wisdom`, `experience`, `contact`), plus `Free Orbit` (`OrbitControls`) and click-to-focus node inspection (`ProjectDetailModal`).
-  - **Adaptive Rendering**: Software WebGL detection (`isSoftwareGl`) switching to `afterDraw()` pacing, `pixelRatio: 1`, and reduced overhead in headless/software environments, plus `webglcontextlost`/`restored` recovery and `prefers-reduced-motion` support.
+- **Scroll-Coupled 3D Spatial Canvas (`src/components/PortfolioScene3D.tsx`)**
+  - **Wireframe Sacred Geometry Core (`createSacredHubGroup`)**: Champagne-gold / antique-bronze wireframe icosahedron (`IcosahedronGeometry`), hairline orbital astrolabe rings, and faceted crystal core suspended inside a dual-theme void (`#0a0a0a` Dark / `#f6f5f1` Light) with matching exponential fog.
+  - **9 Constellation Polyhedra (`createProjectNodeGroup`)**: Minimalist architectural wireframe polyhedron assemblies for Client Deployments (*Car Guy Zambia*, *JOIN Digital Solutions*, *JOIN Smart Transit Merchant Pay*), SaaS & AI (*AI-DB Track*, *Luminous Pixels*, *OnboardAI*, *StatusHub*), and Fintech (*R0TK Trading Journal*, *Mamastops Logistics & Payments*), each with Layer-1 raycast picking proxies.
+  - **Spline Constellation Web & Starfield (`createWebFilaments`, `createAtmosphericStarfield`)**: Curved spline filaments with traveling signal motes linking every node to the core and connected systems, backed by a 1,400-point starfield.
+  - **Direct Scroll Synchronization**: Scrolling smoothly glides and rotates the constellation (`computeScrollSceneTransform`) while advancing camera waypoints (`SECTION_WAYPOINTS`) and pointer parallax — with no distracting bottom 3D dock. Closing `ProjectDetailModal` automatically restores scroll-coupled camera tracking.
+  - **Dual-Theme Live 3D Recoloring**: `getSceneThemePalette("dark" | "light")` recolors background, fog, lights, starfield, wireframes, and splines in real time without tearing down the WebGL context.
 - **Pure Spatial Graph & Domain Logic (`src/three/portfolioGraph.ts`)**
-  - Pure TypeScript math and state utilities for orbital placement, focus camera framing, deduplicated web-edge generation, boundary-clamped camera interpolation, project category filtering (`all`, `saas`, `clients`, `fintech`), and contact form validation.
+  - Unit-tested math and theme palettes (`computeProjectNodePosition`, `computeScrollSceneTransform`, `getSceneThemePalette`, `buildWebEdges`, `interpolateCameraState`, `filterProjects`, `validateContactForm`).
 - **Portfolio Sections (`src/components/`)**
-  - `Navigation`, `HeroSection` (precision-under-pressure framing & 4 KPI metrics), `ProjectsSection` (9 linked live & GitHub systems), `TradingSection` (R0TK, Midnight Opening Gap DOI, MT5 Trade Copier), `TechStackSection`, `SpiritualSection`, `ExperienceSection`, `ContactSection`, `HubControlDock`, and `ProjectDetailModal`.
+  - `Navigation` (with Sun/Moon Dark & Light mode toggle), `HeroSection`, `ProjectsSection` (explicit **Client Work** group + **SaaS, AI & Fintech** group + interactive filters + 3D card hover tilt), `TradingSection`, `TechStackSection`, `SpiritualSection`, `ExperienceSection`, `ContactSection`, and `ProjectDetailModal`.
 
 ## Commands
 
@@ -27,6 +27,6 @@ npm run dev
 # Build production bundle
 npm run build
 
-# Run spatial graph & portfolio unit tests
+# Run spatial graph & theme unit tests
 npx --yes tsx --test src/three/portfolioGraph.test.ts
 ```

@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { PORTFOLIO_EMAIL, PORTFOLIO_PHONE } from "../data/portfolioData";
+import { useScrollReveal } from "../hooks/useScrollReveal";
 import {
   validateContactForm,
   type ContactFormErrors,
@@ -23,6 +24,7 @@ export function ContactSection() {
   const [message, setMessage] = useState("");
   const [errors, setErrors] = useState<ContactFormErrors>({});
   const [submitted, setSubmitted] = useState(false);
+  const { ref, visible } = useScrollReveal<HTMLDivElement>();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -49,57 +51,62 @@ export function ContactSection() {
   return (
     <section
       id="contact"
-      className="py-24 pb-32 px-6 relative pointer-events-none"
+      className="py-24 pb-24 px-6 relative pointer-events-none"
     >
-      <div className="max-w-7xl mx-auto pointer-events-auto bg-[#101114]/92 border border-white/10 rounded-2xl p-6 md:p-10">
-        <div className="mb-10 pb-8 border-b border-white/10 max-w-2xl">
-          <p className="text-xs font-mono text-[#c9a96a] mb-2">
+      <div
+        ref={ref}
+        className={`max-w-7xl mx-auto reveal-block ${visible ? "is-visible" : ""}`}
+      >
+        <div className="mb-12 pb-8 border-b border-[var(--border-hairline)] max-w-2xl pointer-events-auto">
+          <p className="text-xs font-mono uppercase tracking-[0.26em] text-[var(--accent-gold)] mb-3">
             Direct Collaboration
           </p>
-          <h2 className="font-display text-3xl md:text-4xl font-light text-[#ededed] tracking-tight text-balance mb-3">
+          <h2 className="font-display text-3xl md:text-5xl font-light text-[var(--text-primary)] tracking-tight text-balance mb-3">
             Let us build{" "}
-            <strong className="font-semibold text-white">something precise.</strong>
+            <strong className="font-semibold">something precise.</strong>
           </h2>
-          <p className="text-[#c0c4cc] text-sm md:text-base leading-relaxed">
-            Open to product engineering, AI workflow automation, QA automation,
+          <p className="text-[var(--text-muted)] text-sm md:text-base leading-relaxed">
+            Open to client engineering, AI workflow automation, QA automation,
             and fintech collaboration.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 pointer-events-auto">
           {/* Left Column: Direct Details & Social Links */}
           <div className="lg:col-span-5 space-y-6">
-            <div className="bg-[#14161a] border border-white/10 rounded-xl p-6 space-y-5">
-              <h3 className="font-display text-xl font-semibold text-[#ededed]">
+            <div className="bg-[var(--bg-surface)] border border-[var(--border-hairline)] rounded-lg p-6 space-y-5">
+              <h3 className="font-display text-xl font-semibold text-[var(--text-primary)]">
                 Contact Channels
               </h3>
 
               <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-lg bg-[#181b20] border border-white/10 flex items-center justify-center shrink-0">
-                  <Mail className="w-4 h-4 text-[#c9a96a]" />
+                <div className="w-10 h-10 rounded-md bg-[var(--bg-inset)] border border-[var(--border-hairline)] flex items-center justify-center shrink-0">
+                  <Mail className="w-4 h-4 text-[var(--accent-gold)]" />
                 </div>
                 <div className="min-w-0">
-                  <p className="text-xs text-[#8b9099] mb-0.5">Email</p>
+                  <p className="text-xs text-[var(--text-muted)] mb-0.5">Email</p>
                   <button
                     type="button"
                     onClick={copyEmail}
-                    className="text-sm text-[#ededed] hover:text-[#c9a96a] transition-colors inline-flex items-center gap-2 break-all text-left cursor-pointer"
+                    className="text-sm text-[var(--text-primary)] hover:text-[var(--accent-gold)] transition-colors inline-flex items-center gap-2 break-all text-left cursor-pointer"
                   >
                     <span>{PORTFOLIO_EMAIL}</span>
-                    <Copy className="w-3.5 h-3.5 text-[#8b9099] shrink-0" />
+                    <Copy className="w-3.5 h-3.5 text-[var(--text-muted)] shrink-0" />
                   </button>
                 </div>
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-lg bg-[#181b20] border border-white/10 flex items-center justify-center shrink-0">
-                  <Phone className="w-4 h-4 text-[#60a5fa]" />
+                <div className="w-10 h-10 rounded-md bg-[var(--bg-inset)] border border-[var(--border-hairline)] flex items-center justify-center shrink-0">
+                  <Phone className="w-4 h-4 text-[var(--text-secondary)]" />
                 </div>
                 <div>
-                  <p className="text-xs text-[#8b9099] mb-0.5">Direct Line</p>
+                  <p className="text-xs text-[var(--text-muted)] mb-0.5">
+                    Direct Line
+                  </p>
                   <a
                     href="tel:+260970435346"
-                    className="text-sm text-[#ededed] hover:text-[#c9a96a] transition-colors font-mono tabular-nums"
+                    className="text-sm text-[var(--text-primary)] hover:text-[var(--accent-gold)] transition-colors font-mono tabular-nums"
                   >
                     {PORTFOLIO_PHONE}
                   </a>
@@ -107,20 +114,22 @@ export function ContactSection() {
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-lg bg-[#181b20] border border-white/10 flex items-center justify-center shrink-0">
-                  <MapPin className="w-4 h-4 text-emerald-400" />
+                <div className="w-10 h-10 rounded-md bg-[var(--bg-inset)] border border-[var(--border-hairline)] flex items-center justify-center shrink-0">
+                  <MapPin className="w-4 h-4 text-[var(--accent-gold)]" />
                 </div>
                 <div>
-                  <p className="text-xs text-[#8b9099] mb-0.5">Location</p>
-                  <p className="text-sm text-[#ededed]">
+                  <p className="text-xs text-[var(--text-muted)] mb-0.5">
+                    Location
+                  </p>
+                  <p className="text-sm text-[var(--text-primary)]">
                     Lusaka, Zambia · Remote Collaboration
                   </p>
                 </div>
               </div>
             </div>
 
-            <div className="bg-[#14161a] border border-white/10 rounded-xl p-6">
-              <h3 className="font-display text-lg font-semibold text-[#ededed] mb-4">
+            <div className="bg-[var(--bg-surface)] border border-[var(--border-hairline)] rounded-lg p-6">
+              <h3 className="font-display text-lg font-semibold text-[var(--text-primary)] mb-4">
                 Profiles
               </h3>
               <div className="grid grid-cols-2 gap-3">
@@ -128,36 +137,36 @@ export function ContactSection() {
                   href="https://github.com/JehkTech"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-4 py-3 bg-[#181b20] border border-white/10 rounded-lg text-sm text-[#ededed] hover:border-[#c9a96a]/55 hover:text-[#c9a96a] transition-colors inline-flex items-center gap-2.5"
+                  className="px-4 py-3 bg-[var(--bg-inset)] border border-[var(--border-hairline)] rounded-md text-sm text-[var(--text-primary)] hover:border-[var(--accent-gold)] hover:text-[var(--accent-gold)] transition-colors inline-flex items-center gap-2.5"
                 >
-                  <Github className="w-4 h-4 text-[#c9a96a] shrink-0" />
+                  <Github className="w-4 h-4 text-[var(--accent-gold)] shrink-0" />
                   <span>GitHub</span>
                 </a>
                 <a
                   href="https://www.linkedin.com/in/jkatemangwe/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-4 py-3 bg-[#181b20] border border-white/10 rounded-lg text-sm text-[#ededed] hover:border-[#c9a96a]/55 hover:text-[#c9a96a] transition-colors inline-flex items-center gap-2.5"
+                  className="px-4 py-3 bg-[var(--bg-inset)] border border-[var(--border-hairline)] rounded-md text-sm text-[var(--text-primary)] hover:border-[var(--accent-gold)] hover:text-[var(--accent-gold)] transition-colors inline-flex items-center gap-2.5"
                 >
-                  <Linkedin className="w-4 h-4 text-[#60a5fa] shrink-0" />
+                  <Linkedin className="w-4 h-4 text-[var(--text-secondary)] shrink-0" />
                   <span>LinkedIn</span>
                 </a>
                 <a
                   href="https://instagram.com/_jeh.k"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-4 py-3 bg-[#181b20] border border-white/10 rounded-lg text-sm text-[#ededed] hover:border-[#c9a96a]/55 hover:text-[#c9a96a] transition-colors inline-flex items-center gap-2.5"
+                  className="px-4 py-3 bg-[var(--bg-inset)] border border-[var(--border-hairline)] rounded-md text-sm text-[var(--text-primary)] hover:border-[var(--accent-gold)] hover:text-[var(--accent-gold)] transition-colors inline-flex items-center gap-2.5"
                 >
-                  <Instagram className="w-4 h-4 text-[#c9a96a] shrink-0" />
+                  <Instagram className="w-4 h-4 text-[var(--accent-gold)] shrink-0" />
                   <span>Instagram</span>
                 </a>
                 <a
                   href="https://reddit.com/u/JehkTech"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-4 py-3 bg-[#181b20] border border-white/10 rounded-lg text-sm text-[#ededed] hover:border-[#c9a96a]/55 hover:text-[#c9a96a] transition-colors inline-flex items-center gap-2.5"
+                  className="px-4 py-3 bg-[var(--bg-inset)] border border-[var(--border-hairline)] rounded-md text-sm text-[var(--text-primary)] hover:border-[var(--accent-gold)] hover:text-[var(--accent-gold)] transition-colors inline-flex items-center gap-2.5"
                 >
-                  <span className="w-4 h-4 rounded-full bg-[#c9a96a] text-[#0a0a0a] font-bold text-[10px] flex items-center justify-center shrink-0">
+                  <span className="w-4 h-4 rounded-full bg-[var(--accent-gold)] text-[var(--accent-gold-contrast)] font-bold text-[10px] flex items-center justify-center shrink-0">
                     R
                   </span>
                   <span>Reddit</span>
@@ -167,20 +176,20 @@ export function ContactSection() {
           </div>
 
           {/* Right Column: Validated Contact Form */}
-          <div className="lg:col-span-7 bg-[#14161a] border border-white/10 rounded-xl p-6 md:p-8">
-            <h3 className="font-display text-xl font-semibold text-[#ededed] mb-6">
+          <div className="lg:col-span-7 bg-[var(--bg-surface)] border border-[var(--border-hairline)] rounded-lg p-6 md:p-8">
+            <h3 className="font-display text-xl font-semibold text-[var(--text-primary)] mb-6">
               Send a Message
             </h3>
 
             {submitted && (
               <div
                 role="status"
-                className="mb-6 p-4 bg-emerald-500/10 border border-emerald-500/30 rounded-lg flex items-start gap-3"
+                className="mb-6 p-4 bg-emerald-500/10 border border-emerald-500/35 rounded-lg flex items-start gap-3"
               >
-                <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
-                <div className="text-sm text-emerald-100">
+                <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
+                <div className="text-sm text-emerald-950 dark:text-emerald-100">
                   <p className="font-medium">Message queued for Jeh</p>
-                  <p className="text-emerald-200/80 text-xs mt-0.5">
+                  <p className="text-emerald-800 dark:text-emerald-200/80 text-xs mt-0.5">
                     Thank you for reaching out. For urgent inquiries, copy{" "}
                     {PORTFOLIO_EMAIL}.
                   </p>
@@ -193,7 +202,7 @@ export function ContactSection() {
                 <div>
                   <label
                     htmlFor="contact-name"
-                    className="block text-xs font-medium text-[#c0c4cc] mb-1.5"
+                    className="block text-xs font-medium text-[var(--text-secondary)] mb-1.5"
                   >
                     Name
                   </label>
@@ -207,10 +216,13 @@ export function ContactSection() {
                     }}
                     aria-invalid={Boolean(errors.name)}
                     placeholder="Your name"
-                    className="w-full px-3.5 py-2.5 text-sm bg-[#0a0a0a] border border-white/15 rounded-lg text-[#ededed] placeholder:text-[#8b9099] focus:outline-none focus:border-[#c9a96a]"
+                    className="w-full px-3.5 py-2.5 text-sm bg-[var(--bg-inset)] border border-[var(--border-hairline)] rounded-lg text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--accent-gold)]"
                   />
                   {errors.name && (
-                    <p role="alert" className="text-xs text-rose-400 mt-1.5">
+                    <p
+                      role="alert"
+                      className="text-xs text-rose-600 dark:text-rose-400 mt-1.5"
+                    >
                       {errors.name}
                     </p>
                   )}
@@ -219,7 +231,7 @@ export function ContactSection() {
                 <div>
                   <label
                     htmlFor="contact-email"
-                    className="block text-xs font-medium text-[#c0c4cc] mb-1.5"
+                    className="block text-xs font-medium text-[var(--text-secondary)] mb-1.5"
                   >
                     Email
                   </label>
@@ -233,10 +245,13 @@ export function ContactSection() {
                     }}
                     aria-invalid={Boolean(errors.email)}
                     placeholder="you@domain.com"
-                    className="w-full px-3.5 py-2.5 text-sm bg-[#0a0a0a] border border-white/15 rounded-lg text-[#ededed] placeholder:text-[#8b9099] focus:outline-none focus:border-[#c9a96a]"
+                    className="w-full px-3.5 py-2.5 text-sm bg-[var(--bg-inset)] border border-[var(--border-hairline)] rounded-lg text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--accent-gold)]"
                   />
                   {errors.email && (
-                    <p role="alert" className="text-xs text-rose-400 mt-1.5">
+                    <p
+                      role="alert"
+                      className="text-xs text-rose-600 dark:text-rose-400 mt-1.5"
+                    >
                       {errors.email}
                     </p>
                   )}
@@ -246,7 +261,7 @@ export function ContactSection() {
               <div>
                 <label
                   htmlFor="contact-subject"
-                  className="block text-xs font-medium text-[#c0c4cc] mb-1.5"
+                  className="block text-xs font-medium text-[var(--text-secondary)] mb-1.5"
                 >
                   Subject
                 </label>
@@ -261,10 +276,13 @@ export function ContactSection() {
                   }}
                   aria-invalid={Boolean(errors.subject)}
                   placeholder="Project collaboration or advisory"
-                  className="w-full px-3.5 py-2.5 text-sm bg-[#0a0a0a] border border-white/15 rounded-lg text-[#ededed] placeholder:text-[#8b9099] focus:outline-none focus:border-[#c9a96a]"
+                  className="w-full px-3.5 py-2.5 text-sm bg-[var(--bg-inset)] border border-[var(--border-hairline)] rounded-lg text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--accent-gold)]"
                 />
                 {errors.subject && (
-                  <p role="alert" className="text-xs text-rose-400 mt-1.5">
+                  <p
+                    role="alert"
+                    className="text-xs text-rose-600 dark:text-rose-400 mt-1.5"
+                  >
                     {errors.subject}
                   </p>
                 )}
@@ -273,7 +291,7 @@ export function ContactSection() {
               <div>
                 <label
                   htmlFor="contact-message"
-                  className="block text-xs font-medium text-[#c0c4cc] mb-1.5"
+                  className="block text-xs font-medium text-[var(--text-secondary)] mb-1.5"
                 >
                   Message
                 </label>
@@ -288,10 +306,13 @@ export function ContactSection() {
                   }}
                   aria-invalid={Boolean(errors.message)}
                   placeholder="Share details about your system, timeline, or idea..."
-                  className="w-full px-3.5 py-2.5 text-sm bg-[#0a0a0a] border border-white/15 rounded-lg text-[#ededed] placeholder:text-[#8b9099] focus:outline-none focus:border-[#c9a96a] resize-none"
+                  className="w-full px-3.5 py-2.5 text-sm bg-[var(--bg-inset)] border border-[var(--border-hairline)] rounded-lg text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--accent-gold)] resize-none"
                 />
                 {errors.message && (
-                  <p role="alert" className="text-xs text-rose-400 mt-1.5">
+                  <p
+                    role="alert"
+                    className="text-xs text-rose-600 dark:text-rose-400 mt-1.5"
+                  >
                     {errors.message}
                   </p>
                 )}
@@ -299,7 +320,7 @@ export function ContactSection() {
 
               <button
                 type="submit"
-                className="w-full py-3 px-6 bg-[#c9a96a] text-[#0a0a0a] text-sm font-semibold rounded-lg hover:bg-[#d8bc82] transition-colors duration-150 cursor-pointer"
+                className="w-full py-3 px-6 bg-[var(--accent-gold)] text-[var(--accent-gold-contrast)] text-sm font-semibold rounded-lg hover:bg-[var(--accent-gold-hover)] transition-colors duration-150 cursor-pointer"
               >
                 Send Message
               </button>

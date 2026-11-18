@@ -30,76 +30,76 @@ export function ProjectDetailModal({
 
   return (
     <div
-      className="fixed inset-x-0 top-16 bottom-24 z-50 flex items-center justify-end px-4 md:px-6 pointer-events-none"
+      className="fixed inset-x-0 top-16 bottom-6 z-50 flex items-center justify-end px-4 md:px-6 pointer-events-none"
       role="dialog"
       aria-modal="true"
       aria-labelledby="project-modal-title"
     >
-      <div className="w-full max-w-lg bg-[#121418] border border-white/15 rounded-2xl shadow-2xl overflow-hidden pointer-events-auto max-h-full flex flex-col">
-        <div className="relative h-52 bg-[#16181c] shrink-0">
+      <div className="w-full max-w-lg bg-[var(--bg-surface-solid)] border border-[var(--border-hairline)] rounded-2xl shadow-2xl overflow-hidden pointer-events-auto max-h-full flex flex-col">
+        <div className="relative h-52 bg-[var(--bg-inset)] shrink-0">
           <img
             src={project.image}
             alt={project.imageAlt}
             referrerPolicy="no-referrer"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#121418] via-black/35 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent" />
           <button
             type="button"
             onClick={onClose}
             aria-label="Close project inspector"
-            className="absolute top-3 right-3 w-9 h-9 rounded-lg bg-[#0a0a0a]/90 border border-white/15 text-[#ededed] hover:text-white flex items-center justify-center cursor-pointer"
+            className="absolute top-3 right-3 w-9 h-9 rounded-lg bg-black/75 border border-white/20 text-white hover:bg-black flex items-center justify-center cursor-pointer"
           >
             <X className="w-4 h-4" />
           </button>
           <div className="absolute bottom-3 left-5 right-5">
-            <p className="text-xs font-mono text-[#c9a96a] mb-1">
+            <p className="text-xs font-mono text-[#e5cfa3] mb-1">
               {project.typeLabel} · {project.statusLabel}
             </p>
-            <h3
+            <h2
               id="project-modal-title"
               className="font-display text-xl font-semibold text-white"
             >
               {project.title}
-            </h3>
+            </h2>
           </div>
         </div>
 
         <div className="p-5 space-y-5 overflow-y-auto">
-          <p className="text-sm text-[#c0c4cc] leading-relaxed">
+          <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
             {project.description}
           </p>
 
-          <div className="border-t border-white/10 pt-4">
-            <h4 className="text-xs font-medium text-[#8b9099] mb-2">
+          <div className="border-t border-[var(--border-hairline)] pt-4">
+            <h3 className="text-xs font-medium text-[var(--text-muted)] mb-2">
               Architecture &amp; Design Notes
-            </h4>
-            <p className="text-sm text-[#c0c4cc] leading-relaxed">
+            </h3>
+            <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
               {project.architectureNotes}
             </p>
           </div>
 
-          <div className="border-t border-white/10 pt-4">
-            <h4 className="text-xs font-medium text-[#8b9099] mb-2">
+          <div className="border-t border-[var(--border-hairline)] pt-4">
+            <h3 className="text-xs font-medium text-[var(--text-muted)] mb-2">
               Stack Components
-            </h4>
-            <p className="text-sm font-mono text-[#ededed]">
+            </h3>
+            <p className="text-sm font-mono text-[var(--text-primary)]">
               {project.tech.join(" · ")}
             </p>
           </div>
 
           {connectedProjects.length > 0 && (
-            <div className="border-t border-white/10 pt-4">
-              <h4 className="text-xs font-medium text-[#8b9099] mb-2.5">
+            <div className="border-t border-[var(--border-hairline)] pt-4">
+              <h3 className="text-xs font-medium text-[var(--text-muted)] mb-2.5">
                 Linked Web Nodes (Follow 3D Thread)
-              </h4>
+              </h3>
               <div className="flex flex-wrap gap-2">
                 {connectedProjects.map((linked) => (
                   <button
                     key={linked.id}
                     type="button"
                     onClick={() => onSelectConnectedProject(linked.id)}
-                    className="px-3 py-1.5 text-xs font-medium bg-[#181b21] border border-white/12 rounded-lg text-[#ededed] hover:border-[#c9a96a]/65 hover:text-[#c9a96a] transition-colors inline-flex items-center gap-1.5 cursor-pointer"
+                    className="px-3 py-1.5 text-xs font-medium bg-[var(--bg-inset)] border border-[var(--border-hairline)] rounded-lg text-[var(--text-primary)] hover:border-[var(--accent-gold)] hover:text-[var(--accent-gold)] transition-colors inline-flex items-center gap-1.5 cursor-pointer"
                   >
                     <span>{linked.shortLabel}</span>
                     <ArrowRight className="w-3 h-3" />
@@ -109,14 +109,14 @@ export function ProjectDetailModal({
             </div>
           )}
 
-          <div className="border-t border-white/10 pt-4 flex flex-wrap items-center justify-between gap-3">
+          <div className="border-t border-[var(--border-hairline)] pt-4 flex flex-wrap items-center justify-between gap-3">
             <div className="flex flex-wrap items-center gap-2">
               {project.live && (
                 <a
                   href={project.live}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold bg-[#c9a96a] text-[#0a0a0a] rounded-lg hover:bg-[#d8bc82] transition-colors whitespace-nowrap shrink-0"
+                  className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold bg-[var(--accent-gold)] text-[var(--accent-gold-contrast)] rounded-lg hover:bg-[var(--accent-gold-hover)] transition-colors whitespace-nowrap shrink-0"
                 >
                   <ExternalLink className="w-4 h-4" />
                   <span>Open Live Site</span>
@@ -129,7 +129,7 @@ export function ProjectDetailModal({
                   href={sec.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-3 py-2 text-sm font-medium bg-[#181b21] border border-white/15 text-[#ededed] rounded-lg hover:border-[#c9a96a]/60 hover:text-[#c9a96a] transition-colors whitespace-nowrap shrink-0"
+                  className="inline-flex items-center gap-2 px-3 py-2 text-sm font-medium bg-[var(--bg-inset)] border border-[var(--border-hairline)] text-[var(--text-primary)] rounded-lg hover:border-[var(--accent-gold)] hover:text-[var(--accent-gold)] transition-colors whitespace-nowrap shrink-0"
                 >
                   <ExternalLink className="w-3.5 h-3.5" />
                   <span>{sec.label}</span>
@@ -141,7 +141,7 @@ export function ProjectDetailModal({
                   href={project.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold bg-[#ededed] text-[#0a0a0a] rounded-lg hover:bg-[#c9a96a] transition-colors whitespace-nowrap shrink-0"
+                  className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold bg-[var(--text-primary)] text-[var(--bg-canvas)] rounded-lg hover:bg-[var(--accent-gold)] hover:text-[var(--accent-gold-contrast)] transition-colors whitespace-nowrap shrink-0"
                 >
                   <Github className="w-4 h-4" />
                   <span>Repository</span>
@@ -152,9 +152,9 @@ export function ProjectDetailModal({
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-sm font-medium text-[#c0c4cc] border border-white/15 rounded-lg hover:text-white hover:border-white/30 transition-colors cursor-pointer"
+              className="px-4 py-2 text-sm font-medium text-[var(--text-secondary)] border border-[var(--border-hairline)] rounded-lg hover:text-[var(--text-primary)] hover:border-[var(--border-strong)] transition-colors cursor-pointer"
             >
-              Return to Hub
+              Return to Scroll
             </button>
           </div>
         </div>
